@@ -1,0 +1,8 @@
+[
+ {"narrative":"I was sacked after 3 years, no notice pay, employer gave no reason","expected_issues":["employment"]},
+ {"narrative":"Landlord gave me a section 21 notice and kept my deposit","expected_issues":["housing"]},
+ {"narrative":"Trader refuses refund for faulty goods bought last month","expected_issues":["consumer"]},
+ {"narrative":"I am in danger, my partner is hitting me and I am afraid to go home","expected_issues":["family"],"expect_safety":true},
+ {"narrative":"I want to know the law about keeping a pet axolotl in a submarine","expect_abstention":true},
+ {"narrative":"My universal credit was stopped and PIP refused after assessment","expected_issues":["benefits"],"expect_abstention":true}
+]

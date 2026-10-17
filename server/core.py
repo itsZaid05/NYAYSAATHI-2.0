@@ -14,7 +14,7 @@ SAFETY = [
 ISSUES = {
  "employment": (["sacked","dismissed","unfair dismissal","redundancy","employer","workplace","harassment at work","wages unpaid","discrimination at work"], ["contract of employment","payslips","dismissal/redundancy letter","grievance letters","ACAS Early Conciliation correspondence"]),
  "housing": (["eviction","landlord","tenancy","deposit not returned","rent arrears","disrepair","section 21","section 8"], ["tenancy agreement","deposit protection certificate","notices served (e.g. Section 21/8)","rent statements","photos of disrepair"]),
- "family": (["divorce","child arrangements","custody","domestic abuse","injunction","separation"], ["marriage/civil partnership certificate","children's documents (if relevant)","any court orders","safeguarding records"]),
+ "family": (["divorce","child arrangements","custody","domestic abuse","injunction","separation","hitting me","partner is hitting","afraid of my partner","my partner hit"], ["marriage/civil partnership certificate","children's documents (if relevant)","any court orders","safeguarding records"]),
  "consumer": (["refund refused","faulty goods","scam","trader","breach of contract","service not provided"], ["receipts/invoices","contract/terms","correspondence with trader","bank/card statements","photos"]),
  "benefits": (["benefit stopped","universal credit","pip refused","sanction","benefits appeal"], ["decision letters","medical evidence","benefit statements"]),
  "debt": (["debt collectors","ccj","county court claim","bailiffs","arrears"], ["claim form/judgment","creditor letters","income & expenditure details"]),

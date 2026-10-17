@@ -4,6 +4,7 @@ from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
 from .core import build_case_state, verify_and_explain, audit_event
 from .providers import LegislationProvider, CaseLawProvider
+from .pipeline import run as pipeline_run
 ROOT = Path(__file__).parent.parent
 AUDIT, HANDOFFS = [], []
 LEG, CASE = LegislationProvider(), CaseLawProvider()
@@ -42,9 +43,10 @@ class H(SimpleHTTPRequestHandler):
             if not str(b.get("narrative", "")).strip(): return self._json({"error": "Please describe your situation first."}, 400)
             return self._json(build_case_state(str(b["narrative"]), str(b.get("category", ""))))
         if p.path == "/api/explain":
-            try: src = ranking(" ".join(i.get("area", "") for i in b.get("case_state", {}).get("candidate_issues", [])), LEG.search(" ".join(i.get("area", "") for i in b.get("case_state", {}).get("candidate_issues", [])) or "legal help"))
-            except Exception: src = []
-            return self._json(verify_and_explain(b.get("case_state", {}), src))
+            cs = b.get("case_state", {})
+            out = pipeline_run(cs, [LEG.search, CASE.search])  # case law traces provider_refused until licence granted
+            AUDIT.append(audit_event("explain", {"status": out["status"], "n_sources": len(out.get("sources", []))}))
+            return self._json(out)
         if p.path == "/api/packet":
             cs = b.get("case_state", {}); return self._json({"packet": {"summary": "Lawyer-ready case preparation pack (not a court filing)", "facts_user_stated": cs.get("facts", []), "timeline": cs.get("timeline", []), "candidate_issues": cs.get("candidate_issues", []), "missing_information": cs.get("missing_information", []), "sources": b.get("sources", []), "questions_for_lawyer": cs.get("missing_information", [])}})
         if p.path == "/api/handoff":
