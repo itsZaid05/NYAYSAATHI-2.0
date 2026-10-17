@@ -25,7 +25,7 @@ class H(SimpleHTTPRequestHandler):
         except Exception: return {}
     def do_GET(self):
         p = urllib.parse.urlparse(self.path); q = urllib.parse.parse_qs(p.query)
-        if p.path == "/api/health": return self._json({"status": "ok", "jurisdiction": "England and Wales", "legislation": "enabled (OGL v3.0)", "caselaw_live": CASE.enabled()})
+        if p.path == "/api/health": return self._json({"status": "ok", "jurisdiction": "England and Wales", "legislation": "enabled (OGL v3.0)", "caselaw_live": CASE.enabled(), "gemini_polish": __import__("server.gemini",fromlist=["enabled"]).enabled()})
         if p.path == "/api/search/legislation":
             try:
                 src = ranking(q.get("q", [""])[0], LEG.search(q.get("q", [""])[0]))
@@ -55,7 +55,8 @@ class H(SimpleHTTPRequestHandler):
                 if src.get("kind")=="legislation":
                     try: src["provisions"]=fetch_provisions(src["url"], cs.get("original_narrative",""))["provisions"]
                     except Exception: src["provisions"]=[]
-            out = llm_polish(out)  # no-op unless best-model layer configured server-side
+            from .gemini import gemini_client, enabled as gemini_enabled
+            out = llm_polish(out, client=gemini_client if gemini_enabled() else None)  # deterministic unless Gemini configured on host
             AUDIT.append(audit_event("explain", {"status": out["status"], "n_sources": len(out.get("sources", []))}))
             return self._json(out)
         if p.path == "/api/case-state/confirm":

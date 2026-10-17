@@ -12,7 +12,9 @@ TASK_MODELS={  # overridable via env LLM_MODEL_<TASK>; defaults are capability t
  "verification": "",  # verification is deterministic by design — no LLM
 }
 BANNED=re.compile(r"(\d+\s?%|£\s?\d|chance of winning|will win|guaranteed|success rate)",re.I)
-def enabled(): return bool(os.getenv("LLM_API_KEY") and TASK_MODELS["explanation"])
+def enabled():
+    from .gemini import enabled as gemini_enabled
+    return gemini_enabled()
 def polish(verified_output, client=None):
     """client: injectable callable(prompt)->str for tests. Default keeps deterministic text."""
     if client is None: return verified_output

@@ -41,3 +41,11 @@ def test_llm_polish_rejects_new_citation_and_probability():
     v={"propositions":[{"supporting_source_ids":["https://www.legislation.gov.uk/1"],"proposition":"x"}]}
     assert "explanation_polished" not in polish(v, client=lambda p:"You have a 90% chance of winning [https://fake.example]")
     assert polish(v, client=lambda p:"See the cited source. [https://www.legislation.gov.uk/1]")["generation"].startswith("llm-polished")
+
+def test_gemini_parse_and_minimisation():
+    import json
+    from server.gemini import parse_response, gemini_client
+    assert parse_response({"candidates":[{"content":{"parts":[{"text":"Hello "},{"text":"world"}]}}]})=="Hello world"
+    assert parse_response({})==""
+    import inspect; src=inspect.getsource(gemini_client)
+    assert "propositions_json" in src and "original_narrative" not in src  # narrative never sent

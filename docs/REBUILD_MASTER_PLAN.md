@@ -45,6 +45,9 @@ Done: offline eval (issue_recall 1.0, safety 1.0, abstention 1.0 on 6 scenarios 
 ## Phase 11 — Deployment & monitoring ⬜
 Env secrets on host, live smoke tests (G3), uptime/error monitoring (content-free), source-outage runbook, rollback = previous commit. Gate: health + legislation search verified live.
 
+## Model selection (Gemini, evidence-based)
+Provider wired: `server/gemini.py` (generateContent REST, key via host env `GEMINI_API_KEY`, model via `LLM_MODEL_EXPLANATION`). Gemini is used ONLY to polish verified propositions (narrative never sent); deterministic verification remains authoritative. Model choice must be benchmarked on the evaluation set before pinning a Pro vs Flash tier; check Google's model lifecycle/retirement dates when pinning. No key in sandbox => layer inactive here; deterministic output is the default until benchmarked.
+
 ## Per-feature quality bar (best-possible-advice standard)
 Intake: empathy script reviewed, never repeats intrusive questions. Issues: multi-label candidates + uncertainty, never single forced class. Legislation: provision-level text + version. Cases: real judgments + court/date + "how it differs" notes. Explanation: every proposition cited or removed. Evidence: items tied to an issue, "may help" vs "required" only if sourced. Risk: sourced deadlines only. Packet: user-confirmed facts distinguished from unverified. Lawyers: verified data or empty. Privacy: narratives never logged; keys server-side only.
 
