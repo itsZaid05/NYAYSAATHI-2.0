@@ -12,7 +12,7 @@ DATASET_PATH = DATA_PATH
 # Model Configuration
 EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 LLM_MODEL = "gpt-4o-mini"
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "AIzaSyC4oU9v2wmtK5B8XR6oFHTwI_ghbPZI2ZY")
+OPENAI_API_KEY = os.getenv("LLM_API_KEY","")
 
 # Vector DB Configuration
 VECTORSTORE_PATH = DATA_PATH / "vectorstore"

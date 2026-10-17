@@ -1,4 +1,6 @@
-import json
+"""DEPRECATED: India static-dataset prototype. Not used by UK production server (server/). Do not import.
+Quarantined per docs/DATASET_AUDIT.md."""
+import json, os
 import numpy as np
 from pathlib import Path
 from typing import List, Dict, Tuple
@@ -58,7 +60,7 @@ class NyaySaathiHybridRAG:
         logger.info("✓ Loaded cross-encoder reranker")
 
         # Load LLM
-        self.llm_client = OpenAI(api_key="AIzaSyC4oU9v2wmtK5B8XR6oFHTwI_ghbPZI2ZY")
+        self.llm_client = OpenAI(api_key=os.getenv("LLM_API_KEY",""))
         logger.info("✓ Initialized OpenAI LLM")
 
         # Load dataset

@@ -63,20 +63,20 @@ const DemoData = {
       specialization: ["Family Law", "Domestic Violence", "Divorce"],
       location: "Mumbai, Maharashtra",
       rating: 4.8,
-      cases_won: 156,
+      
       response_time: "2 hours",
-      fee_structure: "₹2000/consultation",
+      fee_structure: "£2000/consultation",
       availability: true,
       languages: ["English", "Hindi", "Marathi"]
     },
     {
       name: "Advocate Rajesh Kumar",
-      specialization: ["Criminal Law", "IPC", "CrPC"],
+      specialization: ["Criminal Law", "UK criminal law", "UK criminal procedure"],
       location: "Delhi NCR",
       rating: 4.9,
-      cases_won: 203,
+      
       response_time: "1 hour",
-      fee_structure: "₹3000/consultation",
+      fee_structure: "£3000/consultation",
       availability: true,
       languages: ["English", "Hindi"]
     },
@@ -85,9 +85,9 @@ const DemoData = {
       specialization: ["Consumer Rights", "Property Law", "Civil Matters"],
       location: "Ahmedabad, Gujarat",
       rating: 4.7,
-      cases_won: 128,
+      
       response_time: "3 hours",
-      fee_structure: "₹1500/consultation",
+      fee_structure: "£1500/consultation",
       availability: false,
       languages: ["English", "Hindi", "Gujarati"]
     }
@@ -407,9 +407,7 @@ function navigateTo(pageName) {
     case 'documents':
       initializeDocuments();
       break;
-    case 'analytics':
-      initializeAnalytics();
-      break;
+    
     case 'ai-insights':
       initializeAIInsights();
       break;
@@ -636,7 +634,7 @@ function startIntake() {
   }, 1000);
 }
 
-function addAIMessage(text) {
+function addAIMessage(text) { text=esc(text);
   const chatMessages = $('#chat-messages');
   const message = createElement('div', 'message ai-message');
   
@@ -651,7 +649,8 @@ function addAIMessage(text) {
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-function addUserMessage(text) {
+function esc(t){const d=document.createElement('div');d.textContent=t;return d.innerHTML;}
+function addUserMessage(text) { text=esc(text);
   const chatMessages = $('#chat-messages');
   const message = createElement('div', 'message user-message');
   
@@ -967,7 +966,7 @@ function setupMarketplaceFilters() {
     feeSlider.addEventListener('input', (e) => {
       const value = e.target.value;
       const label = feeSlider.parentElement.querySelector('label');
-      label.textContent = `Fee Range: ₹1000 - ₹${value}`;
+      label.textContent = `Fee Range: £${value}`;
       applyMarketplaceFilters();
     });
   }
@@ -1013,7 +1012,7 @@ function connectWithLawyer(lawyerId) {
   setTimeout(() => {
     const confirmed = confirm('Share your case summary with this lawyer?');
     if (confirmed) {
-      showToast('success', 'Connected!', 'Your case has been shared with the lawyer. They will contact you soon.');
+      showToast('info','Not shared','No verified lawyer directory is connected yet, so nothing has been shared.');
     }
   }, 1000);
 }
@@ -1384,7 +1383,7 @@ function generateDocument() {
     
     // Sample generated content based on template
     const templates = {
-      'case-summary': `<h3>Case Summary - Workplace Harassment</h3><p><strong>Case ID:</strong> NS-2025-001</p><p><strong>Summary:</strong> This case involves workplace harassment allegations against a supervisor, with documented incidents over a 3-month period.</p><p><strong>Legal Framework:</strong> POSH Act 2013, IPC Section 354A</p><p><strong>Recommended Actions:</strong> File formal complaint with Internal Committee, gather additional witness statements, document all interactions.</p>`,
+      'case-summary': `<h3>Case Summary - Workplace Harassment</h3><p><strong>Case ID:</strong> NS-2025-001</p><p><strong>Summary:</strong> This case involves workplace harassment allegations against a supervisor, with documented incidents over a 3-month period.</p><p><strong>Legal Framework:</strong> workplace grievance procedure (UK) 2013, the relevant UK legislation — verify in retrieved sources</p><p><strong>Recommended Actions:</strong> File formal complaint with Internal Committee, gather additional witness statements, document all interactions.</p>`,
       'fir-draft': `<h3>First Information Report (Draft)</h3><p><strong>To:</strong> Station House Officer</p><p><strong>Subject:</strong> Complaint regarding workplace harassment</p><p>I, [Name], hereby lodge this complaint regarding incidents of harassment at my workplace...</p>`,
       'notice': `<h3>Legal Notice</h3><p><strong>To:</strong> [Recipient Name]</p><p><strong>Subject:</strong> Notice regarding workplace harassment</p><p>Take notice that you have been engaging in conduct that constitutes harassment...</p>`,
       'bail-grounds': `<h3>Bail Application Grounds</h3><p><strong>Honorable Court,</strong></p><p>The applicant submits the following grounds for bail:</p><p>1. The applicant is innocent and falsely implicated...</p>`
@@ -1415,7 +1414,7 @@ function initiateHandoff() {
   showToast('info', 'Initiating Handoff', `Preparing case bundle (${urgency} priority)...`);
   
   setTimeout(() => {
-    showToast('success', 'Handoff Complete', 'Case has been successfully sent to selected lawyer.');
+    showToast('info','Consent required','Review exactly what will be shared and confirm consent first — nothing has been sent.');
   }, 2000);
 }
 
@@ -2046,3 +2045,24 @@ if (typeof module !== 'undefined' && module.exports) {
     searchLawyers
   };
 }
+/* === UK rebuild wiring (real backend, no demo data) === */
+async function api(path, opts={}) { const r = await fetch(path, {headers:{'Content-Type':'application/json'}, ...opts}); return {ok:r.ok, status:r.status, data: await r.json().catch(()=>({}))}; }
+async function completeIntakeUK() {
+  const narrative = AppState.intakeProgress.description || '';
+  addAIMessage("Thank you for trusting me with this. I'm organising what you've told me and checking official UK sources — this is general information, not legal advice.");
+  const {data} = await api('/api/case-state', {method:'POST', body: JSON.stringify({narrative, category: AppState.intakeProgress.category||''})});
+  if (data.error) { addAIMessage(data.error); return; }
+  localStorage.setItem('nyaysaathi_case_state', JSON.stringify(data)); AppState.ukCaseState = data;
+  (data.safety_signals||[]).forEach(s => addAIMessage(s.message));
+  const issues = (data.candidate_issues||[]).map(i=>i.area).join(', ') || 'not yet clear — that is okay';
+  addAIMessage(`Candidate area(s): ${issues}. These are possibilities to explore, not a legal conclusion. I've prepared your editable case summary and evidence checklist.`);
+  const ex = await api('/api/explain', {method:'POST', body: JSON.stringify({case_state:data})});
+  localStorage.setItem('nyaysaathi_explanation', JSON.stringify(ex.data));
+  addAIMessage(ex.data.explanation || 'Official sources were unavailable; no substitute information has been invented.');
+  const b=document.createElement('div'); b.className='message ai-message';
+  b.innerHTML='<div class="message-content"><p>Review and correct your facts, timeline and sources:</p><button class="btn btn-primary" onclick="navigateTo(\'case-summary\')">View case summary</button></div>';
+  $('#chat-messages').appendChild(b);
+}
+const _oldComplete = completeIntake; completeIntake = function(){ completeIntakeUK(); };
+async function loadLawyersUK(){ const {data}=await api('/api/lawyers'); const g=$('#marketplace-page'); if(g&&data.notice){ const n=document.createElement('div'); n.className='glass-card'; n.style.padding='1rem'; n.textContent=data.notice; g.prepend(n);} }
+document.addEventListener('DOMContentLoaded', loadLawyersUK);
