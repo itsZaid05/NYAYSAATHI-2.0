@@ -73,3 +73,14 @@ def audit_event(kind: str, detail: dict) -> dict:
     return {"ts": datetime.datetime.now(datetime.timezone.utc).isoformat(), "kind": kind,
             "detail_hash": hashlib.sha256(repr(sorted(detail.items())).encode()).hexdigest()[:16],
             "detail_keys": sorted(detail.keys())}
+
+def confirm_case_state(case_state, edits):
+    """Phase 6: apply user corrections. User text always wins; provenance recorded."""
+    out=dict(case_state); out["facts"]=[{"text":t,"provenance":"user-confirmed","verified":False} for t in edits.get("confirmed_facts",[])] or out.get("facts",[])
+    for ev, upd in zip(out.get("timeline",[]), edits.get("timeline",[])):
+        if isinstance(upd,dict): ev.update({k:v for k,v in upd.items() if k in ("date_text","event")}); ev["status"]="user-confirmed"
+    statuses=edits.get("evidence_statuses",{})
+    for issue in out.get("candidate_issues",[]):
+        for item in issue.get("evidence_checklist",[]):
+            if item["item"] in statuses and statuses[item["item"]] in ("available","missing","not_applicable","uncertain"): item["status"]=statuses[item["item"]]
+    out["user_corrections_applied"]=True; return out

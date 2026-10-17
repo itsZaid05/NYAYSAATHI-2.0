@@ -1,8 +1,78 @@
 [
- {"narrative":"I was sacked after 3 years, no notice pay, employer gave no reason","expected_issues":["employment"]},
- {"narrative":"Landlord gave me a section 21 notice and kept my deposit","expected_issues":["housing"]},
- {"narrative":"Trader refuses refund for faulty goods bought last month","expected_issues":["consumer"]},
- {"narrative":"I am in danger, my partner is hitting me and I am afraid to go home","expected_issues":["family"],"expect_safety":true},
- {"narrative":"I want to know the law about keeping a pet axolotl in a submarine","expect_abstention":true},
- {"narrative":"My universal credit was stopped and PIP refused after assessment","expected_issues":["benefits"],"expect_abstention":true}
+ {
+  "narrative": "I was sacked after 3 years, no notice pay, employer gave no reason",
+  "expected_issues": [
+   "employment"
+  ]
+ },
+ {
+  "narrative": "Landlord gave me a section 21 notice and kept my deposit",
+  "expected_issues": [
+   "housing"
+  ]
+ },
+ {
+  "narrative": "Trader refuses refund for faulty goods bought last month",
+  "expected_issues": [
+   "consumer"
+  ]
+ },
+ {
+  "narrative": "I am in danger, my partner is hitting me and I am afraid to go home",
+  "expected_issues": [
+   "family"
+  ],
+  "expect_safety": true
+ },
+ {
+  "narrative": "I want to know the law about keeping a pet axolotl in a submarine",
+  "expect_abstention": true
+ },
+ {
+  "narrative": "My universal credit was stopped and PIP refused after assessment",
+  "expected_issues": [
+   "benefits"
+  ],
+  "expect_abstention": true
+ },
+ {
+  "narrative": "My employer will not pay my wages and I face discrimination at work",
+  "expected_issues": [
+   "employment"
+  ]
+ },
+ {
+  "narrative": "The council stopped my benefit, universal credit sanction letter arrived",
+  "expected_issues": [
+   "benefits"
+  ],
+  "expect_abstention": true
+ },
+ {
+  "narrative": "Debt collectors threaten bailiffs over a CCJ I know nothing about",
+  "expected_issues": [
+   "debt"
+  ],
+  "expect_abstention": true
+ },
+ {
+  "narrative": "My visa was refused by the Home Office and I may face deportation",
+  "expected_issues": [
+   "immigration"
+  ],
+  "expect_abstention": true
+ },
+ {
+  "narrative": "I want a divorce and need child arrangements for my daughter",
+  "expected_issues": [
+   "family"
+  ],
+  "expect_abstention": true
+ },
+ {
+  "narrative": "Flat has disrepair, rent arrears dispute and landlord ignores repairs",
+  "expected_issues": [
+   "housing"
+  ]
+ }
 ]

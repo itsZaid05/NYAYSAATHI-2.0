@@ -18,7 +18,7 @@ Tasks: TNA licence application ✅ applied; record grant terms/licence category/
 ## Phase 2 — Core contracts & schemas ✅ DONE (v1)
 CaseState, Source, audit events (`server/core.py`). Remaining: versioned JSON-schema export + case-state edit/confirm endpoint (PATCH semantics) with provenance per edited field. Acceptance: user edits mark facts `user-confirmed`, AI inference never overwrites user text. Tests: round-trip, provenance, correction.
 
-## Phase 3 — Legislation connector ✅ DONE (fixture-tested)
+## Phase 3 — Legislation connector ✅ DONE v2 (provision-level CLML parse server/legislation.py, ranked provisions, in-force never asserted without metadata, TTL cache; live smoke = deploy gate)
 Atom search, OGL attribution, graceful 502. Next quality tasks: (a) fetch provision-level CLML (`/data.xml`) and extract relevant sections, not just feed summaries; (b) version metadata: enacted vs revised, in-force status only if metadata supports it; (c) short-TTL cache keyed by identifier+retrieved_at. Gate: live smoke test from deploy host (sandbox egress blocked). Tests: recorded Atom/CLML fixtures, version labelling, outage.
 
 ## Phase 4 — Case-law connector ⛔ BLOCKED ON GRANT
@@ -27,10 +27,10 @@ Adapter built + licence gate tested. On grant: enable search, add neutral-citati
 ## Phase 5 — Retrieval, ranking & verification ✅ DONE (v1 lexical)
 Pipeline + URL allow-list + distinctive-term gate + abstention (`server/pipeline.py`), evaluation harness (`server/evaluate.py`). Next after licence: semantic/hybrid retrieval **only over licence-permitted index**, reranking evaluation vs lexical baseline (adopt only if Recall@5/nDCG improves on labelled set). Quality targets (labelled set, to be built): citation precision 100% (fabricated = release blocker), correct-abstention ≥90%, issue recall ≥90%.
 
-## Phase 6 — Intake, timeline & evidence ✅ DONE (v1)
+## Phase 6 — Intake, timeline & evidence ✅ DONE v2 (POST /api/case-state/confirm — user-confirmed provenance, evidence statuses; UI binding renderCaseSummaryUK in app.js)
 Deterministic extraction, safety signposting, checklists. Next: editable case-state UI binding (timeline/checklist status persisted in localStorage), contradiction/gap prompts, follow-up question loop (max 3 targeted questions before explanation). Tests: eval scenarios, approximate dates, user correction.
 
-## Phase 7 — Grounded explanation, fact-to-law, story mode, case packet ✅ DONE (v1 deterministic)
+## Phase 7 — Grounded explanation ✅ v2 (server/llm.py best-model polish layer: per-task model env, citation revalidation + banned-claim rejection, deterministic fallback; off unless LLM_API_KEY+model configured server-side). Story/packet from verified propositions: NEXT
 Next: story mode regenerated from verified propositions only (clearly fictional), packet export (print/PDF via browser), deadline flags **only** when sourced from retrieved provision text (extracted limitation wording + "verify this deadline" warning). Gate: solicitor review of templates (Phase 10).
 
 ## Phase 8 — Lawyer discovery & consent handoff 🟡 HONEST STUB

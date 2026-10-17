@@ -25,3 +25,19 @@ def test_pipeline_abstains_on_irrelevant():
     src = Source("https://www.legislation.gov.uk/1","Fishing Act","https://www.legislation.gov.uk/1","legislation",passage="salmon rivers nets")
     out = run(build_case_state("I was sacked by my employer"), [lambda q: [src]])
     assert out["status"]=="insufficient_sources" and out["propositions"]==[]
+
+def test_clml_provisions_ranked_and_no_inforce_claim():
+    import pathlib
+    from server.legislation import parse_clml
+    out=parse_clml(pathlib.Path("tests/fixtures/sample_clml.xml").read_text(),"unfair dismissal time limit claim")
+    assert out["title"] and out["in_force_claim"] is None and "time limits" in out["provisions"][0]["heading"].lower() or "unfair" in out["provisions"][0]["heading"].lower()
+def test_confirm_case_state_user_wins():
+    from server.core import build_case_state, confirm_case_state
+    cs=build_case_state("landlord eviction section 21")
+    out=confirm_case_state(cs,{"confirmed_facts":["Landlord served notice on 3 March"],"evidence_statuses":{"tenancy agreement":"available"}})
+    assert out["facts"][0]["provenance"]=="user-confirmed" and out["candidate_issues"][0]["evidence_checklist"][0]["status"]=="available"
+def test_llm_polish_rejects_new_citation_and_probability():
+    from server.llm import polish
+    v={"propositions":[{"supporting_source_ids":["https://www.legislation.gov.uk/1"],"proposition":"x"}]}
+    assert "explanation_polished" not in polish(v, client=lambda p:"You have a 90% chance of winning [https://fake.example]")
+    assert polish(v, client=lambda p:"See the cited source. [https://www.legislation.gov.uk/1]")["generation"].startswith("llm-polished")

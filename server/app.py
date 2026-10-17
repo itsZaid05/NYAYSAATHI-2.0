@@ -2,7 +2,9 @@
 import json, os, urllib.parse
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
-from .core import build_case_state, verify_and_explain, audit_event
+from .core import build_case_state, verify_and_explain, audit_event, confirm_case_state
+from .legislation import fetch_provisions
+from .llm import polish as llm_polish
 from .providers import LegislationProvider, CaseLawProvider
 from .pipeline import run as pipeline_run
 ROOT = Path(__file__).parent.parent
@@ -34,6 +36,10 @@ class H(SimpleHTTPRequestHandler):
                 src = CASE.search(q.get("q", [""])[0]); return self._json({"sources": [s.to_dict() for s in src]})
             except PermissionError as e: return self._json({"error": str(e), "sources": []}, 403)
             except Exception as e: return self._json({"error": "Case law service unavailable; no substitute cases shown.", "sources": []}, 502)
+        if p.path == "/api/legislation/provisions":
+            url=q.get("url",[""])[0]
+            try: return self._json(fetch_provisions(url, q.get("q",[""])[0]))
+            except Exception as e: return self._json({"error":"Could not retrieve that provision from legislation.gov.uk; the link itself remains valid to open directly.","detail":type(e).__name__},502)
         if p.path == "/api/lawyers": return self._json({"lawyers": [], "notice": "No verified lawyer directory is connected yet. We will not show invented profiles. You can find regulated solicitors via the Law Society 'Find a Solicitor' service or a local Citizens Advice."})
         if p.path == "/api/audit": return self._json({"events": AUDIT[-50:]})  # content-free
         return super().do_GET()
@@ -45,8 +51,15 @@ class H(SimpleHTTPRequestHandler):
         if p.path == "/api/explain":
             cs = b.get("case_state", {})
             out = pipeline_run(cs, [LEG.search, CASE.search])  # case law traces provider_refused until licence granted
+            for src in out.get("sources",[]):  # Phase 3 enrichment: provision-level passages (best effort)
+                if src.get("kind")=="legislation":
+                    try: src["provisions"]=fetch_provisions(src["url"], cs.get("original_narrative",""))["provisions"]
+                    except Exception: src["provisions"]=[]
+            out = llm_polish(out)  # no-op unless best-model layer configured server-side
             AUDIT.append(audit_event("explain", {"status": out["status"], "n_sources": len(out.get("sources", []))}))
             return self._json(out)
+        if p.path == "/api/case-state/confirm":
+            return self._json(confirm_case_state(b.get("case_state",{}), b))
         if p.path == "/api/packet":
             cs = b.get("case_state", {}); return self._json({"packet": {"summary": "Lawyer-ready case preparation pack (not a court filing)", "facts_user_stated": cs.get("facts", []), "timeline": cs.get("timeline", []), "candidate_issues": cs.get("candidate_issues", []), "missing_information": cs.get("missing_information", []), "sources": b.get("sources", []), "questions_for_lawyer": cs.get("missing_information", [])}})
         if p.path == "/api/handoff":

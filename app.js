@@ -2066,3 +2066,25 @@ async function completeIntakeUK() {
 const _oldComplete = completeIntake; completeIntake = function(){ completeIntakeUK(); };
 async function loadLawyersUK(){ const {data}=await api('/api/lawyers'); const g=$('#marketplace-page'); if(g&&data.notice){ const n=document.createElement('div'); n.className='glass-card'; n.style.padding='1rem'; n.textContent=data.notice; g.prepend(n);} }
 document.addEventListener('DOMContentLoaded', loadLawyersUK);
+
+/* === Phase 6/9: editable, user-confirmed case summary bound to real pipeline output === */
+function renderCaseSummaryUK(){
+  const cs=JSON.parse(localStorage.getItem('nyaysaathi_case_state')||'null'); const ex=JSON.parse(localStorage.getItem('nyaysaathi_explanation')||'null');
+  const ov=$('#overview-panel'), tl=$('#timeline-panel'), lg=$('#legal-panel'), gl=$('#goals-panel'); if(!ov) return;
+  if(!cs){ ov.innerHTML='<h3>Case Overview</h3><p>No case yet. Start with “Tell us what happened” in Case Intake — your own words stay yours, and nothing is shared without consent.</p>'; return; }
+  ov.innerHTML=`<h3>Your account (editable — you are the source of truth)</h3><textarea id="uk-facts" style="width:100%;min-height:110px">${esc(cs.original_narrative||'')}</textarea>
+  <p><strong>Candidate areas (not legal conclusions):</strong> ${esc((cs.candidate_issues||[]).map(i=>i.area).join(', ')||'not yet clear')}</p>
+  <h4>Evidence checklist</h4>${(cs.candidate_issues||[]).flatMap(i=>i.evidence_checklist.map(c=>`<label style="display:block"><input type="checkbox" class="uk-ev" data-item="${esc(c.item)}" ${c.status==='available'?'checked':''}> ${esc(c.item)} <em>(${esc(c.status)})</em></label>`)).join('')}
+  <button class="btn btn-primary" onclick="saveCaseUK()">Save my confirmed version</button>`;
+  if(tl) tl.innerHTML='<h3>Timeline (from your words — confirm what each date was)</h3>'+((cs.timeline||[]).map(e=>`<div class="timeline-event"><div class="timeline-date">${esc(e.date_text)}</div><div class="timeline-description">${esc(e.event)} — ${esc(e.status)}</div></div>`).join('')||'<p>No dates mentioned yet.</p>');
+  if(lg) lg.innerHTML='<h3>Verified official sources</h3>'+(ex&&ex.sources&&ex.sources.length? ex.sources.map(s=>`<div class="fact-item"><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a><p>${esc((s.passage||'').slice(0,400))}</p>${(s.provisions||[]).map(p=>`<p><strong>${esc(p.heading)}</strong>: ${esc(p.text.slice(0,300))}</p>`).join('')}</div>`).join('') : '<p>No sufficiently relevant official source could be verified. Nothing has been substituted or invented.</p>');
+  if(gl) gl.innerHTML='<h3>Questions for a qualified adviser</h3>'+((cs.missing_information||[]).map(q=>`<p>• ${esc(q)}</p>`).join(''))+'<p><em>General information only, not legal advice.</em></p>';
+}
+async function saveCaseUK(){
+  const cs=JSON.parse(localStorage.getItem('nyaysaathi_case_state')||'{}');
+  const statuses={}; $$('.uk-ev').forEach(cb=>statuses[cb.dataset.item]=cb.checked?'available':cs.candidate_issues?.flatMap(i=>i.evidence_checklist).find(c=>c.item===cb.dataset.item)?.status||'unknown');
+  const {data}=await api('/api/case-state/confirm',{method:'POST',body:JSON.stringify({case_state:cs,confirmed_facts:[$('#uk-facts').value],evidence_statuses:statuses})});
+  localStorage.setItem('nyaysaathi_case_state',JSON.stringify(data)); showToast('success','Saved','Your confirmed version is stored in this browser.');
+}
+const _oldInitCS=initializeCaseSummary; initializeCaseSummary=function(){ switchCaseTabSafe(); renderCaseSummaryUK(); };
+function switchCaseTabSafe(){ $$('.tab-panel').forEach(pn=>pn.classList.remove('active')); const t=$('#overview-panel'); if(t)t.classList.add('active'); }
