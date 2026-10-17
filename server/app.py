@@ -5,6 +5,7 @@ from pathlib import Path
 from .core import build_case_state, verify_and_explain, audit_event, confirm_case_state
 from .legislation import fetch_provisions
 from .llm import polish as llm_polish
+from .story import build_story, build_packet
 from .providers import LegislationProvider, CaseLawProvider
 from .pipeline import run as pipeline_run
 ROOT = Path(__file__).parent.parent
@@ -63,6 +64,10 @@ class H(SimpleHTTPRequestHandler):
             return self._json(confirm_case_state(b.get("case_state",{}), b))
         if p.path == "/api/packet":
             cs = b.get("case_state", {}); return self._json({"packet": {"summary": "Lawyer-ready case preparation pack (not a court filing)", "facts_user_stated": cs.get("facts", []), "timeline": cs.get("timeline", []), "candidate_issues": cs.get("candidate_issues", []), "missing_information": cs.get("missing_information", []), "sources": b.get("sources", []), "questions_for_lawyer": cs.get("missing_information", [])}})
+        if p.path == "/api/story":
+            return self._json(build_story(b.get("explain_output", {})))
+        if p.path == "/api/packet-v2":
+            return self._json(build_packet(b.get("case_state", {}), b.get("explain_output", {})))
         if p.path == "/api/handoff":
             if b.get("consent") is not True: return self._json({"error": "Explicit consent is required before anything is shared. Nothing has been sent."}, 400)
             h = {"id": f"H-{len(HANDOFFS)+1}", "status": "pending — no lawyer has accepted this yet", "lawyer_id": b.get("lawyer_id", "")}

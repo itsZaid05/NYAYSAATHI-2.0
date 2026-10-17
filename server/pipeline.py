@@ -60,6 +60,16 @@ def run(case_state, retrievers, top_k=5):
                 seen[s.source_id] = s
                 ranked.append({"source": s, "issue": q["issue"], "score": relevance(qt, s), "verified": passes_relevance(qt, s)})
             trace.append({"query": q["query"], "status": "ok", "n": len(results)})
+    # Hybrid rerank over the full candidate pool (BM25 needs corpus stats)
+    from .ranking import bm25, hybrid_score, _tok
+    docs=[_tok(r["source"].title+" "+r["source"].passage) for r in ranked]
+    all_terms=set()
+    for q in queries: all_terms |= terms(q["query"]) | terms(case_state.get("original_narrative",""))
+    scores=bm25(all_terms, docs) if docs else []; mx=max(scores) if scores else 0
+    for r, sc in zip(ranked, scores):
+        hs, sent, hits = hybrid_score(all_terms, r["source"], sc, mx)
+        r["score"]=hs; r["supporting_sentence"]=sent; r["sentence_hits"]=hits
+        r["verified"]=bool(r["verified"] and hits>=1)  # must have a quotable supporting sentence
     ranked.sort(key=lambda r: -r["score"])
     verified = [r for r in ranked if r["verified"]][:top_k]
     base = {"queries_planned": queries, "retrieval_trace": trace,
@@ -72,7 +82,7 @@ def run(case_state, retrievers, top_k=5):
     for r in verified:
         s = r["source"]; srcs.append(s.to_dict())
         props.append({"proposition": f"Official source relevant to '{r['issue']}' — read it and compare its requirements with your confirmed facts before relying on it.",
-                      "supporting_source_ids": [s.source_id], "passage": s.passage[:500],
+                      "supporting_source_ids": [s.source_id], "passage": r.get("supporting_sentence") or s.passage[:500], "support_type": "exact_source_sentence" if r.get("supporting_sentence") else "provider_summary",
                       "retrieval_relevance": r["score"], "note": "Retrieval relevance only — not a prediction of any outcome."})
     return {**base, "status": "grounded_information", "sources": srcs, "propositions": props,
             "explanation": "Verified official sources were retrieved for your candidate issue(s) and are cited below with the passages that matched. Anything I could not verify has been left out rather than guessed.",
