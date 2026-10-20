@@ -20,7 +20,13 @@ def main():
         out = run(cs, [fixture_retriever])
         if sc.get("expect_abstention"): abstain_ok += out["status"] == "insufficient_sources"
         else: abstain_ok += 1; grounded += out["status"] == "grounded_information"
+    per_area={}
+    for sc in scenarios:
+        cs2=build_case_state(sc["narrative"]); got={i["area"] for i in cs2["candidate_issues"]}
+        for a in sc.get("expected_issues",[]):
+            d=per_area.setdefault(a,{"n":0,"hit":0}); d["n"]+=1; d["hit"]+= a in got
     metrics = {"scenarios": total, "issue_recall": round(issue_ok/total, 2), "safety_detection": round(safety_ok/total, 2),
-               "correct_abstention": round(abstain_ok/total, 2), "grounded_rate_nonabstaining": grounded}
+               "correct_abstention": round(abstain_ok/total, 2), "grounded_rate_nonabstaining": grounded,
+               "per_area_recall": {a: round(d["hit"]/d["n"],2) for a,d in sorted(per_area.items())}}
     print(json.dumps(metrics, indent=2)); return metrics
 if __name__ == "__main__": main()

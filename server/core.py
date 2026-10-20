@@ -14,10 +14,10 @@ SAFETY = [
 ISSUES = {
  "employment": (["sacked","dismissed","unfair dismissal","redundancy","employer","workplace","harassment at work","wages unpaid","discrimination at work"], ["contract of employment","payslips","dismissal/redundancy letter","grievance letters","ACAS Early Conciliation correspondence"]),
  "housing": (["eviction","landlord","tenancy","deposit not returned","rent arrears","disrepair","section 21","section 8"], ["tenancy agreement","deposit protection certificate","notices served (e.g. Section 21/8)","rent statements","photos of disrepair"]),
- "family": (["divorce","child arrangements","custody","domestic abuse","injunction","separation","hitting me","partner is hitting","afraid of my partner","my partner hit"], ["marriage/civil partnership certificate","children's documents (if relevant)","any court orders","safeguarding records"]),
+ "family": (["divorce","child arrangements","custody","domestic abuse","injunction","separation","controls my money","coercive control","hitting me","partner is hitting","afraid of my partner","my partner hit"], ["marriage/civil partnership certificate","children's documents (if relevant)","any court orders","safeguarding records"]),
  "consumer": (["refund refused","faulty goods","scam","trader","breach of contract","service not provided"], ["receipts/invoices","contract/terms","correspondence with trader","bank/card statements","photos"]),
- "benefits": (["benefit stopped","universal credit","pip refused","sanction","benefits appeal"], ["decision letters","medical evidence","benefit statements"]),
- "debt": (["debt collectors","ccj","county court claim","bailiffs","arrears"], ["claim form/judgment","creditor letters","income & expenditure details"]),
+ "benefits": (["benefit stopped","benefits stopped","universal credit","pip refused","sanction","benefits appeal","benefit appeal","appeal tribunal","housing benefit"], ["decision letters","medical evidence","benefit statements"]),
+ "debt": (["debt collectors","ccj","county court claim","court claim form","claim form","bailiffs","arrears"], ["claim form/judgment","creditor letters","income & expenditure details"]),
  "immigration": (["visa refused","asylum","home office","deportation","leave to remain"], ["Home Office decision letters","BRP/eVisa details","previous applications"]),
 }
 DATE_RE = re.compile(r"\b(\d{1,2}[/-]\d{1,2}[/-]\d{2,4}|\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{4}|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{4}|last (?:week|month|year)|yesterday|today)\b", re.I)

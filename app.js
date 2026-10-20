@@ -2088,3 +2088,8 @@ async function saveCaseUK(){
 }
 const _oldInitCS=initializeCaseSummary; initializeCaseSummary=function(){ switchCaseTabSafe(); renderCaseSummaryUK(); };
 function switchCaseTabSafe(){ $$('.tab-panel').forEach(pn=>pn.classList.remove('active')); const t=$('#overview-panel'); if(t)t.classList.add('active'); }
+
+/* Phase 7 UI: story + packet strictly from verified explain output */
+async function showStoryUK(){ const ex=JSON.parse(localStorage.getItem('nyaysaathi_explanation')||'{}'); const {data}=await api('/api/story',{method:'POST',body:JSON.stringify({explain_output:ex})}); const lg=$('#legal-panel'); if(!lg) return; if(data.status!=='ok'){ lg.innerHTML='<h3>Story mode</h3><p>'+esc(data.reason||'Unavailable')+'</p>'; switchCaseTabSafe2('legal'); return;} lg.innerHTML='<h3>'+esc(data.label)+'</h3>'+data.steps.map(s=>`<div class="fact-item"><p>${esc(s.fictional_step)}</p><p><em>${esc(s.source_passage)}</em></p></div>`).join('')+`<p>${esc(data.closing)}</p>`; switchCaseTabSafe2('legal'); }
+async function downloadPacketUK(){ const cs=JSON.parse(localStorage.getItem('nyaysaathi_case_state')||'{}'); const ex=JSON.parse(localStorage.getItem('nyaysaathi_explanation')||'{}'); const {data}=await api('/api/packet-v2',{method:'POST',body:JSON.stringify({case_state:cs,explain_output:ex})}); const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='nyaysaathi-case-preparation-pack.json'; a.click(); }
+function switchCaseTabSafe2(name){ $$('.tab-panel').forEach(p=>p.classList.remove('active')); const t=$('#'+name+'-panel'); if(t)t.classList.add('active'); }
