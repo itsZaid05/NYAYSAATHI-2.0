@@ -7,6 +7,15 @@ PERMISSION_POLICIES = {
     "nalsa.gov.in": "https://nalsa.gov.in/website-policies/",
 }
 
+# These are the pipeline's actual uses; a reviewer must clear all before a new import.
+PIPELINE_USES = {
+    "retention",
+    "local_search",
+    "external_embeddings",
+    "llm_context",
+    "quotation_and_export",
+}
+
 
 def validate_reuse(record):
     host = (urlparse(record.get("official_url", "")).hostname or "").removeprefix(

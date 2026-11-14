@@ -61,3 +61,9 @@ The source count remains **0**. Independent legal applicability assessment is co
 ## Continuation from 1bbf9cb
 
 Repeated bounded checks still yielded zero authentic approved passages. Source/response metadata, hashes and invalid local artifact findings are in `knowledge/source_access_attempts_round2.json`; the [continuation report](LEGAL_INTELLIGENCE_CONTINUATION.md) distinguishes actual triage/browser results from the blocked legal-source gate. The explicit authentic-source browser acceptance command exited 2, rather than passing a simulated legal analysis. The offline import path remains available but no false rights/provenance attestation was made.
+
+## Prepared offline handoff
+
+The user confirmed no rights-cleared official PDF/provenance is available, including in `/mnt/data`. The exact supplied `https://indiacode.gov.in/home` request still failed with proxy CONNECT 403; no policy was applied or published. Existing project PDFs and the invalid HTML candidate remain excluded.
+
+[OFFLINE_INGESTION.md](OFFLINE_INGESTION.md) documents the new private stage/check/import handoff. New admission requires explicit version-2 metadata and clearance for all actual pipeline uses. Staging and checks never index candidates; the shared atomic batch writer feeds the existing provider only after responsible reviewer approval. Synthetic tests establish the mechanics, not authenticity or rights. Current approved corpus remains **0**.

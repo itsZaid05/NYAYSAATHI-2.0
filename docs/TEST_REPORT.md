@@ -1,6 +1,8 @@
-Latest continuation from `1bbf9cb`: [actual results and remaining legal-source blockers](LEGAL_INTELLIGENCE_CONTINUATION.md). Current suite: **107 passed**. Fresh cohort: **26/30 strict, 17/30 exact**; final same-cohort replay: **28/30 strict, 22/30 exact**. The earlier iteration below is preserved, not replaced or combined into a higher score.
+Latest offline-ingestion work: **140 passed**; original browser regression passed; pending CLI validation/import blocked with zero corpus mutation. See [actual offline validation](OFFLINE_INGESTION_TEST_REPORT.md). Prior evaluations below are preserved historical results.
 
-# Current test report — 2026-11-14
+Earlier continuation from `1bbf9cb`: [actual results and remaining legal-source blockers](LEGAL_INTELLIGENCE_CONTINUATION.md). That iteration’s suite: **107 passed**. Fresh cohort: **26/30 strict, 17/30 exact**; final same-cohort replay: **28/30 strict, 22/30 exact**. The earlier iteration below is preserved, not replaced or combined into a higher score.
+
+# Earlier test report — 2026-11-14
 
 Branch: `feature/generalized-consumer-analysis`, based on remote main `1274bee` after PR #2. Implementation milestone: `25de2d0`. All identities/documents/narratives used for provider calls were synthetic.
 
