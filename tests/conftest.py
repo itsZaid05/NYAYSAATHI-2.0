@@ -6,6 +6,9 @@ from backend.app import app
 
 @pytest.fixture
 def client(tmp_path, monkeypatch):
+    from backend.providers import GeminiProvider
+
+    monkeypatch.setattr(GeminiProvider, "generation_cooldown_until", 0.0)
     monkeypatch.setattr(settings, "runtime", tmp_path / "runtime")
     monkeypatch.setattr(settings, "gemini_key", "")
     monkeypatch.setattr(settings, "gemini_model", "")

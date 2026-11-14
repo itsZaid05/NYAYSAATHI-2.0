@@ -16,6 +16,9 @@ from scripts.review_source import extract_text, normalize
 
 def import_reviewed(record, artifact, root=ROOT):
     row = dict(record)
+    from backend.services.source_rights import validate_reuse
+
+    validate_reuse(row)
     data = Path(artifact).read_bytes()
     if not 0 < len(data) <= 20 * 1024 * 1024:
         raise ValueError("Artifact must contain 1 byte to 20 MB")

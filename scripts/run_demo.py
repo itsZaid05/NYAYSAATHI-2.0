@@ -17,7 +17,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--embedding-model", help="Explicit runtime-only embedding-model override"
     )
-    parser.add_argument("--port", type=int, default=int(os.getenv("PORT", "8010")))
+    parser.add_argument("--port", type=int, default=int(os.getenv("PORT", "8011")))
     args = parser.parse_args()
     if args.model:
         settings.gemini_model = args.model

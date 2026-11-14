@@ -279,7 +279,9 @@ def test_hybrid_retrieval_with_mock_embeddings(reviewed, monkeypatch):
 
     monkeypatch.setattr(settings, "embedding_model", "test-embedding")
     monkeypatch.setattr(
-        GeminiProvider, "embed", lambda self, texts: [[1.0, 0.5] for _ in texts]
+        GeminiProvider,
+        "embed",
+        lambda self, texts, **kwargs: [[1.0, 0.5] for _ in texts],
     )
     results, mode = ReviewedLegalSources().search("refund", semantic=True)
     assert results and mode.startswith("hybrid")
@@ -347,6 +349,8 @@ def test_provider_timeout_and_rate_limit_keep_safe_error_details(client, monkeyp
     with pytest.raises(ProviderUnavailable) as error:
         GeminiProvider().extract("Fictional laptop", "en", [])
     assert error.value.http_status == 429 and error.value.retry_after == "60"
+
+    GeminiProvider.generation_cooldown_until = 0.0
 
     def timeout(request):
         raise httpx.ReadTimeout("synthetic transport timeout")

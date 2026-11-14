@@ -78,6 +78,12 @@ def main():
             parser.error(f"Missing {field}")
     if row["jurisdiction"] != "IN" or row["reuse_rights"] == "pending review":
         parser.error("Indian jurisdiction and documented reuse permission are required")
+    from backend.services.source_rights import validate_reuse
+
+    try:
+        validate_reuse(row)
+    except ValueError as exc:
+        parser.error(str(exc))
     current = row["official_url"]
     # Validate every redirect before network access (no private hosts or unapproved ingestion).
     with httpx.Client(timeout=30, follow_redirects=False) as client:

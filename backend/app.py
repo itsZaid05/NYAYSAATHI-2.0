@@ -46,6 +46,11 @@ from backend.schemas import (
 async def lifespan(app):
     init()
     cleanup()
+    if settings.verify_models_on_start:
+        from backend.services.model_configuration import verify_runtime_models
+        from starlette.concurrency import run_in_threadpool
+
+        await run_in_threadpool(verify_runtime_models)
     yield
 
 
@@ -169,6 +174,12 @@ def health():
         ),
         "live_observations": GeminiProvider.live_observations,
         "generation_model": settings.gemini_model,
+        "model_configuration": settings.model_configuration,
+        "provider_cooldown_seconds": max(
+            0, int(GeminiProvider.generation_cooldown_until - time.monotonic())
+        ),
+        "live_ai_available": bool(GeminiProvider.live_observations.get("generation"))
+        and time.monotonic() >= GeminiProvider.generation_cooldown_until,
         "embedding_model": settings.embedding_model,
         "processing_mode": "demonstration only; real-user beta is gated",
         "lawyer_enabled": bool(settings.lawyer_password),

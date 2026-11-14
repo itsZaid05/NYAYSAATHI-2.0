@@ -60,7 +60,12 @@ class Source(StrictModel):
 
     @model_validator(mode="after")
     def official(self):
-        host = urlparse(self.url).hostname or ""
+        parsed = urlparse(self.url)
+        if parsed.username or parsed.password or parsed.port not in (None, 443):
+            raise ValueError(
+                "Official source URLs cannot contain credentials or non-HTTPS service ports"
+            )
+        host = parsed.hostname or ""
         if not (
             host.endswith(".gov.in") or host.endswith(".nic.in")
         ) or not self.url.startswith("https://"):
@@ -112,6 +117,10 @@ class Draft(StrictModel):
 
 
 class CaseAssessment(StrictModel):
+    legal_validation_notice: str = "Citation provenance can be checked; AI support evaluation is not independent legal correctness or professional review."
+    issue_details: list[ConsumerIssue] = Field(default_factory=list)
+    scope_status: Literal["consumer", "unsupported", "unclear"] = "unclear"
+    understanding_method: str = "local fallback"
     reference_at: datetime | None = None
     assistant_message: str = ""
     parties: list[Entity] = Field(default_factory=list)
@@ -123,6 +132,7 @@ class CaseAssessment(StrictModel):
     evidence_analysis: list[EvidenceAnalysis] = Field(default_factory=list)
     conversation: list[ConversationTurn] = Field(default_factory=list)
     analysis_fingerprint: str = ""
+    context_fingerprint: str = ""
     precedent_status: str = "Disabled: no authorised, validated judgment corpus"
     case_id: str
     jurisdiction: str
@@ -182,6 +192,8 @@ class CaseAssessment(StrictModel):
 
 
 class Extracted(StrictModel):
+    scope: Literal["consumer", "unsupported", "unclear"] | None = None
+    issue_details: list[ConsumerIssue] = Field(default_factory=list, max_length=8)
     assistant_message: str = ""
     parties: list[Entity] = Field(default_factory=list, max_length=15)
     amounts: list[Entity] = Field(default_factory=list, max_length=15)
@@ -225,8 +237,9 @@ class LawyerLogin(StrictModel):
 
 # Additive canonical intelligence contracts; legacy cases migrate with safe defaults.
 class Entity(StrictModel):
+    segment_id: str | None = None
     value: str = Field(min_length=1, max_length=300)
-    quote: str = Field(min_length=1, max_length=1500)
+    quote: str = Field(default="", max_length=1500)
     role: str = Field(default="", max_length=80)
     origin: Literal["user_allegation", "document_excerpt"] = "user_allegation"
     document_id: str | None = None
@@ -322,6 +335,30 @@ class CaseContextUpdate(StrictModel):
 
 class ConsentUpdate(StrictModel):
     ai_processing: bool
+
+
+class ConsumerIssue(StrictModel):
+    id: str = Field(min_length=1, max_length=80)
+    category: Literal[
+        "defective_product",
+        "refund_refusal",
+        "misleading_advertising",
+        "subscription_billing",
+        "warranty",
+        "online_shopping",
+        "service_deficiency",
+        "other_consumer",
+    ]
+    title: str = Field(min_length=3, max_length=300)
+    fact_quotes: list[str] = Field(default_factory=list, max_length=6)
+    fact_segment_ids: list[str] = Field(default_factory=list, max_length=6)
+    unresolved_facts: list[str] = Field(default_factory=list, max_length=6)
+    evidence_needed: list[str] = Field(min_length=1, max_length=8)
+    research_terms: list[str] = Field(min_length=1, max_length=12)
+
+
+class ModelProbe(StrictModel):
+    status: Literal["ok"]
 
 
 CaseAssessment.model_rebuild()

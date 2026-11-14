@@ -39,6 +39,11 @@ def generate(assessment, kind):
         )
         or "[No uploaded documents / कोई दस्तावेज़ नहीं]"
     )
+    issue_notes = "\n".join(
+        "- " + i.title + " [AI factual issue; not a legal finding]"
+        for i in a.issue_details
+    )
+    evidence_gaps = "\n".join("- " + e.item + ": " + e.reason for e in a.evidence)
     missing = "\n".join("- " + x for x in a.unknowns) or (
         "अतिरिक्त तथ्यों की स्वतंत्र समीक्षा करें।"
         if hi
@@ -85,6 +90,13 @@ def generate(assessment, kind):
             + docs
             + "\n\nUnresolved questions / अधूरे सवाल:\n"
             + missing
+        )
+    if kind in ("grievance_summary", "lawyer_brief", "evidence_inventory"):
+        body += (
+            "\n\nIssues to examine / विचार योग्य मुद्दे:\n"
+            + issue_notes
+            + "\n\nEvidence gaps / साक्ष्य की कमी:\n"
+            + evidence_gaps
         )
     body += "\n\n" + (
         "भेजने से पहले तथ्यों, खाली स्थानों और संलग्नकों को जांचें। कोई कानूनी समय-सीमा या जीत की गारंटी नहीं दी गई।"

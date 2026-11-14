@@ -144,3 +144,57 @@ def validate_intelligence(result, narrative):
     ):
         raise ValueError("Remedy lacks source excerpt")
     return result
+
+
+def narrative_segments(text):
+    """Stable selection IDs for the current canonical narrative, never generated facts."""
+    pieces = [
+        part.strip() for part in re.split(r"(?<=[.!?।])\s+|\n+", text) if part.strip()
+    ]
+    return {f"f{i}": piece for i, piece in enumerate(pieces)}
+
+
+def ground_dynamic_extraction(result, narrative):
+    """Only deterministic selection/alignment creates factual provenance."""
+    segments = narrative_segments(narrative)
+    if result.scope is None:
+        # Preserve the strict legacy adapter contract; new dynamic output uses segment selection.
+        if any(f not in narrative for f in result.facts) or any(
+            e.description not in narrative or e.date not in e.description
+            for e in result.timeline
+        ):
+            raise ValueError("AI fact provenance rejected")
+    for entity in result.parties + result.amounts:
+        if entity.segment_id:
+            if entity.segment_id not in segments:
+                raise ValueError("Entity selected unknown narrative segment")
+            segment = segments[entity.segment_id]
+            index = segment.find(entity.value)
+            if index < 0:
+                raise ValueError("Entity value is absent from selected source segment")
+            start = max(0, index - 100)
+            entity.quote = segment[start : start + 1500]
+    for issue in result.issue_details:
+        if issue.fact_segment_ids:
+            if any(sid not in segments for sid in issue.fact_segment_ids):
+                raise ValueError("AI issue selected an unknown narrative segment")
+            issue.fact_quotes = list(
+                dict.fromkeys(segments[sid] for sid in issue.fact_segment_ids)
+            )
+        if not issue.fact_quotes or any(q not in narrative for q in issue.fact_quotes):
+            raise ValueError("AI issue lacks exact narrative provenance")
+    if (
+        result.scope is not None
+        and result.desired_remedy
+        and (not result.remedy_quote or result.remedy_quote not in narrative)
+    ):
+        result.desired_remedy = ""
+        result.remedy_quote = ""
+    # Model-generated prose summaries are never promoted into canonical facts or dates.
+    result.facts = [f for f in result.facts if f in narrative]
+    result.timeline = [
+        e
+        for e in result.timeline
+        if e.description in narrative and e.date in e.description
+    ]
+    return result
