@@ -77,7 +77,13 @@ def test_complete_local_journey_and_persistence(client, intake_data):
         assert r.status_code == 200, r.text
         assert r.json()["characters_extracted"] > 10
     a = client.get(f"/api/cases/{cid}/assessment").json()
-    assert a["readiness"] == "Strong"
+    # Four self-classified uploads do not establish legal or procedural readiness.
+    assert a["readiness"] == "Partial"
+    assert any(
+        f["dimension"] == "legal sources" and f["status"] == "missing"
+        for f in a["readiness_findings"]
+    )
+    assert any("How much" in q for q in a["unknowns"])
     assert len(a["facts"]) >= 5
     a = client.post(f"/api/cases/{cid}/draft", json={}).json()
     assert "NOT FILED" in a["drafts"][0]["content"]

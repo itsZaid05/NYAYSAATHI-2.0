@@ -7,6 +7,7 @@ ROOT = Path(__file__).resolve().parent.parent
 
 @dataclass
 class Settings:
+    processing_mode: str = "demonstration"
     runtime: Path = Path(
         os.getenv("NYAYSAATHI_RUNTIME", str(ROOT / "runtime"))
     ).resolve()

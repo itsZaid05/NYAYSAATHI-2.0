@@ -23,8 +23,10 @@ from pypdf import PdfReader
 from backend.config import ROOT, settings
 from backend.db import audit, cleanup, connect, digest, init, session
 from backend.engine import assess, make_draft, redact
+from backend.services.document_generation import generate as generate_document
+from backend.services.evidence_analysis import ocr_image
 from backend.packet import packet
-from backend.providers import ReviewedLegalSources
+from backend.providers import ReviewedLegalSources, GeminiProvider
 from backend.schemas import (
     CaseAssessment,
     Consent,
@@ -33,6 +35,9 @@ from backend.schemas import (
     LawyerLogin,
     Message,
     ShareRequest,
+    CaseContextUpdate,
+    ConsentUpdate,
+    ConversationTurn,
 )
 
 
@@ -158,7 +163,13 @@ def health():
         "gemini_configured": bool(
             settings.gemini_key and settings.gemini_model and settings.terms_reviewed
         ),
-        "live_gemini_verified": False,
+        "live_gemini_verified": bool(
+            GeminiProvider.live_observations.get("generation")
+        ),
+        "live_observations": GeminiProvider.live_observations,
+        "generation_model": settings.gemini_model,
+        "embedding_model": settings.embedding_model,
+        "processing_mode": "demonstration only; real-user beta is gated",
         "lawyer_enabled": bool(settings.lawyer_password),
         "legal_readiness": "reviewed passages required"
         if not sources.records
@@ -217,6 +228,11 @@ def list_cases(who=Depends(actor)):
 
 @app.post("/api/cases/intake", response_model=CaseAssessment)
 def intake(data: Intake, who=Depends(actor)):
+    if settings.processing_mode != "demonstration":
+        raise HTTPException(
+            503,
+            "Real-user beta is gated pending privacy, provider-contract, security and legal review",
+        )
     if who["role"] != "guest":
         raise HTTPException(403, "Use a guest workspace for intake")
     if not data.consent.processing:
@@ -242,6 +258,18 @@ def intake(data: Intake, who=Depends(actor)):
     a = assess(
         case_id, data.narrative, data.jurisdiction.upper(), data.language, data.consent
     )
+    from datetime import datetime, timezone
+
+    a.conversation = [
+        ConversationTurn(
+            role="user", text=redact(data.narrative), at=datetime.now(timezone.utc)
+        ),
+        ConversationTurn(
+            role="assistant",
+            text=a.assistant_message + "\n" + "\n".join(a.unknowns),
+            at=datetime.now(timezone.utc),
+        ),
+    ]
     now = time.time()
     with connect() as db:
         db.execute(
@@ -289,6 +317,18 @@ def message(case_id: str, data: Message, who=Depends(actor)):
         db.execute(
             "UPDATE narratives SET text=? WHERE case_id=?", (redact(text), case_id)
         )
+    from datetime import datetime, timezone
+
+    result.conversation = a.conversation + [
+        ConversationTurn(
+            role="user", text=redact(data.text), at=datetime.now(timezone.utc)
+        ),
+        ConversationTurn(
+            role="assistant",
+            text=result.assistant_message + "\n" + "\n".join(result.unknowns),
+            at=datetime.now(timezone.utc),
+        ),
+    ]
     save(result, who, "message_added")
     return result
 
@@ -342,10 +382,20 @@ async def upload(
             ) from None
         if len(text) > 30000:
             raise HTTPException(413, "Extractable text limit is 30,000 characters")
+    elif name.lower().endswith((".png", ".jpg", ".jpeg")) and mime in (
+        "image/png",
+        "image/jpeg",
+    ):
+        try:
+            from starlette.concurrency import run_in_threadpool
+
+            text, method = await run_in_threadpool(ocr_image, data, mime)
+        except ValueError as exc:
+            raise HTTPException(422, str(exc)) from None
     else:
         raise HTTPException(
             415,
-            "Only UTF-8 .txt and flattened text-based .pdf files are supported; no OCR",
+            "Only UTF-8 TXT, flattened PDF and synthetic PNG/JPEG images are supported",
         )
     if redact(text) != text:
         raise HTTPException(
@@ -372,7 +422,9 @@ async def upload(
         "id": docid,
         "filename": name,
         "characters_extracted": len(text),
-        "extraction": "text only; no OCR or authenticity verification",
+        "extraction": "local OCR"
+        if mime.startswith("image/")
+        else "local text extraction; no authenticity verification",
         "warnings": document_flags(a, text),
         "assessment": result.model_dump(mode="json"),
     }
@@ -416,7 +468,13 @@ def document(case_id: str, doc_id: str, who=Depends(actor)):
         media_type=row["mime"],
         headers={
             "Content-Disposition": 'attachment; filename="synthetic-evidence'
-            + (".pdf" if row["mime"] == "application/pdf" else ".txt")
+            + (
+                {
+                    "application/pdf": ".pdf",
+                    "image/png": ".png",
+                    "image/jpeg": ".jpg",
+                }.get(row["mime"], ".txt")
+            )
             + '"'
         },
     )
@@ -431,10 +489,10 @@ def draft(case_id: str, data: DraftRequest, who=Depends(actor)):
         "needs_clarification",
     ):
         raise HTTPException(422, "Drafting is limited to Indian consumer disputes")
-    d = make_draft(a)
+    d = generate_document(a, data.kind)
     if data.content is not None:
         d.content = redact(data.content)
-    a.drafts = [d]
+    a.drafts = [x for x in a.drafts if x.kind != data.kind] + [d]
     save(a, who, "seller_draft_saved")
     return a
 
@@ -667,6 +725,128 @@ def delete(case_id: str, who=Depends(actor)):
     return {
         "deleted": True,
         "notice": "Case, evidence, drafts, download grants and handoff removed. Previously downloaded copies cannot be recalled.",
+    }
+
+
+@app.get("/api/cases/{case_id}/context")
+def canonical_context(case_id: str, who=Depends(actor)):
+    _, a = owner(case_id, who)
+    return {
+        "narrative": narrative_for(a),
+        "language": a.language,
+        "reference_at": a.reference_at,
+    }
+
+
+@app.patch("/api/cases/{case_id}/context", response_model=CaseAssessment)
+def update_context(case_id: str, data: CaseContextUpdate, who=Depends(actor)):
+    _, a = owner(case_id, who)
+    from datetime import datetime, timezone
+
+    text = redact(data.narrative) if data.narrative is not None else narrative_for(a)
+    language = data.language or a.language
+    result = assess(
+        case_id,
+        text,
+        a.jurisdiction,
+        language,
+        a.consent,
+        evidence_rows(case_id),
+        a,
+        use_ai=a.consent.ai_processing,
+    )
+    result.conversation = a.conversation + [
+        ConversationTurn(
+            role="correction",
+            text=(
+                "User replaced the canonical narrative or changed case language. "
+                + text
+            )[:12000],
+            at=datetime.now(timezone.utc),
+        )
+    ]
+    with connect() as db:
+        db.execute("UPDATE narratives SET text=? WHERE case_id=?", (text, case_id))
+    save(result, who, "canonical_facts_or_language_corrected")
+    return result
+
+
+@app.patch("/api/cases/{case_id}/consent", response_model=CaseAssessment)
+def update_consent(case_id: str, data: ConsentUpdate, who=Depends(actor)):
+    _, a = owner(case_id, who)
+    a.consent.ai_processing = data.ai_processing
+    if not data.ai_processing:
+        a.legal_analysis = None
+        a.claim_verification = []
+        a.ai_status = "AI consent withdrawn; no further model transmission"
+    result = assess(
+        case_id,
+        narrative_for(a),
+        a.jurisdiction,
+        a.language,
+        a.consent,
+        evidence_rows(case_id),
+        a,
+        use_ai=data.ai_processing,
+    )
+    save(result, who, "ai_processing_consent=" + str(data.ai_processing))
+    return result
+
+
+@app.post("/api/cases/{case_id}/analyse", response_model=CaseAssessment)
+def analyse(case_id: str, who=Depends(actor)):
+    _, a = owner(case_id, who)
+    if not a.consent.ai_processing:
+        raise HTTPException(422, "Explicit AI processing consent required")
+    result = assess(
+        case_id,
+        narrative_for(a),
+        a.jurisdiction,
+        a.language,
+        a.consent,
+        evidence_rows(case_id),
+        a,
+        use_ai=True,
+    )
+    save(result, who, "explicit_case_analysis_requested")
+    return result
+
+
+@app.get("/api/cases/{case_id}/drafts/{draft_id}.txt")
+def draft_text(case_id: str, draft_id: str, who=Depends(actor)):
+    _, a = owner(case_id, who)
+    draft = next((d for d in a.drafts if d.id == draft_id), None)
+    if not draft:
+        raise HTTPException(404, "Draft not found")
+    return Response(
+        draft.content,
+        media_type="text/plain; charset=utf-8",
+        headers={"Content-Disposition": 'attachment; filename="nyaysaathi-draft.txt"'},
+    )
+
+
+@app.get("/api/cases/{case_id}/drafts/{draft_id}.pdf")
+def draft_pdf(case_id: str, draft_id: str, who=Depends(actor)):
+    _, a = owner(case_id, who)
+    draft = next((d for d in a.drafts if d.id == draft_id), None)
+    if not draft:
+        raise HTTPException(404, "Draft not found")
+    from backend.packet import document_pdf
+
+    return Response(
+        document_pdf(draft),
+        media_type="application/pdf",
+        headers={"Content-Disposition": 'attachment; filename="nyaysaathi-draft.pdf"'},
+    )
+
+
+@app.get("/api/precedents/status")
+def precedent_status():
+    return {
+        "enabled": False,
+        "jurisdictions": ["IN"],
+        "reason": "No authorised, independently validated judgment corpus. Fictional scenarios are available instead.",
+        "uk_enabled": False,
     }
 
 

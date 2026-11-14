@@ -14,6 +14,40 @@ def packet(assessment, attachments):
     body += "<h2>User allegations and document excerpts</h2>" + listing(
         f"{f.origin}: {f.text}" for f in a.facts
     )
+    if a.parties or a.amounts:
+        body += "<h2>Structured transaction details (allegations)</h2>" + listing(
+            [
+                x.role + ": " + x.value + " — source excerpt: " + x.quote
+                for x in a.parties + a.amounts
+            ]
+        )
+    if a.legal_analysis:
+        body += (
+            "<h2>AI legal interpretation — conditional, not professional advice</h2><p>"
+            + e(a.legal_analysis.overview)
+            + "</p>"
+        )
+        for claim in a.legal_analysis.claims:
+            body += (
+                "<h3>"
+                + e(claim.proposition)
+                + "</h3><p>"
+                + e(claim.application)
+                + "</p>"
+                + listing(claim.conditions + claim.unknowns)
+                + "<p>Suggested action: "
+                + e(claim.suggested_action)
+                + "<br>Sources: "
+                + e(", ".join(claim.source_ids))
+                + "<br>"
+                + e(claim.qualification)
+                + "</p>"
+            )
+    if a.readiness_findings:
+        body += "<h2>Readiness findings</h2>" + listing(
+            f.dimension + ": " + f.status + " — " + f.finding
+            for f in a.readiness_findings
+        )
     body += "<h2>Timeline</h2>" + listing(
         f"{t.date} — {t.description}" for t in a.timeline
     )
@@ -54,3 +88,18 @@ def packet(assessment, attachments):
         raise ValueError("External PDF resources are disabled")
 
     return HTML(string=html, url_fetcher=reject_url).write_pdf()
+
+
+def document_pdf(draft):
+    content = (
+        '<html><meta charset="utf-8"><style>@page{size:A4;margin:20mm}body{font:11pt "DejaVu Sans","Noto Sans Devanagari",sans-serif}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit}</style><h1>NyaySaathi</h1><p>'
+        + escape(draft.status)
+        + "</p><pre>"
+        + escape(draft.content)
+        + "</pre></html>"
+    )
+
+    def reject(url, *args, **kwargs):
+        raise ValueError("No external PDF resources")
+
+    return HTML(string=content, url_fetcher=reject).write_pdf()

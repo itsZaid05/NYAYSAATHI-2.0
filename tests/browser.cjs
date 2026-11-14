@@ -39,15 +39,13 @@ const base = process.env.NYAY_TEST_URL || "http://127.0.0.1:8010";
   await page.getByRole("button", { name: "Add evidence", exact: true }).click();
   for (const kind of ["invoice", "fault", "communication", "warranty"]) {
     await page.locator('select[name="kind"]').selectOption(kind);
-    await page
-      .locator('input[type="file"]')
-      .setInputFiles({
-        name: `${kind}.txt`,
-        mimeType: "text/plain",
-        buffer: Buffer.from(
-          `Fictional ${kind}. Demo Seller, 2026-10-01. Laptop purchase.`,
-        ),
-      });
+    await page.locator('input[type="file"]').setInputFiles({
+      name: `${kind}.txt`,
+      mimeType: "text/plain",
+      buffer: Buffer.from(
+        `Fictional ${kind}. Demo Seller, 2026-10-01. Laptop purchase.`,
+      ),
+    });
     const response = page.waitForResponse(
       (r) => r.url().endsWith("/evidence") && r.request().method() === "POST",
     );
@@ -60,7 +58,7 @@ const base = process.env.NYAY_TEST_URL || "http://127.0.0.1:8010";
       .waitFor();
   }
   await page.locator('[data-page="case-summary"]').click();
-  assert.match(await page.locator("#view").innerText(), /Strong/);
+  assert.match(await page.locator("#view").innerText(), /Partial/);
   await page
     .getByRole("button", { name: "Prepare seller letter", exact: true })
     .click();
@@ -177,12 +175,14 @@ const base = process.env.NYAY_TEST_URL || "http://127.0.0.1:8010";
   await page
     .getByRole("button", { name: "हिंदी में बदलें", exact: true })
     .click();
+  await page.locator('html[lang="hi"]').waitFor();
   assert.equal(await page.locator("html").getAttribute("lang"), "hi");
   assert.match(await page.locator("#view").innerText(), /आधिकारिक/);
   await page.screenshot({ path: "runtime/mobile-hi.png", fullPage: true });
   await page
     .getByRole("button", { name: "Switch to English", exact: true })
     .click();
+  await page.locator('html[lang="en"]').waitFor();
   await page.locator('[data-page="settings"]').click();
   page.once("dialog", (d) => d.accept());
   await page

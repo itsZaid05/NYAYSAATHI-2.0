@@ -1,0 +1,431 @@
+[
+  {
+    "id": "laptop",
+    "category": "defective_product",
+    "title": "A laptop that will not start",
+    "title_hi": "चालू न होने वाला लैपटॉप",
+    "en": "Asha bought a laptop online that would not start after delivery. She kept her invoice, a short fault recording and the seller’s refusal, then prepared a factual request for a resolution. No outcome is assumed.",
+    "hi": "आशा का ऑनलाइन खरीदा लैपटॉप डिलीवरी के बाद चालू नहीं हुआ। उसने बिल, खराबी का रिकॉर्ड और विक्रेता का जवाब सुरक्षित किया और समाधान का तथ्यात्मक अनुरोध तैयार किया। परिणाम तय नहीं है.",
+    "tags": [
+      "laptop",
+      "fault",
+      "लैपटॉप"
+    ],
+    "legal_terms": [
+      "defect",
+      "consumer"
+    ],
+    "lessons": [
+      "What records establish the transaction and sequence of events?",
+      "What is the seller/provider’s written position?",
+      "Which facts remain uncertain? No outcome is predicted."
+    ],
+    "lessons_hi": [
+      "लेनदेन और घटनाक्रम के कौन से रिकॉर्ड उपलब्ध हैं?",
+      "विक्रेता/प्रदाता का लिखित जवाब क्या है?",
+      "कौन से तथ्य अस्पष्ट हैं? परिणाम की भविष्यवाणी नहीं है।"
+    ]
+  },
+  {
+    "id": "phone",
+    "category": "defective_product",
+    "title": "A phone with an intermittent fault",
+    "title_hi": "बार-बार बंद होता फोन",
+    "en": "Kabir’s new phone shut down intermittently. He recorded when the issue happened and obtained a service job sheet instead of assuming a diagnosis.",
+    "hi": "कबीर का नया फोन बीच-बीच में बंद होता था। उसने घटनाओं की तारीखें और सर्विस जॉब शीट जुटाई; कारण का अनुमान नहीं लगाया।",
+    "tags": [
+      "phone",
+      "mobile",
+      "फोन"
+    ],
+    "legal_terms": [
+      "defect"
+    ],
+    "lessons": [
+      "What records establish the transaction and sequence of events?",
+      "What is the seller/provider’s written position?",
+      "Which facts remain uncertain? No outcome is predicted."
+    ],
+    "lessons_hi": [
+      "लेनदेन और घटनाक्रम के कौन से रिकॉर्ड उपलब्ध हैं?",
+      "विक्रेता/प्रदाता का लिखित जवाब क्या है?",
+      "कौन से तथ्य अस्पष्ट हैं? परिणाम की भविष्यवाणी नहीं है।"
+    ]
+  },
+  {
+    "id": "appliance",
+    "category": "defective_product",
+    "title": "A damaged appliance delivery",
+    "title_hi": "क्षतिग्रस्त उपकरण की डिलीवरी",
+    "en": "Meera received a dented refrigerator. She preserved delivery photographs, packaging details and the delivery receipt before contacting the seller.",
+    "hi": "मीरा को क्षतिग्रस्त फ्रिज मिला। उसने विक्रेता से संपर्क से पहले तस्वीरें, पैकिंग और रसीद सुरक्षित की।",
+    "tags": [
+      "fridge",
+      "refrigerator",
+      "damaged"
+    ],
+    "legal_terms": [
+      "goods",
+      "defect"
+    ],
+    "lessons": [
+      "What records establish the transaction and sequence of events?",
+      "What is the seller/provider’s written position?",
+      "Which facts remain uncertain? No outcome is predicted."
+    ],
+    "lessons_hi": [
+      "लेनदेन और घटनाक्रम के कौन से रिकॉर्ड उपलब्ध हैं?",
+      "विक्रेता/प्रदाता का लिखित जवाब क्या है?",
+      "कौन से तथ्य अस्पष्ट हैं? परिणाम की भविष्यवाणी नहीं है।"
+    ]
+  },
+  {
+    "id": "refund",
+    "category": "refund_refusal",
+    "title": "A return without a refund",
+    "title_hi": "वापसी के बाद रिफंड नहीं",
+    "en": "Ravi returned headphones but could not find a refund. He compared the return receipt, payment record and written refund promise before raising the discrepancy.",
+    "hi": "रवि ने हेडफोन लौटाए लेकिन रिफंड नहीं मिला। उसने वापसी रसीद, भुगतान और लिखित वादे की तुलना की।",
+    "tags": [
+      "refund",
+      "return",
+      "रिफंड"
+    ],
+    "legal_terms": [
+      "refund",
+      "unfair"
+    ],
+    "lessons": [
+      "What records establish the transaction and sequence of events?",
+      "What is the seller/provider’s written position?",
+      "Which facts remain uncertain? No outcome is predicted."
+    ],
+    "lessons_hi": [
+      "लेनदेन और घटनाक्रम के कौन से रिकॉर्ड उपलब्ध हैं?",
+      "विक्रेता/प्रदाता का लिखित जवाब क्या है?",
+      "कौन से तथ्य अस्पष्ट हैं? परिणाम की भविष्यवाणी नहीं है।"
+    ]
+  },
+  {
+    "id": "cancel",
+    "category": "refund_refusal",
+    "title": "A cancelled order",
+    "title_hi": "रद्द ऑर्डर",
+    "en": "Farah cancelled an unshipped order. She saved the cancellation confirmation and asked the platform to explain the status of her payment.",
+    "hi": "फराह ने न भेजा गया ऑर्डर रद्द किया। उसने रद्द करने की पुष्टि सुरक्षित रखी और भुगतान की स्थिति पूछी।",
+    "tags": [
+      "cancel",
+      "cancelled",
+      "cancellation"
+    ],
+    "legal_terms": [
+      "refund",
+      "commerce"
+    ],
+    "lessons": [
+      "What records establish the transaction and sequence of events?",
+      "What is the seller/provider’s written position?",
+      "Which facts remain uncertain? No outcome is predicted."
+    ],
+    "lessons_hi": [
+      "लेनदेन और घटनाक्रम के कौन से रिकॉर्ड उपलब्ध हैं?",
+      "विक्रेता/प्रदाता का लिखित जवाब क्या है?",
+      "कौन से तथ्य अस्पष्ट हैं? परिणाम की भविष्यवाणी नहीं है।"
+    ]
+  },
+  {
+    "id": "duplicate",
+    "category": "refund_refusal",
+    "title": "Two debits for one order",
+    "title_hi": "एक ऑर्डर पर दो भुगतान",
+    "en": "Dev saw two payment debits for one purchase. He reconciled transaction references with the order record and avoided publishing sensitive bank details.",
+    "hi": "देव के एक ऑर्डर पर दो भुगतान हुए। उसने लेनदेन संदर्भों और ऑर्डर का मिलान किया, बैंक जानकारी सार्वजनिक नहीं की।",
+    "tags": [
+      "duplicate",
+      "payment",
+      "debit"
+    ],
+    "legal_terms": [
+      "consumer"
+    ],
+    "lessons": [
+      "What records establish the transaction and sequence of events?",
+      "What is the seller/provider’s written position?",
+      "Which facts remain uncertain? No outcome is predicted."
+    ],
+    "lessons_hi": [
+      "लेनदेन और घटनाक्रम के कौन से रिकॉर्ड उपलब्ध हैं?",
+      "विक्रेता/प्रदाता का लिखित जवाब क्या है?",
+      "कौन से तथ्य अस्पष्ट हैं? परिणाम की भविष्यवाणी नहीं है।"
+    ]
+  },
+  {
+    "id": "warranty",
+    "category": "warranty",
+    "title": "A rejected warranty request",
+    "title_hi": "वारंटी अनुरोध अस्वीकार",
+    "en": "Nisha’s washing machine needed repair during the stated warranty period. She compared the written exclusions with the service report and asked for the refusal in writing.",
+    "hi": "निशा की वॉशिंग मशीन को बताई गई वारंटी अवधि में मरम्मत चाहिए थी। उसने शर्तों और सर्विस रिपोर्ट की तुलना की तथा लिखित अस्वीकृति मांगी।",
+    "tags": [
+      "warranty",
+      "repair",
+      "वारंटी"
+    ],
+    "legal_terms": [
+      "service",
+      "deficiency"
+    ],
+    "lessons": [
+      "What records establish the transaction and sequence of events?",
+      "What is the seller/provider’s written position?",
+      "Which facts remain uncertain? No outcome is predicted."
+    ],
+    "lessons_hi": [
+      "लेनदेन और घटनाक्रम के कौन से रिकॉर्ड उपलब्ध हैं?",
+      "विक्रेता/प्रदाता का लिखित जवाब क्या है?",
+      "कौन से तथ्य अस्पष्ट हैं? परिणाम की भविष्यवाणी नहीं है।"
+    ]
+  },
+  {
+    "id": "repeat_repair",
+    "category": "warranty",
+    "title": "Repeated repair visits",
+    "title_hi": "बार-बार मरम्मत",
+    "en": "Imran’s device needed repeated repairs. He created a chronology of job sheets and unresolved faults before seeking professional advice about his options.",
+    "hi": "इमरान के उपकरण की बार-बार मरम्मत हुई। उसने जॉब शीट और बाकी खराबियों का घटनाक्रम बनाकर विकल्पों पर सलाह लेने की तैयारी की।",
+    "tags": [
+      "repeated",
+      "repair",
+      "job"
+    ],
+    "legal_terms": [
+      "deficiency",
+      "defect"
+    ],
+    "lessons": [
+      "What records establish the transaction and sequence of events?",
+      "What is the seller/provider’s written position?",
+      "Which facts remain uncertain? No outcome is predicted."
+    ],
+    "lessons_hi": [
+      "लेनदेन और घटनाक्रम के कौन से रिकॉर्ड उपलब्ध हैं?",
+      "विक्रेता/प्रदाता का लिखित जवाब क्या है?",
+      "कौन से तथ्य अस्पष्ट हैं? परिणाम की भविष्यवाणी नहीं है।"
+    ]
+  },
+  {
+    "id": "delivery",
+    "category": "online_shopping",
+    "title": "An order marked delivered",
+    "title_hi": "डिलीवर दिखाया गया ऑर्डर",
+    "en": "Leela’s order was marked delivered although she said she had not received it. She saved the tracking history and asked for delivery details, without treating the tracking label as proof.",
+    "hi": "लीला का ऑर्डर डिलीवर दिखा लेकिन उसके अनुसार मिला नहीं। उसने ट्रैकिंग सुरक्षित की और डिलीवरी विवरण मांगा; ट्रैकिंग को अंतिम प्रमाण नहीं माना।",
+    "tags": [
+      "delivery",
+      "delivered",
+      "parcel"
+    ],
+    "legal_terms": [
+      "commerce",
+      "consumer"
+    ],
+    "lessons": [
+      "What records establish the transaction and sequence of events?",
+      "What is the seller/provider’s written position?",
+      "Which facts remain uncertain? No outcome is predicted."
+    ],
+    "lessons_hi": [
+      "लेनदेन और घटनाक्रम के कौन से रिकॉर्ड उपलब्ध हैं?",
+      "विक्रेता/प्रदाता का लिखित जवाब क्या है?",
+      "कौन से तथ्य अस्पष्ट हैं? परिणाम की भविष्यवाणी नहीं है।"
+    ]
+  },
+  {
+    "id": "wrong_item",
+    "category": "online_shopping",
+    "title": "A different item in the parcel",
+    "title_hi": "पार्सल में अलग वस्तु",
+    "en": "Arun received a different model from the one ordered. He preserved the listing, order specification and received-item photographs to explain the mismatch.",
+    "hi": "अरुण को ऑर्डर से अलग मॉडल मिला। उसने लिस्टिंग, ऑर्डर के विवरण और मिली वस्तु की तस्वीरें सुरक्षित कीं।",
+    "tags": [
+      "wrong",
+      "different",
+      "model"
+    ],
+    "legal_terms": [
+      "goods",
+      "unfair"
+    ],
+    "lessons": [
+      "What records establish the transaction and sequence of events?",
+      "What is the seller/provider’s written position?",
+      "Which facts remain uncertain? No outcome is predicted."
+    ],
+    "lessons_hi": [
+      "लेनदेन और घटनाक्रम के कौन से रिकॉर्ड उपलब्ध हैं?",
+      "विक्रेता/प्रदाता का लिखित जवाब क्या है?",
+      "कौन से तथ्य अस्पष्ट हैं? परिणाम की भविष्यवाणी नहीं है।"
+    ]
+  },
+  {
+    "id": "description",
+    "category": "online_shopping",
+    "title": "A listing that does not match",
+    "title_hi": "विवरण से अलग उत्पाद",
+    "en": "Pooja’s purchase did not match the saved product description. She separated objective differences from her expectations and kept the listing as it appeared at purchase.",
+    "hi": "पूजा की खरीद सहेजे विवरण से अलग थी। उसने अपेक्षाओं से अलग वास्तविक अंतर लिखे और खरीद के समय की लिस्टिंग रखी।",
+    "tags": [
+      "description",
+      "listing",
+      "advertised"
+    ],
+    "legal_terms": [
+      "unfair",
+      "representation"
+    ],
+    "lessons": [
+      "What records establish the transaction and sequence of events?",
+      "What is the seller/provider’s written position?",
+      "Which facts remain uncertain? No outcome is predicted."
+    ],
+    "lessons_hi": [
+      "लेनदेन और घटनाक्रम के कौन से रिकॉर्ड उपलब्ध हैं?",
+      "विक्रेता/प्रदाता का लिखित जवाब क्या है?",
+      "कौन से तथ्य अस्पष्ट हैं? परिणाम की भविष्यवाणी नहीं है।"
+    ]
+  },
+  {
+    "id": "service",
+    "category": "service_deficiency",
+    "title": "An incomplete repair service",
+    "title_hi": "अधूरी मरम्मत सेवा",
+    "en": "Vikram paid for a repair that was not completed as described. He compared the quotation, work record and payment proof, then listed the unfinished work.",
+    "hi": "विक्रम ने ऐसी मरम्मत का भुगतान किया जो बताए अनुसार पूरी नहीं हुई। उसने कोटेशन, कार्य रिकॉर्ड और भुगतान से अधूरे काम की सूची बनाई।",
+    "tags": [
+      "service",
+      "repair",
+      "incomplete"
+    ],
+    "legal_terms": [
+      "deficiency",
+      "service"
+    ],
+    "lessons": [
+      "What records establish the transaction and sequence of events?",
+      "What is the seller/provider’s written position?",
+      "Which facts remain uncertain? No outcome is predicted."
+    ],
+    "lessons_hi": [
+      "लेनदेन और घटनाक्रम के कौन से रिकॉर्ड उपलब्ध हैं?",
+      "विक्रेता/प्रदाता का लिखित जवाब क्या है?",
+      "कौन से तथ्य अस्पष्ट हैं? परिणाम की भविष्यवाणी नहीं है।"
+    ]
+  },
+  {
+    "id": "internet",
+    "category": "service_deficiency",
+    "title": "A service outage and billing dispute",
+    "title_hi": "सेवा बंद और बिल विवाद",
+    "en": "Tara disputed an internet bill after recorded outages. She kept complaint numbers, dates and the provider’s responses, while checking the applicable service terms.",
+    "hi": "तारा ने इंटरनेट बंद रहने के बाद बिल पर सवाल किया। उसने शिकायत संदर्भ, तारीखें और प्रदाता के जवाब सुरक्षित किए तथा सेवा शर्तें देखीं।",
+    "tags": [
+      "internet",
+      "broadband",
+      "outage"
+    ],
+    "legal_terms": [
+      "service",
+      "deficiency"
+    ],
+    "lessons": [
+      "What records establish the transaction and sequence of events?",
+      "What is the seller/provider’s written position?",
+      "Which facts remain uncertain? No outcome is predicted."
+    ],
+    "lessons_hi": [
+      "लेनदेन और घटनाक्रम के कौन से रिकॉर्ड उपलब्ध हैं?",
+      "विक्रेता/प्रदाता का लिखित जवाब क्या है?",
+      "कौन से तथ्य अस्पष्ट हैं? परिणाम की भविष्यवाणी नहीं है।"
+    ]
+  },
+  {
+    "id": "travel",
+    "category": "service_deficiency",
+    "title": "A cancelled service booking",
+    "title_hi": "रद्द सेवा बुकिंग",
+    "en": "Sameer’s fictional travel service was cancelled. He organised booking terms and cancellation messages, and recognised that sector-specific rules may also need qualified review.",
+    "hi": "समीर की काल्पनिक यात्रा सेवा रद्द हुई। उसने बुकिंग शर्तें और संदेश रखे; क्षेत्र-विशेष नियमों की अलग समीक्षा जरूरी हो सकती है।",
+    "tags": [
+      "booking",
+      "travel",
+      "cancelled"
+    ],
+    "legal_terms": [
+      "service"
+    ],
+    "lessons": [
+      "What records establish the transaction and sequence of events?",
+      "What is the seller/provider’s written position?",
+      "Which facts remain uncertain? No outcome is predicted."
+    ],
+    "lessons_hi": [
+      "लेनदेन और घटनाक्रम के कौन से रिकॉर्ड उपलब्ध हैं?",
+      "विक्रेता/प्रदाता का लिखित जवाब क्या है?",
+      "कौन से तथ्य अस्पष्ट हैं? परिणाम की भविष्यवाणी नहीं है।"
+    ]
+  },
+  {
+    "id": "subscription",
+    "category": "service_deficiency",
+    "title": "An unwanted renewal",
+    "title_hi": "अनचाहा नवीनीकरण",
+    "en": "Zoya questioned a subscription renewal. She checked the consent record and cancellation steps before preparing a factual request; she did not assume every renewal was unlawful.",
+    "hi": "जोया ने सदस्यता नवीनीकरण पर सवाल किया। उसने सहमति और रद्द करने के कदम जांचे; हर नवीनीकरण को अवैध नहीं माना।",
+    "tags": [
+      "subscription",
+      "renewal",
+      "cancel"
+    ],
+    "legal_terms": [
+      "unfair",
+      "service"
+    ],
+    "lessons": [
+      "What records establish the transaction and sequence of events?",
+      "What is the seller/provider’s written position?",
+      "Which facts remain uncertain? No outcome is predicted."
+    ],
+    "lessons_hi": [
+      "लेनदेन और घटनाक्रम के कौन से रिकॉर्ड उपलब्ध हैं?",
+      "विक्रेता/प्रदाता का लिखित जवाब क्या है?",
+      "कौन से तथ्य अस्पष्ट हैं? परिणाम की भविष्यवाणी नहीं है।"
+    ]
+  },
+  {
+    "id": "purpose",
+    "category": "online_shopping",
+    "title": "A purchase with an unclear purpose",
+    "title_hi": "खरीद का उद्देश्य अस्पष्ट",
+    "en": "A fictional shop owner bought several devices and described a defect. Before assuming consumer-law coverage, they clarified who used them and for what purpose.",
+    "hi": "एक काल्पनिक दुकानदार ने कई उपकरण खरीदे और खराबी बताई। उपभोक्ता कानून लागू मानने से पहले उपयोगकर्ता और उपयोग का उद्देश्य स्पष्ट किया।",
+    "tags": [
+      "business",
+      "resale",
+      "commercial"
+    ],
+    "legal_terms": [
+      "consumer",
+      "commercial"
+    ],
+    "lessons": [
+      "What records establish the transaction and sequence of events?",
+      "What is the seller/provider’s written position?",
+      "Which facts remain uncertain? No outcome is predicted."
+    ],
+    "lessons_hi": [
+      "लेनदेन और घटनाक्रम के कौन से रिकॉर्ड उपलब्ध हैं?",
+      "विक्रेता/प्रदाता का लिखित जवाब क्या है?",
+      "कौन से तथ्य अस्पष्ट हैं? परिणाम की भविष्यवाणी नहीं है।"
+    ]
+  }
+]
