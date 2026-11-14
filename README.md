@@ -1,88 +1,64 @@
-# NyaySaathi
-AI-Powered Legal Companion
-Concept Overview
-Millions avoid legal help due to shame, high cost, and confusion about legal processes. Courts and lawyers spend vast time extracting basic facts, leading to delays and inefficiency.
+# NyaySaathi 2.0
 
-This project bridges the gap through an AI-based legal triage assistant.
+An India-first **fictional-data consumer case-preparation demonstrator**, preserving NyaySaathi's existing purple/cream identity and navigation. One FastAPI service serves the existing vanilla frontend and persists cases in SQLite with FTS5.
 
-Problems Addressed
-Shame, stigma, and fear (domestic, workplace, abuse issues).​
+**Current boundary:** local intake → facts/timeline → evidence → editable seller letter → PDF → consent-based demo lawyer inbox works. Verified legal reasoning is withheld until official passages pass manual source/rights review. Live Gemini is unverified and disabled without credentials, a supported configured model and terms review. This is not legal advice or an official filing service.
 
-Expensive lawyer consultations.​
+## Install and run
 
-Confusion over legal processes (sections, documents, procedures).​
+Python 3.11+ (tested on 3.12), Linux with Pango/Harfbuzz and DejaVu/Noto Devanagari fonts for PDF rendering. On Debian/Ubuntu these are supplied by `libpango-1.0-0`, `libpangoft2-1.0-0`, `libharfbuzz0b`, `fonts-dejavu-core`, `fonts-noto-core`. Use your environment's approved package installer if missing. No Node build or ML weight download is required.
 
-Delayed justice due to slow fact-extraction in legal workflows.​
+```bash
+cd /workspace/NYAYSAATHI-2.0
+python -m venv .venv
+.venv/bin/python -m pip install --require-hashes -r requirements.lock
+mkdir -p runtime/cache
+export XDG_CACHE_HOME="$PWD/runtime/cache"
+.venv/bin/python -m scripts.seed_demo
+.venv/bin/python -m scripts.run_demo
+```
 
-Solution: AI-Powered Legal Assistant
-Confidential intake: Users explain their situation—no shame, no identity needed.​
+The local demo runner binds port **8010** and reads the private, randomly generated lawyer password from `runtime/demo-lawyer-password`. It does not print the password. Use a local development browser to access the server. The server serves only `/`, `/style.css`, `/app.js` and API routes, never `.env`, the database or the synthetic dataset. Do not use a directory-wide static HTTP server.
 
-Story-mode advice: AI narrates fictional, similar cases to educate (avoiding unauthorized legal practice).​
+For development with an explicitly configured environment:
 
-RAG-powered: Retrieval-Augmented Generation analyzes past cases and probable outcomes.​
+```bash
+.venv/bin/python -m uvicorn backend.app:app --host 127.0.0.1 --port 8010 --reload --no-access-log
+```
 
-Bias/power dynamics aware: Factors in practical realities for tailored guidance.
+`python main.py` also runs the integrated app on port 8000. No live process survives an environment snapshot. Use the existing checkout; tasks are already isolated and do not need a Git worktree unless explicitly requested.
 
-Automated Legal Formatting: Outputs include relevant sections, acts, and legal procedures.
+## Configuration
 
-Structured Case Summary: Conversational data is converted into a lawyer-ready case sheet.
+See `.env.example` for names and non-secret defaults. Export variables with a service manager or shell; the backend does not automatically load `.env`. Never place secret values in JavaScript, source files, docs or chat.
 
-Lawyer Handoff: With user consent, structured summary sent to licensed lawyer to save time.
+- `GEMINI_API_KEY`: secure backend binding for `generativelanguage.googleapis.com`.
+- `GEMINI_MODEL`: select a supported stable model after `python -m scripts.check_gemini`. No model name is guessed or hard-coded.
+- `GEMINI_EMBEDDING_MODEL`: optional, verify model availability and permission first.
+- `GEMINI_TERMS_REVIEWED=true`: operator has reviewed terms/pricing/account quotas; does not itself prove availability. Each session still requires separate AI opt-in. Sensitive-looking input is blocked from model transmission.
+- `DEMO_LAWYER_PASSWORD`: private demonstration-account password, no default. The local demo runner can use the seeded private file instead.
+- `NYAYSAATHI_RUNTIME`: private persistent directory (default `runtime/`). DB/file permissions restrict access; disk encryption and backups are deployment responsibilities.
+- `COOKIE_SECURE=true` behind HTTPS. Leave false only for local HTTP.
+- `SESSION_TTL_HOURS` (default 24, maximum 168), `RETENTION_DAYS` (default 7, maximum 30). Case data is also removed when its owning session expires. Cleanup occurs on startup and authenticated requests; schedule maintenance for idle installations if necessary.
 
-Live Lawyer Connect: In-app direct messaging/calling with lawyers.
+Official-source and Gemini domains must be allowed by the environment policy. See [source review and rights](docs/SOURCES_AND_RIGHTS.md). A network/settings draft was saved; this does not apply or publish it. Current proxy requests to India Code fail with 403. No secret is requested in chat.
 
-Monetization: Subscription/lead fees for lawyers listed on the platform; AI pre-qualifies clients for them.​
+## Tests
 
-Key Features
- Confidential intake (only age and situation required).​
+```bash
+.venv/bin/python -m pytest -q
+# Optional browser test, using the environment's installed Playwright + Chromium:
+NYAY_TEST_URL=http://127.0.0.1:8010 node tests/browser.cjs
+```
 
- Educational "storytelling" mode.
+For another machine, install Playwright using your normal approved tooling (`npm install --no-save --package-lock=false playwright`), set `CHROMIUM_PATH` if required, and supply `NYAY_LAWYER_PASSWORD_FILE` to the local private file for the browser handoff test. The script tests deletion only on a newly created fictional case. No external messages are sent.
 
- RAG-powered case law citation.
+[Actual test results](docs/TEST_REPORT.md) distinguish local, synthetic-fixture and blocked live checks. [Demo script](docs/DEMO_SCRIPT.md), [audit](docs/REPO_AUDIT.md), [feature matrix](docs/FEATURE_MATRIX.md), [deployment](docs/DEPLOYMENT.md).
 
- Bias/power awareness.
+## Data and API
 
- Legal section mapping with update dates.
+`backend/schema.sql` is the idempotent version-1 migration, applied at startup. It stores sessions, cases, full redacted narratives, evidence BLOBs/text, audit records, handoff snapshots, expiring signed grants, FTS index and optional embedding cache. Runtime files are ignored by Git. `scripts.seed_demo` creates one fictional case/draft and private local session material; repeating it creates a separate case.
 
- Auto-generated case summary sheet with timelines and goals.
+Case routes implement intake, follow-up, assessment, uploads, draft editing, PDF, share/revoke, consent audit and deletion. `/docs` contains OpenAPI contracts. Mutations require session cookies plus the `X-CSRF-Token` matching the readable `nyay_csrf` cookie, except session creation. Each case route checks owner access; lawyer routes check a separate role and expose only explicitly shared packet snapshots.
 
- Disclaimer: Educational, not legal advice.
-
- Lawyer marketplace for direct user-lawyer connection.
-
- Privacy-first: No data stored without consent; end-to-end encryption.
-
- Scalable: Consumer, family, workplace, tenant, cyber law domains.
-
- Future scope: Multilingual support, automatic filings, court integration.
-
-User Journey
-User shares situation—no identity/shame.
-
-AI listens, searches case law/statutes, and replies with:
-
-Fictional similar case.
-
-Possible legal sections.
-
-Practical risk/advice.
-
-AI creates Case Summary Sheet (structured facts + legal framework).
-
-Disclaimer: "Not a lawyer. Connect to one?"
-
-If yes: select lawyer → chat/call → lawyer receives summary.
-
-User pays lawyer directly; platform earns via listing/lead fees.​
-
-Business Model
-Revenue from lawyer subscriptions, listings, or lead generation.
-
-Value for lawyers through pre-qualified, well-prepared client onboarding.
-
-Future Scope
-Multilingual interface.
-
-Automatic document generation and filing.
-
-Integration with court e-filing systems.​
+The 306-record old dataset is quarantined under `synthetic_demo/` and never used for legal retrieval. No real judgments are claimed. UK retrieval and unapproved external ingestion are disabled.
