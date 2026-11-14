@@ -2,7 +2,7 @@
 
 An India-first **fictional-data consumer case-preparation demonstrator**, preserving NyaySaathi's existing purple/cream identity and navigation. One FastAPI service serves the existing vanilla frontend and persists cases in SQLite with FTS5.
 
-**Current boundary:** local intake → facts/timeline → evidence → editable seller letter → PDF → consent-based demo lawyer inbox works. Verified legal reasoning is withheld until official passages pass manual source/rights review. Live Gemini is unverified and disabled without credentials, a supported configured model and terms review. This is not legal advice or an official filing service.
+**Current boundary:** local intake → facts/timeline → evidence → editable seller letter → PDF → consent-based demo lawyer inbox works. Verified legal reasoning is withheld until official passages pass manual source/rights review. Real Gemini intake and embeddings have now been exercised with explicitly selected supported models; the saved default model settings need correction. Authentic-source legal analysis remains unverified and gated. This is not legal advice or an official filing service.
 
 ## Install and run
 
@@ -15,10 +15,10 @@ python -m venv .venv
 mkdir -p runtime/cache
 export XDG_CACHE_HOME="$PWD/runtime/cache"
 .venv/bin/python -m scripts.seed_demo
-.venv/bin/python -m scripts.run_demo
+.venv/bin/python -m scripts.run_demo --model gemini-3.1-flash-lite --embedding-model gemini-embedding-001 --port 8011
 ```
 
-The local demo runner binds port **8010** and reads the private, randomly generated lawyer password from `runtime/demo-lawyer-password`. It does not print the password. Use a local development browser to access the server. The server serves only `/`, `/style.css`, `/app.js` and API routes, never `.env`, the database or the synthetic dataset. Do not use a directory-wide static HTTP server.
+The command above binds local port **8011** and reads the private, randomly generated lawyer password from `runtime/demo-lawyer-password`. It does not print the password. Use a local development browser to access the server. The server serves only `/`, `/style.css`, `/app.js` and API routes, never `.env`, the database or the synthetic dataset. Do not use a directory-wide static HTTP server.
 
 For development with an explicitly configured environment:
 
@@ -41,14 +41,14 @@ See `.env.example` for names and non-secret defaults. Export variables with a se
 - `COOKIE_SECURE=true` behind HTTPS. Leave false only for local HTTP.
 - `SESSION_TTL_HOURS` (default 24, maximum 168), `RETENTION_DAYS` (default 7, maximum 30). Case data is also removed when its owning session expires. Cleanup occurs on startup and authenticated requests; schedule maintenance for idle installations if necessary.
 
-Official-source and Gemini domains must be allowed by the environment policy. See [source review and rights](docs/SOURCES_AND_RIGHTS.md). A network/settings draft was saved; this does not apply or publish it. Current proxy requests to India Code fail with 403. No secret is requested in chat.
+Official-source and Gemini domains must be allowed by the environment policy. See [source review and rights](docs/SOURCES_AND_RIGHTS.md). A network/settings draft was saved; this does not apply or publish it. The migrated India Code domain is currently denied; the old PDF URL returns invalid HTML. See the current source manifest. No secret is requested in chat.
 
 ## Tests
 
 ```bash
 .venv/bin/python -m pytest -q
 # Optional browser test, using the environment's installed Playwright + Chromium:
-NYAY_TEST_URL=http://127.0.0.1:8010 node tests/browser.cjs
+NYAY_TEST_URL=http://127.0.0.1:8011 node tests/browser.cjs
 ```
 
 For another machine, install Playwright using your normal approved tooling (`npm install --no-save --package-lock=false playwright`), set `CHROMIUM_PATH` if required, and supply `NYAY_LAWYER_PASSWORD_FILE` to the local private file for the browser handoff test. The script tests deletion only on a newly created fictional case. No external messages are sent.
@@ -57,8 +57,26 @@ For another machine, install Playwright using your normal approved tooling (`npm
 
 ## Data and API
 
-`backend/schema.sql` is the idempotent version-1 migration, applied at startup. It stores sessions, cases, full redacted narratives, evidence BLOBs/text, audit records, handoff snapshots, expiring signed grants, FTS index and optional embedding cache. Runtime files are ignored by Git. `scripts.seed_demo` creates one fictional case/draft and private local session material; repeating it creates a separate case.
+`backend/schema.sql` contains idempotent additive version-1/version-2 migrations, applied at startup. It stores sessions, cases, full redacted narratives, evidence BLOBs/text, audit records, handoff snapshots, expiring signed grants, FTS index and optional embedding cache. Runtime files are ignored by Git. `scripts.seed_demo` creates one fictional case/draft and private local session material; repeating it creates a separate case.
 
 Case routes implement intake, follow-up, assessment, uploads, draft editing, PDF, share/revoke, consent audit and deletion. `/docs` contains OpenAPI contracts. Mutations require session cookies plus the `X-CSRF-Token` matching the readable `nyay_csrf` cookie, except session creation. Each case route checks owner access; lawyer routes check a separate role and expose only explicitly shared packet snapshots.
 
 The 306-record old dataset is quarantined under `synthetic_demo/` and never used for legal retrieval. No real judgments are claimed. UK retrieval and unapproved external ingestion are disabled.
+
+## Grounded-intelligence iteration (current)
+
+The implementation now includes canonical parties/amounts/remedy provenance, natural Gemini follow-ups, saved conversation/corrections, contextual dashboard, 16 original bilingual fictional scenarios, six document templates, structured document findings and local Tesseract OCR for synthetic PNG/JPEG images. Python Pillow is explicitly pinned; native Tesseract (`tesseract-ocr`, optional `tesseract-ocr-hin`) is required for OCR. If absent, image extraction fails visibly; PDF/TXT still work.
+
+The additive schema-v2 migration adds per-session demo AI budgets. Existing case JSON is read with safe defaults; full corrected narratives and original labelled dialogue remain stored. AI consent can be changed independently of deleting the case. The local model budget is 20 AI-context mutations/hour/session and does not describe account/provider quota. Consent withdrawal and deletion are never charged.
+
+Actual account validation found the saved generation model unavailable to new users and the saved embedding identifier absent. These explicit runtime-only overrides were successfully exercised; they do not change saved environment variables:
+
+```bash
+.venv/bin/python -m scripts.run_demo --model gemini-3.1-flash-lite --embedding-model gemini-embedding-001 --port 8011
+.venv/bin/python -m scripts.validate_live --model gemini-3.1-flash-lite --embedding-model gemini-embedding-001
+NYAY_TEST_URL=http://127.0.0.1:8011 node tests/live-browser.cjs
+```
+
+Use the actual current model-list and generation checks on your account before selecting models. Model listing alone did not establish generation availability here. Read [live validation](docs/GEMINI_LIVE_VALIDATION.md) for HTTP outcomes, current pricing/terms-access limits and quota caveats.
+
+**Legal source gate remains open:** India Code migrated to `indiacode.gov.in`; the former PDF URL is invalid HTML. New domain grants were saved to the draft but not applied or published. No authentic statute has been approved. The new [offline importer](docs/LEGAL_SOURCE_MANIFEST.md) accepts only a reviewer-attested official artifact with independently established provenance, recorded checksum, rights/version metadata and exact passages. It never treats a local PDF as self-authenticating. Source-grounded legal conclusions remain withheld until these requirements are met.

@@ -1,50 +1,40 @@
-# Test report — 2026-11-14
+# Test report — grounded-intelligence iteration, 2026-11-14
 
-Target: NYAYSAATHI-2.0, branch `feature/india-consumer-workflow`. Python 3.12.14, FastAPI 0.115.12, Pydantic 2.11.4, SQLite FTS5, WeasyPrint 65.1; headless system Chromium through the environment's Playwright. All user identities/documents and source fixtures in tests are synthetic.
+Baseline: `0f3f93f`. Dedicated branch: `feature/grounded-consumer-intelligence`. First tested milestone: `35be10f`. This report supersedes the previous local-only report; prior 61-test functionality has been retained and extended. Python 3.12.14, FastAPI 0.115.12, Pydantic 2.11.4, SQLite FTS5, WeasyPrint, system Chromium/Playwright and local Tesseract 5.
 
-## Executed and passed
+## Actual executions
 
 | Command / check | Actual result |
 |---|---|
-| `UV_CACHE_DIR=/workspace/.uv-cache uv pip install --python /workspace/nyay-consumer-venv/bin/python --require-hashes -r requirements.lock` | 34 packages checked; hash-locked install successful |
-| `uv pip check --python /workspace/nyay-consumer-venv/bin/python` | All installed packages compatible |
-| `/workspace/nyay-consumer-venv/bin/python -m pytest -q` | **61 passed**, one upstream Starlette/AnyIO deprecation warning, zero skips/xfails |
-| `NYAY_TEST_URL=http://127.0.0.1:8010 node tests/browser.cjs` | Full local browser preparation workflow and separate authenticated demo-lawyer handoff passed, zero page errors |
-| `node --check app.js` | Passed |
-| `git diff --check` | Passed after correcting trailing whitespace |
-| `python -m scripts.seed_demo` | Actual fictional case/draft persisted; private session/password files created with mode 0600; no secrets printed |
-| Local `/api/health` | Database ready, `reviewed_sources=0`, `gemini_configured=false`, demo lawyer enabled with private local seed password |
+| `/workspace/nyay-consumer-venv/bin/python -m pytest -q` | **81 passed**, one upstream Starlette/AnyIO deprecation warning; no skipped tests in this environment |
+| `NYAY_TEST_URL=http://127.0.0.1:8011 node tests/browser.cjs` | **PASS LOCAL**: full journey, separate authenticated demo-lawyer handoff, revocation/deletion, 1440/768/390px layouts and persistent Hindi switch, rechecked on the upgraded server |
+| `NYAY_TEST_URL=http://127.0.0.1:8011 node tests/live-browser.cjs` | **PASS LIVE** real Gemini intake + follow-up via frontend/authenticated API; canonical entity/history/timeline, lawyer-brief generation and deletion. Official-law segment explicitly **BLOCKED** |
+| `python -m scripts.validate_live --model gemini-3.1-flash-lite --embedding-model gemini-embedding-001` | Real model list, minimal generation, structured intake, multi-turn factual follow-up and real embeddings **PASS**; actual-law hybrid retrieval/reasoning **BLOCKED**, not replaced by fixtures |
+| Local OCR image-upload test | **PASS**; actual synthetic invoice PNG decoded by Tesseract; amount, order reference, date and document provenance verified |
+| Individual six-template TXT/PDF API tests | **PASS**, including edits/persistence and Unicode PDFs |
+| `node --check app.js`, `git diff --check` | Passed during implementation; final checks run before commit |
 
-The test suite includes **31** valid/ambiguous/incomplete/unsupported/sensitive English/Hindi consumer narratives. Other tests cover full case lifecycle, database persistence across app connections, separate role authentication, consent, cross-user denial, CSRF/cross-origin denial, expiry/deletion, streamed body/file limits, signed grant integrity/expiry/ownership, upload type/content checks, local extraction, date-discrepancy prompts, English/Hindi PDF output, snapshot sharing/revocation, source artifact/version/rights checks, stale/fake citation rejection, and model hallucination rejection.
+The suite retains **31 synthetic evaluation narratives**, including Hindi/English, incomplete/ambiguous facts, unsupported jurisdiction/domain, identifiers, prompt injection and fabricated authority. Added checks cover canonical corrections/history/language, trusted-reference relative dates, missing facts, non-category-count readiness, six independently persisted templates, authentic-provenance offline-import requirements, section-aware **unapproved** candidates, story relevance/labels, unsupported proposition rejection, explicit beta gate, AI context budget, consent withdrawal under exhaustion, model timeout/429 Retry-After and embedding outage lexical fallback.
 
-Provider transport tests exercise the actual Gemini request/JSON-validation code through **mock HTTP transport**. Hybrid retrieval is tested with **mock embeddings and explicitly synthetic test passages**. These tests establish adapter/control behavior; they do not validate a live model, authentic statutory content, legal relevance or legal correctness.
+One original readiness expectation intentionally changed: four self-classified file uploads with missing factual/source coverage now remain Partial. The lifecycle test still checks all persistence, draft editing, PDF, sharing, lawyer isolation/receipt, revocation, audit and cascading deletion assertions. A browser assertion was updated to wait for the newly persistent asynchronous language update rather than expecting an immediate label-only change.
 
-Browser test: consented intake, follow-up, four real backend evidence uploads, readiness transition, seller letter creation/edit/save, actual PDF download, reload persistence, labelled story, source abstention, explicit sharing, a second authenticated lawyer cookie context, shared snapshot download, demo acknowledgment, revocation, deletion, Hindi switch and no horizontal overflow at 1440/768/390 px. Mobile Hindi screenshot was visually inspected (`runtime/mobile-hi.png`, ignored local artifact). Native labelled controls, focus outlines, live status and keyboard-accessible navigation are present; this is not a full WCAG audit.
+## Mocked versus actual evidence
 
-## External checks blocked / not run
+- **Actual external:** authenticated model list, successful stable-model generation, structured English/Hindi intake, multi-turn updates, real embedding requests and frontend → backend → Gemini calls. Detailed account/model results are in GEMINI_LIVE_VALIDATION.md.
+- **Actual local:** database/session/security, PDF/TXT/image extraction, Tesseract OCR, document templates/export, signed downloads, lawyer snapshot workflow, context/corrections, original scenario retrieval and UI/browser interactions.
+- **Synthetic fixtures/mocks:** lexical/hybrid ranking contract, statutory-source validation, support evaluator acceptance/rejection, malformed/counterfeit source records, timeout/429 and embedding failures. Test-only source passages are not real law and are never persisted into the production corpus.
+- **Not run / blocked:** legal retrieval and claim entailment over genuine approved legislation; current legal applicability review; authentic judgment comparison; live procedural filing; public or real-user deployment. No qualified reviewer has assessed new statutory interpretations.
 
-- **Official law access:** candidate India Code PDF request returned proxy CONNECT **403**. No official text was obtained, no source was manually reviewed, and zero genuine source links were validated end to end. A network-domain draft was saved; it has not been confirmed applied or published.
-- **Gemini:** `python -m scripts.check_gemini` exited 1 with “Gemini key is not configured”. No live extraction/reasoning/embedding, model availability, actual pricing or account quota verified. No secret value was requested in chat.
-- **Full source-grounded laptop journey:** NOT PASSED / not run with real legal sources and Gemini. Local preparation and handoff passed separately. Actual-law applicability must be independently reviewed after access/source preparation.
-- Public deployment, professional lawyer services, government filing, OCR, actual judgments, UK licensing/provider and real confidential-data processing are unsupported/unrun, not successful integrations.
+## Release assessment
 
-## Release gate assessment
+No approved statute, authentic judgment, statutory deadline, guaranteed remedy, advocate verification, winning percentage or government submission has been fabricated. There are **zero approved legal passages**. Source cards/analysis visibly abstain until real artifact/provenance/rights/version requirements can be met. Real embedding generation alone is not reported as a live hybrid legal RAG system.
 
-- No system-generated fabricated legal citations observed. Current production source corpus is empty and legal outputs abstain. Tests also reject invented references using synthetic fixtures. This does not validate legal analysis over an authentic corpus.
-- No generated litigation success percentages, fictional judgments represented as real, verified-advocate claims or government-filing claims in the active UI.
-- Only synthetic material processed in tests; no real sensitive data sent to Gemini. Real-data safety cannot be guaranteed by regex screening or consent alone.
-- **Full requested release gate remains OPEN:** official reviewed legal knowledge and live Gemini end-to-end validation are required before claiming the full legal-intelligence platform is ready.
+Current India Code legacy content is invalid HTML or timeouts; the website announces migration to a domain missing from the running allowlist. NCH pages are reachable but their copyrighted content is not bulk indexed. New domain additions were saved to the environment draft without publication. Genuine official documents can alternatively be supplied through the reviewer-attested offline importer.
 
-## Remaining engineering limits
-Conservative rules support issue classification and ISO-date reconstruction; ambiguous dates need clarification. Readiness checks document-category presence and missing fields, not document quality. No authentic precedent comparison, OCR or autonomous official ingestion. SQLite/private guest sessions are suitable for the scoped local demonstration; production identity recovery, global service abuse protection, isolated document parsing, privacy/security review, backup deletion and legal/provider contracts need separate work.
+## Security / operational limits
 
-## Environment recheck after configuration update request
+Demonstration-only processing is explicitly gated. Native OCR is bounded but can misread; only English (`eng`) and orientation (`osd`) Tesseract packs are installed, so Hindi image OCR is not claimed. Text PDFs and bilingual intake/PDF rendering remain supported. No file authenticity verification or production malware sandbox is claimed. The separate AI support evaluator is not an independent legal professional. Guest-cookie recovery, strong beta identity, production-global abuse controls, encryption/backup erasure and provider/privacy/legal contracts still need review. No public service was deployed.
 
-Checked 2026-11-14T05:28:39+05:30 (India time).
+## Final artifact inspection
 
-- Re-ran the suite: **61 passed**, one upstream deprecation warning; browser journey including separate authenticated lawyer context, download, acknowledgment, revocation and deletion passed again.
-- All 34 installed packages are compatible. JavaScript syntax and Git whitespace checks passed. SQLite `PRAGMA quick_check` returned `ok`, schema version 1, private database/password/session files have mode 0600.
-- The existing local demo service remains running on port 8010. Health reports database OK, demo-lawyer enabled, zero reviewed sources and Gemini not configured.
-- Runtime status still reports applied/observed spec revision **1**, enforced package-manager-only network policy, and no secret or runtime-variable bindings. The saved draft is revision **4**: required domains are listed, but GEMINI_API_KEY has `has_saved_binding=false`; model/terms variables remain pending requirements. These are observations about this attached machine, not a claim about values entered elsewhere.
-- Fresh TLS-verified requests to India Code, Gemini models, National Consumer Helpline and e-Jagriti each failed at proxy CONNECT with HTTP 403. A fresh Gemini availability command exited 1 because no key is configured. Process-variable checks and local configuration checks inspected only names/presence; no secret values were printed.
-- No duplicate secret requirement or replacement draft was created. Applying the relevant saved settings and securely binding the credential are still prerequisites to live model/source validation.
+Generated a real three-page Hindi/English packet with seller representation and lawyer brief. Opened it with pypdf, rasterised its first page with pdftoppm and visually inspected the rendering; Devanagari text and explicit no-law/no-filing disclosures render correctly. The actual live browser dashboard screenshot was also visually inspected. Artifacts remain private ignored runtime files. Some technical audit/readiness messages remain English; full translation and a full WCAG audit are not claimed.

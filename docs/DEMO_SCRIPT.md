@@ -25,3 +25,15 @@ The seeded record can be inspected with its private cookie via a local developer
 - Apply the saved official-site/Gemini network domains and securely bind GEMINI_API_KEY in environment settings. Select a supported stable generation model from `python -m scripts.check_gemini`. Verify current provider pricing, quota and terms before setting GEMINI_TERMS_REVIEWED=true. Select a supported permitted embedding model separately if using hybrid retrieval.
 - Complete manual provenance/rights/version review of 30–60 official passages, including current relevant rules and procedural guidance. Use the individual importer described in SOURCES_AND_RIGHTS.md, never the legacy case dataset.
 - Rehearse the **live** Gemini opt-in intake and source-grounded reasoning with synthetic data. Validate relevance/applicability with independent legal review. Check provider failures, actual reference links and the complete packet/handoff. Until then, the full requested definition of done remains open.
+
+## Current enhanced rehearsal
+
+Start with explicit verified runtime model overrides from GEMINI_LIVE_VALIDATION.md. The AI checkbox can now be exercised with the actual provider. The laptop narrative without dates triggers relevant date questions; after dates/platform are supplied, the next questions concern remaining device/seller-response/evidence facts rather than repeating answered date questions.
+
+The active dashboard shows extracted seller/amount/remedy, unresolved facts, evidence findings and current source state. Settings can replace the canonical narrative, persist case language and withdraw AI consent. Conversation history labels user allegations, assistant messages and corrections. The case creation timestamp in Asia/Kolkata anchors the small supported relative-date vocabulary; uncertain date phrases remain questions.
+
+Story Mode selects from 16 original fictional scenarios. Documents now accept synthetic PNG/JPEG screenshots through local bounded Tesseract OCR and show extracted references/dates/amounts and possible links to allegations. Check every transcription. Four uploaded categories alone do not establish legal strength or procedural readiness.
+
+Generated Documents provides seller representation, refund/replacement request, grievance summary, chronology, evidence inventory and lawyer brief. Each persists independently, supports edits and individual TXT/PDF download; the full packet and demo-lawyer snapshot workflow remain available.
+
+The legal-source segment is still explicitly blocked: there are zero approved official passages. Do not present this rehearsal as the full source-grounded acceptance demo. The source manifest documents the migration/access/rights work and the offline authentic-artifact path. A qualified reviewer must evaluate legal interpretations once real passages are available.

@@ -2,12 +2,13 @@ import re
 import uuid
 from datetime import date
 from backend.providers import (
-    FictionalScenarioProvider,
     GeminiProvider,
     ProviderUnavailable,
     ReviewedLegalSources,
 )
+from backend.config import settings
 from backend.schemas import (
+    Question,
     CaseAssessment,
     Consent,
     Draft,
@@ -94,132 +95,198 @@ def assess(
     old=None,
     use_ai=True,
 ):
+    import hashlib, json
+    from datetime import datetime, timezone
+    from backend.schemas import ClaimVerdict, IntakeIntelligence, ReadinessFinding
+    from backend.services.case_state import structured_local, validate_intelligence
+    from backend.services.citation_verification import verify
+    from backend.services.evidence_analysis import analyse_document
+    from backend.services.scenario_engine import ScenarioEngine
+
     clean = redact(text)
     category = classify(clean, jurisdiction)
-    facts, timeline = local_extract(clean, language)
+    facts, _ = local_extract(clean, language)
+    reference = (
+        old.reference_at if old and old.reference_at else datetime.now(timezone.utc)
+    )
+    context, timeline = structured_local(clean, language, reference)
+    relative_ambiguous = False
+    from zoneinfo import ZoneInfo
+
+    if (
+        old
+        and reference.astimezone(ZoneInfo("Asia/Kolkata")).date()
+        != datetime.now(ZoneInfo("Asia/Kolkata")).date()
+    ):
+        if any(e.date_basis.startswith("Resolved") for e in timeline):
+            relative_ambiguous = True
+            timeline = [e for e in timeline if not e.date_basis.startswith("Resolved")]
+            context.questions.append(
+                Question(
+                    key="relative_context",
+                    question="Please confirm exact dates: relative dates across multiple days are ambiguous."
+                    if language == "en"
+                    else "कृपया सही तारीखें बताएं; कई दिनों के संदेशों में सापेक्ष तारीख अस्पष्ट है।",
+                    reason="Message-specific reference date is not reliably established",
+                )
+            )
     flags = [
-        "Educational case preparation; allegations are not proven facts. No complaint has been filed."
+        "Educational case preparation; user allegations and document excerpts are not verified facts. No complaint has been filed."
     ]
+    if any(e.date_basis.startswith("Resolved") for e in timeline):
+        flags.append(
+            "Relative dates were resolved against the visible case reference date in Asia/Kolkata; confirm them before use."
+        )
     if clean != text:
         flags.append(
             "Identifiers redacted. Automated redaction is incomplete; use fictional data only."
         )
     danger = any(
-        w in clean.lower()
+        w in clean.casefold()
         for w in ["suicide", "kill myself", "immediate danger", "धमकी", "जान का खतरा"]
     )
-    if danger:
-        flags.append(
-            "Urgent safety concern: contact local emergency services (112 in India); this workspace is not an emergency service."
-        )
     supported = (
         category
         not in ("unsupported_domain", "unsupported_jurisdiction", "needs_clarification")
         and not danger
     )
+    if danger:
+        flags.append(
+            "Urgent safety concern: contact local emergency services (112 in India). This is not an emergency service."
+        )
     if not supported:
         flags.append(
-            "Outside supported scope or insufficient information. Seek qualified advice; NALSA legal-aid information is linked in Help. No legal assessment generated."
+            "Outside supported scope or insufficient information. Consult a qualified professional; NALSA information is in Help."
         )
-    checks = [
-        ("invoice", "Purchase invoice / payment record", "खरीद का बिल / भुगतान रिकॉर्ड"),
-        ("fault", "Fault description / photographs", "खराबी का विवरण / तस्वीरें"),
-        ("communication", "Seller correspondence", "विक्रेता से पत्राचार"),
-        ("warranty", "Warranty / order terms", "वारंटी / ऑर्डर की शर्तें"),
-    ]
-    items = []
-    for kind, en, hi in checks:
-        present = any(row["kind"] == kind for row in evidence_rows)
-        items.append(
-            Evidence(
-                item=hi if language == "hi" else en,
-                present=present,
-                reason="Uploaded document classified by the user; authenticity and sufficiency are not verified."
-                if present
-                else "Not uploaded. Mentioning a document in chat does not establish its availability.",
+    if len(clean) > sum(len(f.text) for f in facts) + 300:
+        flags.append(
+            "The factual summary may be abbreviated; the complete redacted account is available in Settings for correction."
+        )
+    documents = [analyse_document(row, clean) for row in evidence_rows]
+    for row in evidence_rows:
+        if row["excerpt"]:
+            facts.append(
+                Fact(
+                    text=row["excerpt"][:1500],
+                    origin="document_excerpt",
+                    document_id=row["id"],
+                )
             )
-        )
-    questions = []
-    for condition, en, hi in [
+    for doc in documents:
+        flags.extend(doc.warnings)
+    provider = ReviewedLegalSources()
+    corpus_hash = hashlib.sha256(
+        json.dumps(
+            [r.model_dump(mode="json") for r in provider.records], sort_keys=True
+        ).encode()
+    ).hexdigest()
+    fingerprint = hashlib.sha256(
         (
-            not timeline,
-            "What were the purchase, delivery and fault dates? Use YYYY-MM-DD where known.",
-            "खरीद, डिलीवरी और खराबी की तारीखें क्या हैं? ज्ञात तारीख YYYY-MM-DD में लिखें।",
-        ),
-        (
-            not re.search(r"\bseller\s*[:=-]|\bfrom\b|विक्रेता\s*[:=-]", clean, re.I),
-            "Who sold the item, and through which platform?",
-            "विक्रेता कौन था और किस प्लेटफॉर्म से खरीदा?",
-        ),
-        (
-            not items[2].present,
-            "What did you ask the seller for, and how did they respond? Upload fictional correspondence if available.",
-            "आपने विक्रेता से क्या समाधान मांगा और उनका जवाब क्या था? उपलब्ध हो तो काल्पनिक पत्राचार अपलोड करें।",
-        ),
-    ]:
-        if condition:
-            questions.append(hi if language == "hi" else en)
-    if not supported:
-        questions = [
-            "Please describe an Indian consumer purchase or service dispute. For other matters, consult a qualified professional."
-            if language == "en"
-            else "कृपया भारतीय उपभोक्ता खरीद या सेवा विवाद बताएं। अन्य मामलों के लिए योग्य पेशेवर से सलाह लें।"
-        ]
-    ai_status = "Local structured preparation — Gemini not used"
+            clean
+            + (
+                datetime.now(ZoneInfo("Asia/Kolkata")).date().isoformat()
+                if relative_ambiguous
+                else ""
+            )
+            + language
+            + jurisdiction
+            + corpus_hash
+            + json.dumps(
+                [(d.document_id, d.relevant_excerpts) for d in documents],
+                ensure_ascii=False,
+            )
+        ).encode()
+    ).hexdigest()
+    unchanged = bool(old and old.analysis_fingerprint == fingerprint)
     ai_allowed = (
         use_ai
+        and settings.processing_mode == "demonstration"
         and consent.ai_processing
         and consent.fictional_demo
         and clean == text
         and supported
     )
+    ai_status = "Local structured preparation — Gemini not used"
     if ai_allowed:
         try:
-            result = GeminiProvider().extract(clean, language, questions)
-            # Independent fact provenance: reject every invented fact/date.
+            result = GeminiProvider().extract(
+                clean, language, [q.question for q in context.questions]
+            )
             if any(f not in clean for f in result.facts) or any(
                 e.description not in clean or e.date not in e.description
                 for e in result.timeline
             ):
+                raise ProviderUnavailable("AI fact provenance rejected")
+            validate_intelligence(result, clean)
+            if re.search(
+                r"section\s+\d|धारा\s*[०-९\d]|you (?:are entitled|must file)|guaranteed|file within",
+                result.assistant_message,
+                re.I,
+            ):
                 raise ProviderUnavailable(
-                    "AI extraction failed fact-provenance validation"
+                    "AI intake contained an unsupported legal assertion"
                 )
-            if result.follow_up and result.follow_up not in questions:
+            # Questions can be natural, but must not smuggle legal conclusions or instructions.
+            questions = list(
+                dict.fromkeys([q.strip() for q in result.unknowns if q.strip()])
+            )[:5]
+            if any(
+                not q.endswith(("?", "？"))
+                or re.search(
+                    r"\bsection\b|धारा|guarantee|must file|entitled|\d+%", q, re.I
+                )
+                for q in questions
+            ):
                 raise ProviderUnavailable(
-                    "AI follow-up was outside the approved missing-fact questions"
+                    "AI question contains an unsupported assertion"
                 )
-            if any(q not in questions for q in result.unknowns):
-                raise ProviderUnavailable(
-                    "AI question not grounded in missing information"
-                )
-            if result.follow_up:
-                questions = [result.follow_up] + [
-                    q for q in questions if q != result.follow_up
-                ]
-            facts = [Fact(text=f) for f in result.facts]
-            timeline = []
-            for event in result.timeline:
-                date.fromisoformat(event.date)
-                timeline.append(event)
-            timeline.sort(key=lambda e: e.date)
-            # Required missing-information checks are deterministic; model cannot suppress them.
+            context = IntakeIntelligence(
+                assistant_message=result.assistant_message or context.assistant_message,
+                parties=result.parties or context.parties,
+                amounts=result.amounts or context.amounts,
+                desired_remedy=result.desired_remedy or context.desired_remedy,
+                remedy_quote=result.remedy_quote or context.remedy_quote,
+                questions=[
+                    Question(
+                        key="ai-" + str(i),
+                        question=q,
+                        reason="Factual gap identified from the case context",
+                    )
+                    for i, q in enumerate(questions)
+                ],
+            )
+            if result.timeline:
+                timeline = sorted(result.timeline, key=lambda x: x.date)
             ai_status = (
-                "Gemini structured extraction validated against the supplied narrative"
+                "Gemini live structured intake; entity and fact provenance validated"
             )
         except (ProviderUnavailable, ValueError) as exc:
             ai_status = "Gemini unavailable or unverified — local preparation only"
-            flags.append(
-                "AI extraction not accepted. No generated legal reasoning is displayed."
+            flags.append(str(exc))
+    elif unchanged and old:
+        context.assistant_message = old.assistant_message or context.assistant_message
+        context.parties = old.parties or context.parties
+        context.amounts = old.amounts or context.amounts
+        context.desired_remedy = old.desired_remedy or context.desired_remedy
+        # GET revalidation preserves accepted case intelligence; it never asks the model again.
+        if old.ai_status.startswith("Gemini live"):
+            context.questions = [
+                Question(
+                    key="saved-" + str(i),
+                    question=q,
+                    reason="Persisted factual question",
+                )
+                for i, q in enumerate(old.unknowns)
+            ]
+        ai_status = old.ai_status
+    if not supported:
+        context.questions = [
+            Question(
+                key="scope",
+                question="Please describe an Indian consumer purchase/service dispute, or seek qualified legal-aid assistance.",
+                reason="Scope gate",
             )
-    elif consent.ai_processing and clean != text:
-        flags.append(
-            "AI transmission blocked because identifiers were detected. Use a wholly fictional narrative."
-        )
-    if len(clean) > sum(len(f.text) for f in facts) + 300:
-        flags.append(
-            "Summary excerpts may be abbreviated; the complete redacted narrative is retained for follow-up processing."
-        )
-    provider = ReviewedLegalSources()
+        ]
     sources, mode = (
         provider.search(
             clean,
@@ -229,13 +296,22 @@ def assess(
         if supported
         else ([], "disabled for unsupported/urgent request")
     )
+    if unchanged and old and supported:
+        approved = {r.id: r for r in provider.records}
+        if all(
+            x.id in approved and x.quote == approved[x.id].quote for x in old.sources
+        ):
+            sources = [approved[x.id] for x in old.sources]
+            mode = old.retrieval_mode
     options = []
+    analysis = None
+    verdicts = []
     if sources:
-        selected = [(s, s.quote) for s in sources]
+        selected = [(x, x.quote) for x in sources]
         if ai_allowed:
             try:
-                result = GeminiProvider().reason(clean, sources)
-                by_id = {s.id: s for s in sources}
+                result = GeminiProvider().reason(clean, sources, language)
+                by_id = {x.id: x for x in sources}
                 if any(
                     c.source_id not in by_id or c.quote not in by_id[c.source_id].quote
                     for c in result.claims
@@ -244,46 +320,112 @@ def assess(
                         "AI claim failed independent citation validation"
                     )
                 selected = [(by_id[c.source_id], c.quote) for c in result.claims]
-                ai_status += "; Gemini passage selection verified"
-            except ProviderUnavailable:
+                if result.analysis:
+                    analysis, verdicts = verify(
+                        result.analysis, sources, clean, GeminiProvider()
+                    )
+                    ai_status += (
+                        "; "
+                        + str(len(analysis.claims))
+                        + " legal propositions passed separate AI support checks"
+                    )
+            except ProviderUnavailable as exc:
                 selected = []
-                flags.append(
-                    "AI legal output rejected or unavailable; reviewed source cards remain available without AI conclusions."
-                )
+                flags.append("AI legal output rejected or unavailable: " + str(exc))
+        elif unchanged and old:
+            analysis = old.legal_analysis
+            verdicts = old.claim_verification
+            ai_status = old.ai_status
         for source, quote in selected:
             options.append(
                 Option(
                     action="Read the relevant official passage",
                     conditions="Applicability to your facts needs professional review.",
-                    caveats="Current rules, amendments, dates and forum requirements must be checked before action.",
+                    caveats="Current rules and legal interpretation need independent professional review.",
                     source_ids=[source.id],
                     proposition=quote,
                 )
             )
     elif supported:
         flags.append(
-            "Verified law unavailable: no reviewed official passages are loaded. Legal conclusions, statutory citations and filing deadlines are withheld."
+            "Verified law unavailable: no reviewed official passages matched the case. Legal conclusions and deadlines are withheld."
         )
-    for row in evidence_rows:
-        if row["excerpt"]:
-            facts.append(Fact(text=row["excerpt"][:1500], origin="document_excerpt"))
-    count = sum(e.present for e in items)
+    if analysis and any(c.support_status != "supported" for c in analysis.claims):
+        analysis = None
+    items = []
+    checks = [
+        ("invoice", "Purchase invoice / payment record", "खरीद का बिल / भुगतान रिकॉर्ड"),
+        ("fault", "Fault description / photographs", "खराबी का विवरण / तस्वीरें"),
+        ("communication", "Seller correspondence", "विक्रेता से पत्राचार"),
+        ("warranty", "Warranty / order terms", "वारंटी / ऑर्डर की शर्तें"),
+    ]
+    for kind, en, hi in checks:
+        relevant = [d for d in documents if d.kind == kind and d.relevant_excerpts]
+        items.append(
+            Evidence(
+                item=hi if language == "hi" else en,
+                present=bool(relevant),
+                reason="Readable uploaded document; relevance and authenticity require review."
+                if relevant
+                else "No readable supporting document uploaded. Mention in chat does not establish availability.",
+            )
+        )
+    findings = [
+        ReadinessFinding(
+            dimension="transaction facts",
+            status="available" if context.parties and timeline else "missing",
+            finding="Seller and dated events are described."
+            if context.parties and timeline
+            else "Confirm parties and event dates before procedural analysis.",
+        ),
+        ReadinessFinding(
+            dimension="evidence coverage",
+            status="available" if all(e.present for e in items) else "missing",
+            finding="; ".join(
+                e.item + (": readable upload" if e.present else ": missing")
+                for e in items
+            ),
+        ),
+        ReadinessFinding(
+            dimension="contradictions / reconciliation",
+            status="needs_review"
+            if any(d.warnings for d in documents)
+            else "available",
+            finding="; ".join(w for d in documents for w in d.warnings)
+            or "No date discrepancy detected by the limited local checks; this is not proof of consistency.",
+        ),
+        ReadinessFinding(
+            dimension="legal sources",
+            status="available" if sources else "missing",
+            finding="Reviewed source passages available; temporal/substantive applicability still needs professional review."
+            if sources
+            else "Approved source coverage unavailable.",
+        ),
+        ReadinessFinding(
+            dimension="legal interpretation",
+            status="needs_review",
+            finding="AI support evaluation is not a qualified human legal opinion.",
+        ),
+    ]
     readiness = (
         "Strong"
-        if count == 4 and timeline and not questions
+        if all(e.present for e in items)
+        and timeline
+        and not context.questions
+        and sources
+        and not any(d.warnings for d in documents)
         else "Partial"
-        if count
+        if any(e.present for e in items)
         else "Needs information"
     )
-    scenario = FictionalScenarioProvider().scenario(language)
-    from backend.schemas import Scenario
-
-    if not use_ai and old:
-        ai_status = (
-            old.ai_status + "; source pack revalidated locally"
-            if "revalidated" not in old.ai_status
-            else old.ai_status
+    scenarios = (
+        ScenarioEngine().select(clean, category, language, sources) if supported else []
+    )
+    if analysis and scenarios:
+        scenarios[0].similarities = (
+            analysis.story_similarity or scenarios[0].similarities
         )
+        scenarios[0].differences = analysis.story_difference or scenarios[0].differences
     return CaseAssessment(
         case_id=case_id,
         jurisdiction=jurisdiction,
@@ -291,7 +433,7 @@ def assess(
         consent=consent,
         language=language,
         facts=facts,
-        unknowns=questions,
+        unknowns=[q.question for q in context.questions],
         timeline=timeline,
         issues=[category.replace("_", " ")],
         sources=sources,
@@ -300,15 +442,26 @@ def assess(
         readiness=readiness,
         readiness_flags=[
             "Evidence completeness only; not a probability of winning.",
-            "No document authenticity, legal merit or outcome verification.",
-            "Dates are only reconstructed when explicitly supplied in ISO format.",
+            "Strong requires readable evidence, described events, resolved factual gaps and available legal sources; it does not establish legal strength.",
+            "No authenticity or professional legal review is claimed.",
         ],
-        illustrative_scenarios=[Scenario(text=scenario)] if supported else [],
+        illustrative_scenarios=scenarios,
         drafts=old.drafts if old else [],
         safety_flags=flags,
         handoff_status=old.handoff_status if old else "not_shared",
         ai_status=ai_status,
         retrieval_mode=mode,
+        reference_at=reference,
+        assistant_message=context.assistant_message,
+        parties=context.parties,
+        amounts=context.amounts,
+        desired_remedy=context.desired_remedy,
+        legal_analysis=analysis,
+        claim_verification=verdicts,
+        readiness_findings=findings,
+        evidence_analysis=documents,
+        conversation=old.conversation if old else [],
+        analysis_fingerprint=fingerprint,
     )
 
 

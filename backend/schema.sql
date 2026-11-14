@@ -37,3 +37,10 @@ CREATE TABLE IF NOT EXISTS narratives (
  text TEXT NOT NULL
 );
 CREATE TABLE IF NOT EXISTS login_attempts (actor TEXT NOT NULL, at REAL NOT NULL);
+-- Version 2 is additive: canonical intelligence/history remains in validated case JSON.
+INSERT OR IGNORE INTO schema_version VALUES (2);
+CREATE TABLE IF NOT EXISTS request_budget (
+ actor TEXT NOT NULL REFERENCES sessions(token_hash) ON DELETE CASCADE,
+ bucket TEXT NOT NULL, at REAL NOT NULL
+);
+CREATE INDEX IF NOT EXISTS request_budget_actor ON request_budget(actor,bucket,at);

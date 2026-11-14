@@ -16,3 +16,18 @@ Retain vanilla frontend and original CSS tokens/navigation rather than introduce
 
 ## External access observed
 Git HTTPS read works. India Code PDF request returned proxy CONNECT 403. Official-law access, Gemini model availability/pricing/quota and credentials cannot currently be verified. These are release blockers for the complete grounded-AI demonstration, not evidence that fabricated or unreviewed content is acceptable. Remaining local workflows will be implemented and tested independently.
+
+# Intelligence gap audit — implementation starting 2026-11-14
+
+Baseline commit `0f3f93f`; dedicated branch `feature/grounded-consumer-intelligence`. Rechecked Python modules, route implementations, schemas, persistence, frontend screens, test fixtures, source importer and published runtime metadata.
+
+- REAL AND TESTED: private SQLite cases, owner/role checks, CSRF, processing/sharing consent, text uploads/extraction, editable seller letters, Unicode PDFs, signed owner-bound packet downloads, demo-lawyer snapshots/acknowledgment/revocation, deletion and retention. The 61 existing tests exercise these locally. Browser coverage is real local functionality.
+- PARTIAL: issue classification is substring-based, dates require ISO spelling, structured facts lack parties/amount/remedy provenance, follow-ups are chosen from three fixed questions. Source revalidation on reads reconstructs assessment and can discard accepted AI conclusions. Evidence readiness is mainly category count. The dashboard is not case-specific, documents offer one template, bilingual switching is primarily UI labels, and corrections/explicit conversation history are absent.
+- SIMULATED: the fixed Asha story is explicitly fictional but not personalised; synthetic legal fixtures/mock HTTP/embeddings in tests are not live integration evidence. The quarantined legacy cases remain unused.
+- IMPLEMENTED BUT UNVERIFIED: Gemini generation adapter, embeddings, hybrid retrieval, citation selection. The API previously had no live account exercise. Verbatim matching cannot establish legal entailment. Real-user privacy/security is not release-approved.
+- BLOCKED: approved legal corpus is empty. Original India Code candidate artifact now returns HTML titled “Invalid URL or Argument(s)”, despite HTTP 200. The home page announces migration to indiacode.gov.in. Source MIME/magic and provenance must be verified; a successful status code is insufficient.
+- NOT IMPLEMENTED: offline artifact provenance importer, case-specific legal explanation with separate support evaluation, scenario library, OCR/images, diverse document templates, persistent dialogue/corrections, consent withdrawal without deleting the case, authentic case-law provider UI and explainable multidimensional readiness.
+
+Runtime recheck now shows the Gemini binding and model/terms variables ready. A real model-list request succeeded (HTTP 200); gemini-2.5-flash is listed. Configured gemini-embedding-2 is not listed; gemini-embedding-001 is listed for embedContent. No secret value was displayed. No settings draft has been reapplied or published. Local runtime overrides may be tested only after model/terms validation, without overwriting the user's saved environment configuration.
+
+Security findings: maintain demonstration-only processing. Add bounded service requests/rate-limit handling and avoid re-running model calls on GET requests. Preserve untrusted-document boundaries and ensure extracted material/AI inferences cannot become alleged facts or official law. A qualified human legal reviewer is unavailable; technical source verification must not be labelled independent professional legal review.
