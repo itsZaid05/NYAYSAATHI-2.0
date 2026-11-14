@@ -277,3 +277,49 @@ def test_real_user_beta_cannot_be_silently_enabled(client, intake_data, monkeypa
 
     monkeypatch.setattr(settings, "processing_mode", "real-user-beta")
     assert client.post("/api/cases/intake", json=intake_data).status_code == 503
+
+
+def test_demo_ai_budget_and_consent_withdrawal(client, intake_data):
+    from backend.db import connect
+
+    cid = client.post("/api/cases/intake", json=intake_data).json()["case_id"]
+    # Budget exhaustion must never prevent consent withdrawal or deletion.
+    with connect() as db:
+        actor = db.execute("SELECT owner FROM cases WHERE id=?", (cid,)).fetchone()[
+            "owner"
+        ]
+        import time
+
+        db.executemany(
+            "INSERT INTO request_budget VALUES (?,?,?)",
+            [(actor, "ai_context", time.time()) for _ in range(20)],
+        )
+    assert (
+        client.patch(
+            f"/api/cases/{cid}/consent", json={"ai_processing": True}
+        ).status_code
+        == 429
+    )
+    assert (
+        client.patch(
+            f"/api/cases/{cid}/consent", json={"ai_processing": False}
+        ).status_code
+        == 200
+    )
+    assert client.delete(f"/api/cases/{cid}").status_code == 200
+
+
+def test_late_relative_date_context_requires_clarification(client, intake_data):
+    from backend.engine import assess
+    from backend.schemas import Consent
+
+    text = "Fictional: my laptop failed yesterday after I bought it from Demo Seller."
+    old = assess(
+        "late-relative", text, "IN", "en", Consent(processing=True, fictional_demo=True)
+    )
+    old.reference_at = datetime(2020, 1, 1, tzinfo=timezone.utc)
+    refreshed = assess(
+        "late-relative", text, "IN", "en", old.consent, old=old, use_ai=False
+    )
+    assert not any(e.date_basis.startswith("Resolved") for e in refreshed.timeline)
+    assert any("relative dates" in q.lower() for q in refreshed.unknowns)

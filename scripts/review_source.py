@@ -15,6 +15,10 @@ from backend.schemas import Source
 
 ALLOWED = {
     "www.indiacode.nic.in",
+    "indiacode.gov.in",
+    "www.indiacode.gov.in",
+    "consumeraffairs.gov.in",
+    "www.consumeraffairs.gov.in",
     "indiacode.nic.in",
     "consumerhelpline.gov.in",
     "e-jagriti.gov.in",

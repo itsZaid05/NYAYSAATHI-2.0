@@ -1,21 +1,34 @@
-# Feature gap matrix (audit before this implementation)
+# Final feature matrix — grounded-intelligence iteration
 
-| Feature | Audit status | Gap / next implementation |
+`WORKING — LIVE VERIFIED` means an actual external service succeeded. `WORKING — LOCAL VERIFIED` means real local behavior passed; mocked provider tests do not upgrade that label.
+
+| Capability | Final status | Evidence / boundary |
 |---|---|---|
-| Private cases, consent, handoff, PDFs | REAL AND TESTED | Preserve all working controls and regression coverage |
-| Gemini generation | IMPLEMENTED BUT UNVERIFIED | Model list now succeeds; exercise generation, extraction and reasoning live |
-| Legal corpus | BLOCKED | Empty; original candidate URL is invalid HTML; validate official artifacts/rights |
-| Source ingestion | PARTIAL | Online exact-text importer only; add authenticated-provenance offline path and manifest |
-| Hybrid retrieval | IMPLEMENTED BUT UNVERIFIED | Validate actual embeddings; configured embedding identifier absent from model list |
-| Grounded legal explanations | NOT IMPLEMENTED | Existing code only selects exact passages; add supported, qualified propositions and independent evaluator |
-| Conversational intake | PARTIAL | Fixed questions and literal snippets; add canonical entities, questions, history, corrections |
-| Case workspace | PARTIAL | Case-specific overview/issues/actions/source links must update consistently |
-| Stories | SIMULATED | One labelled fictional card; add original scenario library and relevant comparisons |
-| Authentic precedent comparison | NOT IMPLEMENTED | Provider/UI boundary required; remain disabled without authorised verified judgments |
-| Evidence | PARTIAL | TXT/PDF text only; add structured document provenance, contradictions and controlled OCR |
-| Readiness | PARTIAL | Explain actual fact/evidence/source gaps instead of category-count proxy |
-| Documents | PARTIAL | One seller template; add six preparation templates and independent text/PDF export |
-| Bilingual/mobile UX | PARTIAL | Local labels and two tested paths; improve case-language persistence/loading/errors |
-| Real-user beta | BLOCKED | Privacy/provider contracts, strong auth and legal/security review required |
+| Gemini model list, minimal JSON generation, structured intake and multi-turn follow-up | WORKING — LIVE VERIFIED | Actual HTTP success using explicitly selected listed stable gemini-3.1-flash-lite; browser → API → Gemini exercised |
+| Gemini embeddings | WORKING — LIVE VERIFIED | Real gemini-embedding-001 response; 3072 dimensions via adapter (768 in an explicit dimension probe) |
+| Default saved model settings | PARTIAL | Configured generation model rejects this account; configured embedding identifier absent. Explicit tested runtime overrides supplied; no silent settings replacement |
+| Persistent private guest cases, consent, owner/role/CSRF controls | WORKING — LOCAL VERIFIED | Original controls preserved; backend persistence, cross-user denial, expiry/deletion tests |
+| Canonical entities, facts, timeline, conversation and correction | WORKING — LOCAL VERIFIED | Provenance-checked entities, full corrected narrative, persistent turns, date basis/timezone, context PATCH and language persistence |
+| Natural AI conversation | WORKING — LIVE VERIFIED | Real supportive contextual responses and updated questions; no fixed response substituted as live AI |
+| Contextual case workspace | WORKING — LOCAL VERIFIED | Case ribbon, parties/amount/remedy panel, issues, gaps, sources, readiness and document actions update together |
+| Verified Indian legal corpus | BLOCKED — EXTERNAL DEPENDENCY | Zero approved passages; official migration/domain access, authenticity/rights/version review still needed |
+| Online/offline ingestion and section-aware candidate preparation | WORKING — LOCAL VERIFIED | Official-host restrictions; provenance/checksum/rights attestation; exact-text checks; no automatic approval of local files |
+| Hybrid retrieval over genuine statutes | BLOCKED — EXTERNAL DEPENDENCY | FTS5/semantic fusion path exists and fixture tests pass; actual embeddings succeed, but authentic source corpus is absent |
+| Conditional legal reasoning + separate support evaluator | PARTIAL | Structured claims, exact artifact/source mapping, fact provenance, outcome-guarantee rejection, independent AI verdicts; authentic-source live run and qualified human review not done |
+| Personalised fictional stories | WORKING — LOCAL VERIFIED | 16 original bilingual scenarios selected by facts/category; case-specific similarity/difference framework and relevant-source IDs when genuinely available |
+| Gemini story comparison grounded in law | PARTIAL | Integrated into reasoning/support path; no authentic-law live comparison can yet be accepted |
+| Authentic precedent comparison | NOT IMPLEMENTED | UI/provider/data contracts present and disabled; no authorised independently validated judgments or fabricated cases |
+| Evidence PDFs/TXT/images and OCR | WORKING — LOCAL VERIFIED | Real local Tesseract PNG test, bounded decoding/timeouts, date/amount/reference extraction and document IDs; OCR can misread, no authenticity guarantee |
+| Evidence relevance/contradiction assistance | PARTIAL | Provenance, literal date discrepancies, suspicious instruction warnings and token-overlap relevance; not a comprehensive evidence evaluator |
+| Explainable readiness | WORKING — LOCAL VERIFIED | Separate factual/evidence/reconciliation/source/review findings; four file categories alone cannot create Strong; no winning probabilities |
+| Six editable preparation templates, text and Unicode PDF export | WORKING — LOCAL VERIFIED | Seller letter, refund/replacement request, grievance summary, chronology, inventory, lawyer brief; missing fields explicit, not commission pleadings |
+| Case packet and signed owner-bound downloads | WORKING — LOCAL VERIFIED | Facts, evidence, analysis when accepted, conditions, references/abstention, drafts and limits; external PDF resource fetch disabled |
+| Demo lawyer sharing, receipt, revocation and audit | WORKING — LOCAL VERIFIED | Browser test with independent authenticated recipient; packet snapshots only, no verified advocate/representation claim |
+| Official assistance links | PARTIAL | NCH portal inspected live; links distinguish preparation/filing. Current e-Jagriti procedure, eligibility/deadline advice not verified |
+| English/Hindi and responsive UI | WORKING — LOCAL VERIFIED | Persistent case language, labelled controls, 1440/768/390px checks and Hindi PDF; no full WCAG certification |
+| Service failure and demo AI budget | WORKING — LOCAL VERIFIED | Controlled timeout/429/Retry-After/embedding-fallback tests; 20 AI-context mutations/hour/session; consent withdrawal/deletion remain available |
+| Protected local deployment | WORKING — LOCAL VERIFIED | Loopback-only demo on port 8011 with explicit tested model overrides; no public deployment |
+| Real-user beta | NOT IMPLEMENTED | Explicitly gated pending privacy, provider contracts, strong auth, legal/security review, storage/backup controls and abuse protection |
+| UK legal provider | NOT IMPLEMENTED | Disabled pending licensing and jurisdiction review |
 
-This table will be replaced with final evidence-based delivery labels after validation. Audit labels are not claims that live legal integrations work.
+The requested complete grounded-law acceptance journey remains **PARTIAL**. No authentic legal passage or professional legal interpretation has been invented to turn this table green. See LEGAL_SOURCE_MANIFEST.md, GEMINI_LIVE_VALIDATION.md and TEST_REPORT.md for evidence.

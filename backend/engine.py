@@ -110,6 +110,26 @@ def assess(
         old.reference_at if old and old.reference_at else datetime.now(timezone.utc)
     )
     context, timeline = structured_local(clean, language, reference)
+    relative_ambiguous = False
+    from zoneinfo import ZoneInfo
+
+    if (
+        old
+        and reference.astimezone(ZoneInfo("Asia/Kolkata")).date()
+        != datetime.now(ZoneInfo("Asia/Kolkata")).date()
+    ):
+        if any(e.date_basis.startswith("Resolved") for e in timeline):
+            relative_ambiguous = True
+            timeline = [e for e in timeline if not e.date_basis.startswith("Resolved")]
+            context.questions.append(
+                Question(
+                    key="relative_context",
+                    question="Please confirm exact dates: relative dates across multiple days are ambiguous."
+                    if language == "en"
+                    else "कृपया सही तारीखें बताएं; कई दिनों के संदेशों में सापेक्ष तारीख अस्पष्ट है।",
+                    reason="Message-specific reference date is not reliably established",
+                )
+            )
     flags = [
         "Educational case preparation; user allegations and document excerpts are not verified facts. No complaint has been filed."
     ]
@@ -138,6 +158,10 @@ def assess(
         flags.append(
             "Outside supported scope or insufficient information. Consult a qualified professional; NALSA information is in Help."
         )
+    if len(clean) > sum(len(f.text) for f in facts) + 300:
+        flags.append(
+            "The factual summary may be abbreviated; the complete redacted account is available in Settings for correction."
+        )
     documents = [analyse_document(row, clean) for row in evidence_rows]
     for row in evidence_rows:
         if row["excerpt"]:
@@ -159,6 +183,11 @@ def assess(
     fingerprint = hashlib.sha256(
         (
             clean
+            + (
+                datetime.now(ZoneInfo("Asia/Kolkata")).date().isoformat()
+                if relative_ambiguous
+                else ""
+            )
             + language
             + jurisdiction
             + corpus_hash
@@ -171,8 +200,7 @@ def assess(
     unchanged = bool(old and old.analysis_fingerprint == fingerprint)
     ai_allowed = (
         use_ai
-        and settings.processing_mode
-        == "demonstration"
+        and settings.processing_mode == "demonstration"
         and consent.ai_processing
         and consent.fictional_demo
         and clean == text
@@ -282,7 +310,7 @@ def assess(
         selected = [(x, x.quote) for x in sources]
         if ai_allowed:
             try:
-                result = GeminiProvider().reason(clean, sources)
+                result = GeminiProvider().reason(clean, sources, language)
                 by_id = {x.id: x for x in sources}
                 if any(
                     c.source_id not in by_id or c.quote not in by_id[c.source_id].quote

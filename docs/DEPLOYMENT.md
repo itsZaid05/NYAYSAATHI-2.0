@@ -22,3 +22,11 @@ Startup and authenticated requests delete expired sessions/cases with cascading 
 
 ## Explicitly unsupported
 Actual government submissions, lawyer verification, payments, notifications, live chat/calls, authentic precedent comparison, limitation/forum calculations, OCR, DOCX/image uploads, legal training/fine-tuning, UK advice and real sensitive data on unpaid Gemini. The UI either removes these old mock affordances or explicitly qualifies availability.
+
+## Current explicit local runtime
+
+The verified local generation model override is `--model gemini-3.1-flash-lite`; the verified embedding override is `--embedding-model gemini-embedding-001`. Start `python -m scripts.run_demo` with those explicit arguments and `--port 8011`. Saved settings are not changed. A listed model may still reject the account; verify actual generation as well.
+
+Schema version 2 is additive and applied at startup. Tesseract OCR runs locally with a 20-second subprocess timeout and image size/pixel limits. English OCR was exercised; Hindi OCR additionally requires the `hin` language pack. PDFs remain untrusted files; production parsing isolation and malware controls are not established. Session-level AI budgets are not sufficient production-wide abuse protection.
+
+No public endpoint, public deployment or publication was created. Existing owner/CSRF/document controls remain active, but this is still a fictional-data-only demonstration. Migrated official/Gemini-documentation domains must be applied in environment settings before source/rights/current-pricing review can proceed. See LEGAL_SOURCE_MANIFEST.md for the exact new grants.

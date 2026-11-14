@@ -172,7 +172,9 @@ class CaseAssessment(StrictModel):
                         or quote not in sources[sid].quote
                     ):
                         raise ValueError("Unsupported legal interpretation citation")
-        if self.options and self.jurisdiction != "IN":
+        if (
+            self.options or (self.legal_analysis and self.legal_analysis.claims)
+        ) and self.jurisdiction != "IN":
             raise ValueError(
                 "Indian legal options cannot be used for another jurisdiction"
             )
@@ -265,6 +267,12 @@ class LegalAnalysis(StrictModel):
     story_similarity: str = Field(default="", max_length=800)
     story_difference: str = Field(default="", max_length=800)
 
+    @model_validator(mode="after")
+    def unique_claims(self):
+        if len({c.id for c in self.claims}) != len(self.claims):
+            raise ValueError("Duplicate legal claim IDs")
+        return self
+
 
 class ClaimVerdict(StrictModel):
     claim_id: str
@@ -274,6 +282,12 @@ class ClaimVerdict(StrictModel):
 
 class SupportEvaluation(StrictModel):
     verdicts: list[ClaimVerdict] = Field(max_length=8)
+
+    @model_validator(mode="after")
+    def unique_verdicts(self):
+        if len({v.claim_id for v in self.verdicts}) != len(self.verdicts):
+            raise ValueError("Duplicate claim verdict IDs")
+        return self
 
 
 class ConversationTurn(StrictModel):

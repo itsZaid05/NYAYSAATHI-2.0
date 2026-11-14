@@ -302,3 +302,59 @@ def test_source_must_be_valid_for_stated_case_date(reviewed):
     provider = ReviewedLegalSources()
     assert provider.search("consumer refund", event_date="2010-01-01")[0] == []
     assert provider.search("consumer refund", event_date="2026-01-01")[0]
+
+
+def test_embedding_outage_reports_lexical_fallback(reviewed, monkeypatch):
+    from backend.config import settings
+
+    monkeypatch.setattr(settings, "embedding_model", "fixture-embedding")
+
+    def unavailable(*args, **kwargs):
+        raise ProviderUnavailable("Embedding timeout")
+
+    monkeypatch.setattr(GeminiProvider, "embed", unavailable)
+    results, mode = ReviewedLegalSources().search("consumer refund", semantic=True)
+    assert results and mode.startswith("SQLite FTS5 lexical")
+    assert "semantic service unavailable" in mode and not mode.startswith("hybrid")
+
+
+def test_provider_timeout_and_rate_limit_keep_safe_error_details(client, monkeypatch):
+    import httpx
+    from backend.config import settings
+
+    monkeypatch.setattr(settings, "gemini_key", "synthetic-test-key")
+    monkeypatch.setattr(settings, "gemini_model", "test-model")
+    monkeypatch.setattr(settings, "terms_reviewed", True)
+    import hashlib, time
+
+    GeminiProvider.verified_models[
+        (hashlib.sha256(b"synthetic-test-key").hexdigest(), "test-model")
+    ] = time.time()
+    real_client = httpx.Client
+
+    def limit(request):
+        return httpx.Response(
+            429,
+            headers={"retry-after": "60"},
+            json={"error": {"status": "RESOURCE_EXHAUSTED"}},
+        )
+
+    monkeypatch.setattr(
+        providers.httpx,
+        "Client",
+        lambda **kw: real_client(transport=httpx.MockTransport(limit), **kw),
+    )
+    with pytest.raises(ProviderUnavailable) as error:
+        GeminiProvider().extract("Fictional laptop", "en", [])
+    assert error.value.http_status == 429 and error.value.retry_after == "60"
+
+    def timeout(request):
+        raise httpx.ReadTimeout("synthetic transport timeout")
+
+    monkeypatch.setattr(
+        providers.httpx,
+        "Client",
+        lambda **kw: real_client(transport=httpx.MockTransport(timeout), **kw),
+    )
+    with pytest.raises(ProviderUnavailable):
+        GeminiProvider().extract("Fictional laptop", "en", [])

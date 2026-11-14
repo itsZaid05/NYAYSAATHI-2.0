@@ -25,6 +25,7 @@ from backend.db import audit, cleanup, connect, digest, init, session
 from backend.engine import assess, make_draft, redact
 from backend.services.document_generation import generate as generate_document
 from backend.services.evidence_analysis import ocr_image
+from backend.services.quotas import consume
 from backend.packet import packet
 from backend.providers import ReviewedLegalSources, GeminiProvider
 from backend.schemas import (
@@ -254,6 +255,8 @@ def intake(data: Intake, who=Depends(actor)):
             >= 20
         ):
             raise HTTPException(429, "Workspace case limit reached; delete old cases")
+    if data.consent.ai_processing:
+        consume(who["token_hash"], "ai_context", limit=20)
     case_id = uuid.uuid4().hex
     a = assess(
         case_id, data.narrative, data.jurisdiction.upper(), data.language, data.consent
@@ -310,6 +313,8 @@ def message(case_id: str, data: Message, who=Depends(actor)):
     text = narrative_for(a) + "\n" + data.text
     if len(text) > 30000:
         raise HTTPException(413, "Case narrative limit reached")
+    if a.consent.ai_processing:
+        consume(who["token_hash"], "ai_context", limit=20)
     result = assess(
         case_id, text, a.jurisdiction, a.language, a.consent, evidence_rows(case_id), a
     )
@@ -745,6 +750,8 @@ def update_context(case_id: str, data: CaseContextUpdate, who=Depends(actor)):
 
     text = redact(data.narrative) if data.narrative is not None else narrative_for(a)
     language = data.language or a.language
+    if a.consent.ai_processing:
+        consume(who["token_hash"], "ai_context", limit=20)
     result = assess(
         case_id,
         text,
@@ -774,6 +781,8 @@ def update_context(case_id: str, data: CaseContextUpdate, who=Depends(actor)):
 @app.patch("/api/cases/{case_id}/consent", response_model=CaseAssessment)
 def update_consent(case_id: str, data: ConsentUpdate, who=Depends(actor)):
     _, a = owner(case_id, who)
+    if data.ai_processing:
+        consume(who["token_hash"], "ai_context", limit=20)
     a.consent.ai_processing = data.ai_processing
     if not data.ai_processing:
         a.legal_analysis = None
@@ -798,6 +807,7 @@ def analyse(case_id: str, who=Depends(actor)):
     _, a = owner(case_id, who)
     if not a.consent.ai_processing:
         raise HTTPException(422, "Explicit AI processing consent required")
+    consume(who["token_hash"], "ai_context", limit=20)
     result = assess(
         case_id,
         narrative_for(a),
