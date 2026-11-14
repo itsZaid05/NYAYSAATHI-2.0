@@ -1,3 +1,5 @@
+Latest continuation from `1bbf9cb`: [actual results and remaining legal-source blockers](LEGAL_INTELLIGENCE_CONTINUATION.md). Current suite: **107 passed**. Fresh cohort: **26/30 strict, 17/30 exact**; final same-cohort replay: **28/30 strict, 22/30 exact**. The earlier iteration below is preserved, not replaced or combined into a higher score.
+
 # Unseen consumer-dispute evaluation — 2026-11-14
 
 This is an actual external-provider evaluation, not 30 mocked responses or a legal-accuracy claim. The frozen narratives and expectations are in `tests/evaluation/unseen_consumer_cases.json`. They are disjoint from the earlier 31 demonstration narratives, cover the six requested dispute families, include English/Hindi and several mixed issues, and contain no real confidential identities.

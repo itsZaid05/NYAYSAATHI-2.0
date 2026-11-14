@@ -1,0 +1,1184 @@
+{
+  "checked_at": "2026-11-14T09:50:52.101418+00:00",
+  "model_configuration": {
+    "selected_generation": "gemini-3.1-flash-lite",
+    "selected_embedding": "gemini-embedding-2",
+    "selection": "explicit evaluation override; actual case calls establish generation success"
+  },
+  "synthetic_only": true,
+  "cases_file": "tests/evaluation/unseen_consumer_cases.json",
+  "cases_sha256": "88f14fac12304c77b2adbabb55f3323256ece7e66dc0668805059cb9889b5450",
+  "source_count": 0,
+  "results": [
+    {
+      "id": "D05",
+      "language": "en",
+      "status": "FAIL",
+      "checks": {
+        "live_dynamic_understanding": false,
+        "consumer_scope": true,
+        "expected_issue_coverage": false,
+        "no_forbidden_issue_inference": true,
+        "issue_fact_provenance": false,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "expected_categories": [
+        "defective_product",
+        "warranty"
+      ],
+      "actual_categories": [],
+      "unexpected_categories": [],
+      "forbidden_categories": [],
+      "scope": "consumer",
+      "issues": [],
+      "issue_review": {},
+      "followups": [
+        "Who was the seller, and which platform or service provider was involved?",
+        "When did you purchase, receive and first notice the problem?",
+        "How much did you pay, and was this a personal purchase or for resale/business?",
+        "What resolution would you like, and what has the seller said so far?"
+      ],
+      "assistant": "That sounds frustrating. Let’s organise what you have told us and identify the missing details, without assuming an outcome.",
+      "source_ids": [],
+      "retrieval_mode": "unavailable — no reviewed official passages",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review",
+      "ai_status": "Gemini unavailable or unverified — local preparation only",
+      "diagnostics": [
+        "Educational case preparation; user allegations and document excerpts are not verified facts. No complaint has been filed.",
+        "Gemini request failed (HTTP 503); no generated answer accepted",
+        "Verified law unavailable: no reviewed official passages matched the case. Legal conclusions and deadlines are withheld."
+      ],
+      "seconds": 11.11
+    },
+    {
+      "id": "M05",
+      "language": "en",
+      "status": "PASS",
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "no_forbidden_issue_inference": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "expected_categories": [
+        "misleading_advertising",
+        "online_shopping"
+      ],
+      "actual_categories": [
+        "misleading_advertising",
+        "online_shopping"
+      ],
+      "unexpected_categories": [],
+      "forbidden_categories": [],
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "review-misleading_advertising",
+          "category": "misleading_advertising",
+          "title": "The user alleges that the advertised price was incomplete and additional charges were only disclosed after account creation.",
+          "fact_quotes": [
+            "Fictional: Demo Games displayed a limited-time price of INR 799, then added an unavoidable activation payment only after I created an account and entered payment details."
+          ],
+          "fact_segment_ids": [
+            "f0"
+          ],
+          "unresolved_facts": [
+            "Was the activation fee clearly disclosed prior to the checkout process?",
+            "Are there terms of service that mention this fee?"
+          ],
+          "evidence_needed": [
+            "Screenshots of the initial price display",
+            "Screenshots of the checkout flow showing the added fee"
+          ],
+          "research_terms": [
+            "misleading pricing disclosure",
+            "hidden fees in online transactions"
+          ]
+        },
+        {
+          "id": "review-online_shopping",
+          "category": "online_shopping",
+          "title": "The transaction occurred via an online platform.",
+          "fact_quotes": [
+            "Fictional: Demo Games displayed a limited-time price of INR 799, then added an unavoidable activation payment only after I created an account and entered payment details."
+          ],
+          "fact_segment_ids": [
+            "f0"
+          ],
+          "unresolved_facts": [
+            "What is the official name of the platform or service provider?"
+          ],
+          "evidence_needed": [
+            "Transaction URL or platform name"
+          ],
+          "research_terms": [
+            "e-commerce consumer protection"
+          ]
+        }
+      ],
+      "issue_review": {
+        "defective_product": {
+          "status": "not_stated",
+          "reason": "No physical or digital product defect is alleged.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "refund_refusal": {
+          "status": "not_stated",
+          "reason": "No payment was completed, so no refund was requested or refused.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "misleading_advertising": {
+          "status": "present",
+          "reason": "The user alleges that the advertised price was incomplete and additional charges were only disclosed after account creation.",
+          "fact_segment_ids": [
+            "f0"
+          ],
+          "unresolved_facts": [
+            "Was the activation fee clearly disclosed prior to the checkout process?",
+            "Are there terms of service that mention this fee?"
+          ],
+          "evidence_needed": [
+            "Screenshots of the initial price display",
+            "Screenshots of the checkout flow showing the added fee"
+          ],
+          "research_terms": [
+            "misleading pricing disclosure",
+            "hidden fees in online transactions"
+          ]
+        },
+        "subscription_billing": {
+          "status": "not_stated",
+          "reason": "No recurring billing or subscription was initiated.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "warranty": {
+          "status": "not_stated",
+          "reason": "No warranty or guarantee dispute is present.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "online_shopping": {
+          "status": "present",
+          "reason": "The transaction occurred via an online platform.",
+          "fact_segment_ids": [
+            "f0"
+          ],
+          "unresolved_facts": [
+            "What is the official name of the platform or service provider?"
+          ],
+          "evidence_needed": [
+            "Transaction URL or platform name"
+          ],
+          "research_terms": [
+            "e-commerce consumer protection"
+          ]
+        },
+        "service_deficiency": {
+          "status": "not_stated",
+          "reason": "No service was purchased or delivered.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "other_consumer": {
+          "status": "not_stated",
+          "reason": "No other consumer issues are present.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        }
+      },
+      "followups": [
+        "What is the official name of the platform or service provider involved?",
+        "Did you receive any confirmation or communication from the platform after stopping the payment?",
+        "What specific outcome are you hoping to achieve by documenting these screens?"
+      ],
+      "assistant": "I am sorry to hear about your experience with the unexpected charges during your checkout. It is very helpful that you have saved screenshots of the process, as these are excellent records to have. To help me understand the situation better, could you clarify a few details?",
+      "source_ids": [],
+      "retrieval_mode": "unavailable — no reviewed official passages; multi-issue research over 2 issues",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review",
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "diagnostics": [
+        "Educational case preparation; user allegations and document excerpts are not verified facts. No complaint has been filed.",
+        "Verified law unavailable: no reviewed official passages matched the case. Legal conclusions and deadlines are withheld."
+      ],
+      "seconds": 3.55
+    },
+    {
+      "id": "R03",
+      "language": "en",
+      "status": "PASS",
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "no_forbidden_issue_inference": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "expected_categories": [
+        "refund_refusal",
+        "service_deficiency"
+      ],
+      "actual_categories": [
+        "misleading_advertising",
+        "refund_refusal",
+        "service_deficiency"
+      ],
+      "unexpected_categories": [
+        "misleading_advertising"
+      ],
+      "forbidden_categories": [],
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "review-refund_refusal",
+          "category": "refund_refusal",
+          "title": "The consumer requested a refund for a cancelled class, but the provider offered credit instead.",
+          "fact_quotes": [
+            "Fictional: Demo Events cancelled a pottery class I paid INR 1900 to attend.",
+            "I declined its offer of credit because I am moving cities."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f1"
+          ],
+          "unresolved_facts": [
+            "Has the provider explicitly refused a cash refund in writing?",
+            "What are the specific terms and conditions regarding cancellations mentioned on the website or booking platform?"
+          ],
+          "evidence_needed": [
+            "Copy of the receipt",
+            "Correspondence with Demo Events regarding the cancellation and refund request"
+          ],
+          "research_terms": [
+            "consumer rights cancelled service refund",
+            "right to refund vs credit note India"
+          ]
+        },
+        {
+          "id": "review-misleading_advertising",
+          "category": "misleading_advertising",
+          "title": "The consumer alleges the receipt did not disclose that credit would be the only option for cancellations.",
+          "fact_quotes": [
+            "The receipt never said credit would be the only option."
+          ],
+          "fact_segment_ids": [
+            "f2"
+          ],
+          "unresolved_facts": [
+            "Does the receipt or the terms of service at the time of purchase mention a no-refund policy?"
+          ],
+          "evidence_needed": [
+            "Copy of the receipt",
+            "Terms and conditions provided at the time of booking"
+          ],
+          "research_terms": [
+            "misleading terms of service cancellation policy",
+            "unfair contract terms India"
+          ]
+        },
+        {
+          "id": "review-service_deficiency",
+          "category": "service_deficiency",
+          "title": "The pottery class was cancelled by the provider.",
+          "fact_quotes": [
+            "Fictional: Demo Events cancelled a pottery class I paid INR 1900 to attend."
+          ],
+          "fact_segment_ids": [
+            "f0"
+          ],
+          "unresolved_facts": [
+            "Was an alternative date offered for the class?"
+          ],
+          "evidence_needed": [
+            "Cancellation notice from Demo Events"
+          ],
+          "research_terms": [
+            "service provider cancellation liability"
+          ]
+        }
+      ],
+      "issue_review": {
+        "defective_product": {
+          "status": "not_stated",
+          "reason": "The issue concerns a cancelled service, not a physical product fault.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "refund_refusal": {
+          "status": "present",
+          "reason": "The consumer requested a refund for a cancelled class, but the provider offered credit instead.",
+          "fact_segment_ids": [
+            "f0",
+            "f1"
+          ],
+          "unresolved_facts": [
+            "Has the provider explicitly refused a cash refund in writing?",
+            "What are the specific terms and conditions regarding cancellations mentioned on the website or booking platform?"
+          ],
+          "evidence_needed": [
+            "Copy of the receipt",
+            "Correspondence with Demo Events regarding the cancellation and refund request"
+          ],
+          "research_terms": [
+            "consumer rights cancelled service refund",
+            "right to refund vs credit note India"
+          ]
+        },
+        "misleading_advertising": {
+          "status": "present",
+          "reason": "The consumer alleges the receipt did not disclose that credit would be the only option for cancellations.",
+          "fact_segment_ids": [
+            "f2"
+          ],
+          "unresolved_facts": [
+            "Does the receipt or the terms of service at the time of purchase mention a no-refund policy?"
+          ],
+          "evidence_needed": [
+            "Copy of the receipt",
+            "Terms and conditions provided at the time of booking"
+          ],
+          "research_terms": [
+            "misleading terms of service cancellation policy",
+            "unfair contract terms India"
+          ]
+        },
+        "subscription_billing": {
+          "status": "not_stated",
+          "reason": "This was a single purchase for a class, not a recurring subscription.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "warranty": {
+          "status": "not_stated",
+          "reason": "No warranty or guarantee promise is in dispute.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "online_shopping": {
+          "status": "unclear",
+          "reason": "The narrative mentions a payment but does not explicitly state if the booking was made via an online platform or app.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [
+            "Was the class booked through an online website or app?"
+          ],
+          "evidence_needed": [
+            "Booking confirmation email or platform details"
+          ],
+          "research_terms": [
+            "e-commerce consumer protection India"
+          ]
+        },
+        "service_deficiency": {
+          "status": "present",
+          "reason": "The pottery class was cancelled by the provider.",
+          "fact_segment_ids": [
+            "f0"
+          ],
+          "unresolved_facts": [
+            "Was an alternative date offered for the class?"
+          ],
+          "evidence_needed": [
+            "Cancellation notice from Demo Events"
+          ],
+          "research_terms": [
+            "service provider cancellation liability"
+          ]
+        },
+        "other_consumer": {
+          "status": "not_stated",
+          "reason": "All concerns are covered by refund_refusal, misleading_advertising, and service_deficiency.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        }
+      },
+      "followups": [
+        "Was the class booked through an online website or app?",
+        "When did you purchase the class and when were you notified of the cancellation?",
+        "Do you have a copy of the terms and conditions that were active at the time of your booking?",
+        "Has the provider sent any formal communication stating that a cash refund is strictly prohibited?"
+      ],
+      "assistant": "I am sorry to hear that your pottery class was cancelled, especially when you are planning to move. It is understandable that you would prefer a refund over credit in this situation. I can help you organize the information needed to address this with the provider.",
+      "source_ids": [],
+      "retrieval_mode": "unavailable — no reviewed official passages; multi-issue research over 3 issues",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review",
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "diagnostics": [
+        "Educational case preparation; user allegations and document excerpts are not verified facts. No complaint has been filed.",
+        "Verified law unavailable: no reviewed official passages matched the case. Legal conclusions and deadlines are withheld."
+      ],
+      "seconds": 5.21
+    },
+    {
+      "id": "R05",
+      "language": "en",
+      "status": "PASS",
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "no_forbidden_issue_inference": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "expected_categories": [
+        "misleading_advertising",
+        "refund_refusal"
+      ],
+      "actual_categories": [
+        "misleading_advertising",
+        "online_shopping",
+        "refund_refusal"
+      ],
+      "unexpected_categories": [
+        "online_shopping"
+      ],
+      "forbidden_categories": [],
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "review-refund_refusal",
+          "category": "refund_refusal",
+          "title": "The consumer reports that the seller is applying a restocking fee deduction to their refund, which they dispute as it was not part of the original advertisement.",
+          "fact_quotes": [
+            "They now cite a restocking deduction that was absent from the saved trial advertisement."
+          ],
+          "fact_segment_ids": [
+            "f2"
+          ],
+          "unresolved_facts": [
+            "What is the exact amount of the restocking fee?",
+            "What is the seller's stated justification for the fee?"
+          ],
+          "evidence_needed": [
+            "Copy of the original advertisement",
+            "Communication from the seller regarding the deduction",
+            "Receipt showing the trial dates"
+          ],
+          "research_terms": [
+            "restocking fee disclosure requirements",
+            "unfair contract terms India"
+          ]
+        },
+        {
+          "id": "review-misleading_advertising",
+          "category": "misleading_advertising",
+          "title": "The consumer claims the advertised 'completely reversible' trial did not disclose the restocking fee now being applied.",
+          "fact_quotes": [
+            "Fictional: Demo Audio promised a completely reversible home trial for INR 12400.",
+            "They now cite a restocking deduction that was absent from the saved trial advertisement."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f2"
+          ],
+          "unresolved_facts": [
+            "Does the advertisement contain fine print regarding restocking fees?",
+            "Was the fee disclosed at checkout?"
+          ],
+          "evidence_needed": [
+            "Saved advertisement",
+            "Checkout terms and conditions"
+          ],
+          "research_terms": [
+            "misleading advertising consumer protection",
+            "advertised trial terms"
+          ]
+        },
+        {
+          "id": "review-online_shopping",
+          "category": "online_shopping",
+          "title": "The transaction involves a home trial and return process typical of online retail.",
+          "fact_quotes": [
+            "Fictional: Demo Audio promised a completely reversible home trial for INR 12400.",
+            "I sent the speaker back within the trial dates on my receipt."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f1"
+          ],
+          "unresolved_facts": [
+            "Was this purchased via a website or app?"
+          ],
+          "evidence_needed": [
+            "Order confirmation email"
+          ],
+          "research_terms": [
+            "e-commerce consumer rights India"
+          ]
+        }
+      ],
+      "issue_review": {
+        "defective_product": {
+          "status": "not_stated",
+          "reason": "The consumer does not allege that the speaker is faulty or defective.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "refund_refusal": {
+          "status": "present",
+          "reason": "The consumer reports that the seller is applying a restocking fee deduction to their refund, which they dispute as it was not part of the original advertisement.",
+          "fact_segment_ids": [
+            "f2"
+          ],
+          "unresolved_facts": [
+            "What is the exact amount of the restocking fee?",
+            "What is the seller's stated justification for the fee?"
+          ],
+          "evidence_needed": [
+            "Copy of the original advertisement",
+            "Communication from the seller regarding the deduction",
+            "Receipt showing the trial dates"
+          ],
+          "research_terms": [
+            "restocking fee disclosure requirements",
+            "unfair contract terms India"
+          ]
+        },
+        "misleading_advertising": {
+          "status": "present",
+          "reason": "The consumer claims the advertised 'completely reversible' trial did not disclose the restocking fee now being applied.",
+          "fact_segment_ids": [
+            "f0",
+            "f2"
+          ],
+          "unresolved_facts": [
+            "Does the advertisement contain fine print regarding restocking fees?",
+            "Was the fee disclosed at checkout?"
+          ],
+          "evidence_needed": [
+            "Saved advertisement",
+            "Checkout terms and conditions"
+          ],
+          "research_terms": [
+            "misleading advertising consumer protection",
+            "advertised trial terms"
+          ]
+        },
+        "subscription_billing": {
+          "status": "not_stated",
+          "reason": "This is a one-time purchase, not a recurring subscription.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "warranty": {
+          "status": "not_stated",
+          "reason": "No warranty or repair dispute is mentioned.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "online_shopping": {
+          "status": "present",
+          "reason": "The transaction involves a home trial and return process typical of online retail.",
+          "fact_segment_ids": [
+            "f0",
+            "f1"
+          ],
+          "unresolved_facts": [
+            "Was this purchased via a website or app?"
+          ],
+          "evidence_needed": [
+            "Order confirmation email"
+          ],
+          "research_terms": [
+            "e-commerce consumer rights India"
+          ]
+        },
+        "service_deficiency": {
+          "status": "not_stated",
+          "reason": "The issue is about the refund amount, not a failure to deliver the product or service.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "other_consumer": {
+          "status": "not_stated",
+          "reason": "All concerns are covered by refund and advertising categories.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        }
+      },
+      "followups": [
+        "When did you purchase, receive and first notice the problem?",
+        "What resolution would you like, and what has the seller said so far?",
+        "Do you have a copy of the original advertisement that mentions the 'completely reversible' trial?",
+        "Did you receive any terms and conditions at the time of purchase that mention a restocking fee?"
+      ],
+      "assistant": "I am sorry to hear that you are facing unexpected deductions after returning your speaker. It is understandable to feel frustrated when the terms of a trial do not match what was advertised. I would like to help you clarify these conditions.",
+      "source_ids": [],
+      "retrieval_mode": "unavailable — no reviewed official passages; multi-issue research over 3 issues",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review",
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "diagnostics": [
+        "Educational case preparation; user allegations and document excerpts are not verified facts. No complaint has been filed.",
+        "Verified law unavailable: no reviewed official passages matched the case. Legal conclusions and deadlines are withheld."
+      ],
+      "seconds": 4.27
+    },
+    {
+      "id": "V05",
+      "language": "en",
+      "status": "FAIL",
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": false,
+        "no_forbidden_issue_inference": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "expected_categories": [
+        "refund_refusal",
+        "service_deficiency"
+      ],
+      "actual_categories": [
+        "service_deficiency"
+      ],
+      "unexpected_categories": [],
+      "forbidden_categories": [],
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "review-service_deficiency",
+          "category": "service_deficiency",
+          "title": "The installer failed to attend the scheduled appointment.",
+          "fact_quotes": [
+            "The installer never attended, but says only the person living at the address can complain."
+          ],
+          "fact_segment_ids": [
+            "f1"
+          ],
+          "unresolved_facts": [
+            "Did the company provide a reason for the non-attendance beyond the complaint policy?"
+          ],
+          "evidence_needed": [
+            "Appointment confirmation documents",
+            "Communication logs with Demo Setup"
+          ],
+          "research_terms": [
+            "service non-delivery",
+            "consumer rights service failure"
+          ]
+        }
+      ],
+      "issue_review": {
+        "defective_product": {
+          "status": "not_stated",
+          "reason": "The complaint concerns a service non-delivery, not a faulty physical product.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "refund_refusal": {
+          "status": "not_stated",
+          "reason": "The user has not yet requested a refund or reported a specific refusal of a refund request.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "misleading_advertising": {
+          "status": "not_stated",
+          "reason": "There is no mention of a discrepancy between advertised terms and the service provided.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "subscription_billing": {
+          "status": "not_stated",
+          "reason": "This was a single purchase, not a recurring subscription.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "warranty": {
+          "status": "not_stated",
+          "reason": "No warranty or guarantee promise is mentioned.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "online_shopping": {
+          "status": "not_stated",
+          "reason": "The narrative does not explicitly confirm an online transaction channel.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "service_deficiency": {
+          "status": "present",
+          "reason": "The installer failed to attend the scheduled appointment.",
+          "fact_segment_ids": [
+            "f1"
+          ],
+          "unresolved_facts": [
+            "Did the company provide a reason for the non-attendance beyond the complaint policy?"
+          ],
+          "evidence_needed": [
+            "Appointment confirmation documents",
+            "Communication logs with Demo Setup"
+          ],
+          "research_terms": [
+            "service non-delivery",
+            "consumer rights service failure"
+          ]
+        },
+        "other_consumer": {
+          "status": "not_stated",
+          "reason": "The issue is fully addressed under service deficiency.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        }
+      },
+      "followups": [
+        "When did you purchase, receive and first notice the problem?",
+        "What resolution would you like, and what has the seller said so far?"
+      ],
+      "assistant": "I am very sorry to hear that the installation service you gifted did not go as planned. It must be frustrating to deal with this, especially when you have already paid for the service. I am here to help you navigate this.",
+      "source_ids": [],
+      "retrieval_mode": "unavailable — no reviewed official passages; multi-issue research over 1 issues",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review",
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "diagnostics": [
+        "Educational case preparation; user allegations and document excerpts are not verified facts. No complaint has been filed.",
+        "Verified law unavailable: no reviewed official passages matched the case. Legal conclusions and deadlines are withheld."
+      ],
+      "seconds": 7.35
+    },
+    {
+      "id": "W02",
+      "language": "en",
+      "status": "PASS",
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "no_forbidden_issue_inference": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "expected_categories": [
+        "service_deficiency",
+        "warranty"
+      ],
+      "actual_categories": [
+        "service_deficiency",
+        "warranty"
+      ],
+      "unexpected_categories": [],
+      "forbidden_categories": [],
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "review-warranty",
+          "category": "warranty",
+          "title": "The repairer is holding the appliance under a protection plan, and the performance of this service is in dispute.",
+          "fact_quotes": [
+            "Fictional: An authorised Demo Home repairer retained my appliance for seven weeks under its protection plan.",
+            "It gives no job status and wants a storage payment before returning it."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f1"
+          ],
+          "unresolved_facts": [
+            "What are the specific terms of the protection plan regarding storage fees?"
+          ],
+          "evidence_needed": [
+            "Copy of the protection plan terms",
+            "Copy of the intake sheet"
+          ],
+          "research_terms": [
+            "protection plan repair obligations",
+            "unauthorized storage fees for appliance repair"
+          ]
+        },
+        {
+          "id": "review-service_deficiency",
+          "category": "service_deficiency",
+          "title": "The repairer has retained the appliance for seven weeks without providing status updates.",
+          "fact_quotes": [
+            "Fictional: An authorised Demo Home repairer retained my appliance for seven weeks under its protection plan.",
+            "It gives no job status and wants a storage payment before returning it."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f1"
+          ],
+          "unresolved_facts": [
+            "What is the expected turnaround time for repairs under the plan?"
+          ],
+          "evidence_needed": [
+            "Communication history with the repairer"
+          ],
+          "research_terms": [
+            "unreasonable delay in appliance repair",
+            "consumer rights repair service delay"
+          ]
+        }
+      ],
+      "issue_review": {
+        "defective_product": {
+          "status": "not_stated",
+          "reason": "The narrative mentions an appliance repair but does not describe the specific fault or defect.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "refund_refusal": {
+          "status": "not_stated",
+          "reason": "There is no mention of a requested refund being denied.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "misleading_advertising": {
+          "status": "not_stated",
+          "reason": "No specific marketing representation or pre-transaction promise is disputed.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "subscription_billing": {
+          "status": "not_stated",
+          "reason": "The dispute concerns a repair service and storage fee, not a recurring subscription.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "warranty": {
+          "status": "present",
+          "reason": "The repairer is holding the appliance under a protection plan, and the performance of this service is in dispute.",
+          "fact_segment_ids": [
+            "f0",
+            "f1"
+          ],
+          "unresolved_facts": [
+            "What are the specific terms of the protection plan regarding storage fees?"
+          ],
+          "evidence_needed": [
+            "Copy of the protection plan terms",
+            "Copy of the intake sheet"
+          ],
+          "research_terms": [
+            "protection plan repair obligations",
+            "unauthorized storage fees for appliance repair"
+          ]
+        },
+        "online_shopping": {
+          "status": "not_stated",
+          "reason": "The narrative does not specify if the transaction occurred online.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "service_deficiency": {
+          "status": "present",
+          "reason": "The repairer has retained the appliance for seven weeks without providing status updates.",
+          "fact_segment_ids": [
+            "f0",
+            "f1"
+          ],
+          "unresolved_facts": [
+            "What is the expected turnaround time for repairs under the plan?"
+          ],
+          "evidence_needed": [
+            "Communication history with the repairer"
+          ],
+          "research_terms": [
+            "unreasonable delay in appliance repair",
+            "consumer rights repair service delay"
+          ]
+        },
+        "other_consumer": {
+          "status": "not_stated",
+          "reason": "The issues are covered by warranty and service deficiency categories.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        }
+      },
+      "followups": [
+        "Who was the seller, and which platform or service provider was involved?",
+        "When did you purchase, receive and first notice the problem?",
+        "How much did you pay, and was this a personal purchase or for resale/business?",
+        "What resolution would you like, and what has the seller said so far?"
+      ],
+      "assistant": "I am very sorry to hear about the frustration you are experiencing with your appliance repair. It sounds incredibly stressful to be without your appliance for seven weeks while facing unexpected storage fees. I am here to help you organize these details so you can address this with the repairer effectively.",
+      "source_ids": [],
+      "retrieval_mode": "unavailable — no reviewed official passages; multi-issue research over 2 issues",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review",
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "diagnostics": [
+        "Educational case preparation; user allegations and document excerpts are not verified facts. No complaint has been filed.",
+        "Verified law unavailable: no reviewed official passages matched the case. Legal conclusions and deadlines are withheld."
+      ],
+      "seconds": 3.48
+    },
+    {
+      "id": "W03",
+      "language": "en",
+      "status": "PASS",
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "no_forbidden_issue_inference": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "expected_categories": [
+        "defective_product",
+        "warranty"
+      ],
+      "actual_categories": [
+        "defective_product",
+        "misleading_advertising",
+        "warranty"
+      ],
+      "unexpected_categories": [
+        "misleading_advertising"
+      ],
+      "forbidden_categories": [],
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "review-defective_product",
+          "category": "defective_product",
+          "title": "The consumer reports the camera lens stopped focusing after one month of use.",
+          "fact_quotes": [
+            "The lens stopped focusing after a month."
+          ],
+          "fact_segment_ids": [
+            "f1"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Proof of purchase",
+            "Photographic or video evidence of the focus failure",
+            "Copy of the original coverage card"
+          ],
+          "research_terms": [
+            "consumer rights for refurbished goods",
+            "implied warranty of merchantability"
+          ]
+        },
+        {
+          "id": "review-misleading_advertising",
+          "category": "misleading_advertising",
+          "title": "The consumer alleges a discrepancy between the shop's current claim about exclusions and the written terms on the original coverage card.",
+          "fact_quotes": [
+            "The shop says cover excludes all optical parts, but the card lists only cosmetic exclusions."
+          ],
+          "fact_segment_ids": [
+            "f2"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Copy of the original coverage card",
+            "Correspondence with the shop regarding the exclusion"
+          ],
+          "research_terms": [
+            "misleading trade practices",
+            "deceptive marketing"
+          ]
+        },
+        {
+          "id": "review-warranty",
+          "category": "warranty",
+          "title": "There is a dispute regarding the scope of the six-month written cover provided with the camera.",
+          "fact_quotes": [
+            "Fictional: My refurbished Demo Camera was sold with six months of written cover.",
+            "The shop says cover excludes all optical parts, but the card lists only cosmetic exclusions."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f2"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Copy of the original coverage card",
+            "Terms and conditions of the six-month cover"
+          ],
+          "research_terms": [
+            "warranty dispute",
+            "interpretation of written warranty exclusions"
+          ]
+        }
+      ],
+      "issue_review": {
+        "defective_product": {
+          "status": "present",
+          "reason": "The consumer reports the camera lens stopped focusing after one month of use.",
+          "fact_segment_ids": [
+            "f1"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Proof of purchase",
+            "Photographic or video evidence of the focus failure",
+            "Copy of the original coverage card"
+          ],
+          "research_terms": [
+            "consumer rights for refurbished goods",
+            "implied warranty of merchantability"
+          ]
+        },
+        "refund_refusal": {
+          "status": "not_stated",
+          "reason": "The consumer has not explicitly requested a refund or reported a refusal of one.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "misleading_advertising": {
+          "status": "present",
+          "reason": "The consumer alleges a discrepancy between the shop's current claim about exclusions and the written terms on the original coverage card.",
+          "fact_segment_ids": [
+            "f2"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Copy of the original coverage card",
+            "Correspondence with the shop regarding the exclusion"
+          ],
+          "research_terms": [
+            "misleading trade practices",
+            "deceptive marketing"
+          ]
+        },
+        "subscription_billing": {
+          "status": "not_stated",
+          "reason": "This is a single purchase, not a recurring billing issue.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "warranty": {
+          "status": "present",
+          "reason": "There is a dispute regarding the scope of the six-month written cover provided with the camera.",
+          "fact_segment_ids": [
+            "f0",
+            "f2"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Copy of the original coverage card",
+            "Terms and conditions of the six-month cover"
+          ],
+          "research_terms": [
+            "warranty dispute",
+            "interpretation of written warranty exclusions"
+          ]
+        },
+        "online_shopping": {
+          "status": "not_stated",
+          "reason": "The narrative does not specify if the purchase was made online or in a physical store.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "service_deficiency": {
+          "status": "not_stated",
+          "reason": "The issue pertains to a physical product defect rather than a service delivery failure.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "other_consumer": {
+          "status": "not_stated",
+          "reason": "All concerns are covered by the existing categories.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        }
+      },
+      "followups": [
+        "Who was the seller, and which platform or service provider was involved?",
+        "When did you purchase, receive and first notice the problem?",
+        "How much did you pay, and was this a personal purchase or for resale/business?",
+        "What resolution would you like, and what has the seller said so far?"
+      ],
+      "assistant": "I am sorry to hear that your camera is not working as expected. It is frustrating when a product fails shortly after purchase, especially when there is a disagreement about the coverage terms. I would like to help you clarify this situation.",
+      "source_ids": [],
+      "retrieval_mode": "unavailable — no reviewed official passages; multi-issue research over 3 issues",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review",
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "diagnostics": [
+        "Educational case preparation; user allegations and document excerpts are not verified facts. No complaint has been filed.",
+        "Verified law unavailable: no reviewed official passages matched the case. Legal conclusions and deadlines are withheld."
+      ],
+      "seconds": 4.5
+    }
+  ],
+  "passed": 5,
+  "total": 7,
+  "unique_followup_sets": 5,
+  "unique_evidence_sets": 7,
+  "legal_acceptance": "BLOCKED: authentic approved corpus absent"
+}

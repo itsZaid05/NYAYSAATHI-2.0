@@ -1,3 +1,5 @@
+Latest continuation from `1bbf9cb`: [actual results and remaining legal-source blockers](LEGAL_INTELLIGENCE_CONTINUATION.md). Current suite: **107 passed**. Fresh cohort: **26/30 strict, 17/30 exact**; final same-cohort replay: **28/30 strict, 22/30 exact**. The earlier iteration below is preserved, not replaced or combined into a higher score.
+
 # Current Gemini live validation — 2026-11-14
 
 Actual calls used the securely injected backend key and synthetic data only. No API key value was printed or committed. `GEMINI_TERMS_REVIEWED` is the operator's acknowledgement; current terms, paid-plan entitlement and quota availability are not inferred from a consumer subscription.

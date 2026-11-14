@@ -57,3 +57,7 @@ NCH's actual disclaimer was inspected at https://consumerhelpline.gov.in/public/
 `docs/SOURCE_REUSE_REQUEST.md` contains a concrete request draft for the operator to review; **it was not sent**. For a statute obtained from another authoritative publisher, separately establish its actual reproduction basis and compilation conditions. Applying a network grant does not itself clear reuse, amendments, commencement or legal interpretation.
 
 The source count remains **0**. Independent legal applicability assessment is consequently **NOT PERFORMED**. Current claim checks provide deterministic provenance safeguards plus a separately prompted AI support signal; that signal is explicitly not professional legal review or proof of legal correctness.
+
+## Continuation from 1bbf9cb
+
+Repeated bounded checks still yielded zero authentic approved passages. Source/response metadata, hashes and invalid local artifact findings are in `knowledge/source_access_attempts_round2.json`; the [continuation report](LEGAL_INTELLIGENCE_CONTINUATION.md) distinguishes actual triage/browser results from the blocked legal-source gate. The explicit authentic-source browser acceptance command exited 2, rather than passing a simulated legal analysis. The offline import path remains available but no false rights/provenance attestation was made.

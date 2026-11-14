@@ -465,3 +465,118 @@ def test_failed_catalogue_recheck_invalidates_previous_live_availability(
     health = client.get("/api/health").json()
     assert health["live_ai_available"] is False
     assert health["latest_generation_state"]["status"] == "catalogue_unavailable"
+
+
+def reviewed_extraction(text):
+    from backend.schemas import IssueReview
+    from backend.services.issue_taxonomy import ISSUE_RUBRIC
+
+    result = extraction(text)
+    result.issue_review = {
+        category: IssueReview(
+            status="not_stated", reason="Not described in the supplied facts"
+        )
+        for category in ISSUE_RUBRIC
+    }
+    for category, title in [
+        ("defective_product", "Investigate the reported goods fault"),
+        ("warranty", "Clarify performance of the stated cover promise"),
+    ]:
+        result.issue_review[category] = IssueReview(
+            status="present",
+            reason=title,
+            fact_segment_ids=["f0"],
+            evidence_needed=["Receipt and the described fault/cover records"],
+            research_terms=[title],
+        )
+    return result
+
+
+def test_issue_review_preserves_multiple_supported_facets_without_inventing_a_refund():
+    text = "Fictional: My Demo Dawn oven fails to heat, and the shop declines its written repair cover."
+    result = ground_dynamic_extraction(reviewed_extraction(text), text)
+    assert {i.category for i in result.issue_details} == {
+        "defective_product",
+        "warranty",
+    }
+    assert all(i.fact_quotes == [text] for i in result.issue_details)
+    assert result.issue_review["refund_refusal"].status == "not_stated"
+
+
+@pytest.mark.parametrize(
+    "defect",
+    ["missing_family", "unknown_segment", "unsupported_scope"],
+)
+def test_issue_review_rejects_incomplete_or_ungrounded_positive_facets(defect):
+    text = "Fictional: My Demo Dawn oven fails to heat under written repair cover."
+    result = reviewed_extraction(text)
+    if defect == "missing_family":
+        del result.issue_review["refund_refusal"]
+    elif defect == "unknown_segment":
+        result.issue_review["warranty"].fact_segment_ids = ["f999"]
+    elif defect == "unsupported_scope":
+        result.scope = "unsupported"
+    with pytest.raises(ValueError):
+        ground_dynamic_extraction(result, text)
+
+
+def test_incomplete_facet_is_withheld_without_losing_other_grounded_issues():
+    text = "Fictional: My Demo Dawn oven fails to heat under written repair cover."
+    result = reviewed_extraction(text)
+    result.issue_review["warranty"].evidence_needed = []
+    ground_dynamic_extraction(result, text)
+    assert result.issue_review["warranty"].status == "unclear"
+    assert {i.category for i in result.issue_details} == {"defective_product"}
+
+
+def test_review_decoder_requires_all_families_without_sending_test_expectations():
+    from backend.services.provider_schema import decoder_schema
+    from backend.services.issue_taxonomy import ISSUE_RUBRIC
+
+    schema = decoder_schema(Extracted, {"narrative_segments": {"f0": "Original text"}})
+    review = schema["properties"]["issue_review"]
+    assert set(review["required"]) == set(ISSUE_RUBRIC)
+    assert "issue_review" in schema["required"]
+    assert review["additionalProperties"] is False
+    for family in review["properties"].values():
+        assert family["properties"]["fact_segment_ids"]["items"]["enum"] == ["f0"]
+
+
+def test_complete_issue_review_survives_persistent_assessment_refresh(
+    client, monkeypatch
+):
+    text = "Fictional: My Demo Dawn oven fails to heat under written repair cover."
+    monkeypatch.setattr(
+        GeminiProvider, "extract", lambda *args: reviewed_extraction(text)
+    )
+    a = client.post(
+        "/api/cases/intake",
+        json={
+            "narrative": text,
+            "consent": {
+                "processing": True,
+                "fictional_demo": True,
+                "ai_processing": True,
+            },
+        },
+    ).json()
+    restored = client.get(f"/api/cases/{a['case_id']}/assessment").json()
+    assert len(restored["issue_review"]) == 8
+    assert restored["issue_review"] == a["issue_review"]
+    assert {i["category"] for i in restored["issue_details"]} == {
+        "defective_product",
+        "warranty",
+    }
+
+
+def test_fresh_thirty_cases_are_disjoint_and_have_noncontradictory_expectations():
+    root = Path(__file__).parents[1] / "tests/evaluation"
+    old = json.loads((root / "unseen_consumer_cases.json").read_text())
+    fresh = json.loads((root / "fresh_multi_issue_cases.json").read_text())
+    assert len(fresh) == 30 and len({r["id"] for r in fresh}) == 30
+    assert not ({r["narrative"] for r in old} & {r["narrative"] for r in fresh})
+    assert sum(len(r["expected_issue_categories"]) > 1 for r in fresh) >= 20
+    for r in fresh:
+        assert not (
+            set(r["expected_issue_categories"]) & set(r["forbidden_categories"])
+        )

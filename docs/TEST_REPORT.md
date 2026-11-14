@@ -1,3 +1,5 @@
+Latest continuation from `1bbf9cb`: [actual results and remaining legal-source blockers](LEGAL_INTELLIGENCE_CONTINUATION.md). Current suite: **107 passed**. Fresh cohort: **26/30 strict, 17/30 exact**; final same-cohort replay: **28/30 strict, 22/30 exact**. The earlier iteration below is preserved, not replaced or combined into a higher score.
+
 # Current test report — 2026-11-14
 
 Branch: `feature/generalized-consumer-analysis`, based on remote main `1274bee` after PR #2. Implementation milestone: `25de2d0`. All identities/documents/narratives used for provider calls were synthetic.

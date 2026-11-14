@@ -1,0 +1,436 @@
+[
+  {
+    "id": "F01",
+    "expected_issue_categories": [
+      "defective_product",
+      "warranty"
+    ],
+    "forbidden_categories": [
+      "refund_refusal",
+      "subscription_billing"
+    ],
+    "language": "en",
+    "narrative": "Fictional: The Demo Glow induction hob switches off after two minutes. Its written eighteen-month repair promise is still dated as current, but the repair centre refuses because I bought it during a sale. I have the receipt and promise card.",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F02",
+    "expected_issue_categories": [
+      "defective_product",
+      "refund_refusal"
+    ],
+    "forbidden_categories": [
+      "warranty"
+    ],
+    "language": "en",
+    "narrative": "Fictional: The Demo Wick desk lamp arrived with a cracked base. I requested my INR 2600 back and the seller declined, offering tape instead. I have delivery photos.",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F03",
+    "expected_issue_categories": [
+      "defective_product",
+      "misleading_advertising"
+    ],
+    "forbidden_categories": [
+      "refund_refusal",
+      "warranty"
+    ],
+    "language": "en",
+    "narrative": "Fictional: The Demo Mist purifier was advertised as having a washable filter. The sealed manual says filters must be discarded, and its motor now emits smoke. I have the box, advertisement and receipt.",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F04",
+    "expected_issue_categories": [
+      "defective_product"
+    ],
+    "forbidden_categories": [
+      "refund_refusal",
+      "warranty"
+    ],
+    "language": "en",
+    "narrative": "Fictional: My new Demo Sail suitcase wheel came off on its first trip. I have not yet contacted the shop and no cover promise was mentioned. Which facts should I gather?",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F05",
+    "expected_issue_categories": [
+      "defective_product",
+      "warranty",
+      "service_deficiency"
+    ],
+    "forbidden_categories": [
+      "refund_refusal"
+    ],
+    "language": "en",
+    "narrative": "Fictional: The Demo Ember vacuum no longer charges. A written repair plan includes home collection within four days, but its repairer missed both agreed collections and now refuses cover for an exclusion missing from my card.",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F06",
+    "expected_issue_categories": [
+      "misleading_advertising",
+      "refund_refusal"
+    ],
+    "forbidden_categories": [
+      "warranty"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Script advertised lifetime access to purchased recipe videos. Access disappeared after ninety days. I requested the payment back; the provider refused, saying lifetime meant one season. I kept the advertisement.",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F07",
+    "expected_issue_categories": [
+      "misleading_advertising",
+      "online_shopping"
+    ],
+    "forbidden_categories": [
+      "defective_product",
+      "refund_refusal"
+    ],
+    "language": "en",
+    "narrative": "Fictional: The Demo Bloom website checkout displayed INR 4800 including all charges for a home exercise kit, but its final payment page adds a mandatory handling amount. I stopped before paying and kept screenshots.",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F08",
+    "expected_issue_categories": [
+      "misleading_advertising",
+      "service_deficiency"
+    ],
+    "forbidden_categories": [
+      "refund_refusal",
+      "warranty"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Leaf advertised six individual home-tutoring sessions. It delivered two group sessions instead and stopped answering. I have its written schedule. I have not requested money back yet.",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F09",
+    "expected_issue_categories": [
+      "misleading_advertising"
+    ],
+    "forbidden_categories": [
+      "defective_product",
+      "refund_refusal",
+      "warranty"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Reed promoted a table as solid teak; the delivered item has a label saying fibreboard. It is currently usable, and I have made no payment-return or repair request. The original brochure is saved.",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F10",
+    "expected_issue_categories": [
+      "misleading_advertising",
+      "subscription_billing"
+    ],
+    "forbidden_categories": [
+      "warranty"
+    ],
+    "language": "en",
+    "narrative": "Fictional: The Demo Pulse app offered a single INR 99 language lesson marked no membership. My statement now shows a recurring INR 699 debit. Support says enrollment was automatic. I saved the offer screen and bank statement.",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F11",
+    "expected_issue_categories": [
+      "subscription_billing",
+      "refund_refusal"
+    ],
+    "forbidden_categories": [
+      "warranty"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Sprout confirmed my seed-box membership ended on 2026-10-04. It debited INR 1100 again on 2026-11-04 and explicitly refused my request to reverse that debit. I have both messages.",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F12",
+    "expected_issue_categories": [
+      "subscription_billing",
+      "service_deficiency"
+    ],
+    "forbidden_categories": [
+      "refund_refusal"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo River kept charging the monthly home-water-filter maintenance fee while missing every scheduled service visit for three months. I have appointment messages and monthly statements. I have not asked for a refund.",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F13",
+    "expected_issue_categories": [
+      "subscription_billing",
+      "misleading_advertising"
+    ],
+    "forbidden_categories": [
+      "refund_refusal",
+      "warranty"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Verse advertised a pause-anytime reading membership without charges during a pause. The pause was acknowledged, but two monthly payments continued. Support now says pausing affects deliveries only.",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F14",
+    "expected_issue_categories": [
+      "subscription_billing"
+    ],
+    "forbidden_categories": [
+      "refund_refusal",
+      "warranty",
+      "defective_product"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Trail renewed my household magazine membership after acknowledging my cancellation. I want the cancellation and debit records organised before I contact it. I have not requested any money back.",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F15",
+    "expected_issue_categories": [
+      "subscription_billing",
+      "online_shopping",
+      "refund_refusal"
+    ],
+    "forbidden_categories": [
+      "warranty"
+    ],
+    "language": "en",
+    "narrative": "Fictional: I used the Demo Fern website to cancel a recurring household coffee order. Its dashboard confirmed cancellation but the next debit went through. The online seller rejected my written request to reverse that charge.",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F16",
+    "expected_issue_categories": [
+      "service_deficiency",
+      "refund_refusal"
+    ],
+    "forbidden_categories": [
+      "warranty"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Maple cancelled the family cooking workshop after receiving INR 3200. Its manager rejected my request to return the payment and offered only vouchers. The receipt and cancellation email are saved.",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F17",
+    "expected_issue_categories": [
+      "service_deficiency",
+      "warranty"
+    ],
+    "forbidden_categories": [
+      "refund_refusal"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Arc retained my toaster under its written protection plan for six weeks beyond the plan's stated repair period. It has supplied no update. I have the job receipt and protection terms.",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F18",
+    "expected_issue_categories": [
+      "service_deficiency"
+    ],
+    "forbidden_categories": [
+      "refund_refusal",
+      "warranty"
+    ],
+    "language": "en",
+    "narrative": "Fictional: I prepaid Demo Shell for a household move, but its van never arrived. I have booking confirmation and proof of payment. I have not contacted it about a refund or made any coverage claim.",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F19",
+    "expected_issue_categories": [
+      "service_deficiency",
+      "misleading_advertising"
+    ],
+    "forbidden_categories": [
+      "refund_refusal"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Meadow advertised same-day pest treatment with three rooms included. It treated only one room and said the rest cost extra, despite my booking confirmation listing all three. I saved the leaflet.",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F20",
+    "expected_issue_categories": [
+      "service_deficiency",
+      "online_shopping",
+      "refund_refusal"
+    ],
+    "forbidden_categories": [
+      "warranty"
+    ],
+    "language": "en",
+    "narrative": "Fictional: I booked a home haircut through the Demo Quartz app. Nobody attended. The app acknowledged the missed appointment but declined my INR 800 refund request, insisting I accept wallet credit.",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F21",
+    "expected_issue_categories": [
+      "warranty",
+      "defective_product"
+    ],
+    "forbidden_categories": [
+      "refund_refusal"
+    ],
+    "language": "hi",
+    "narrative": "Fictional: मेरे Demo Tara पंखे की मोटर बंद हो गई। लिखित एक साल की मरम्मत गारंटी के बावजूद दुकान कहती है कि बिक्री वाले सामान पर गारंटी लागू नहीं होती। मेरे पास बिल और गारंटी कार्ड है।",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F22",
+    "expected_issue_categories": [
+      "warranty",
+      "service_deficiency"
+    ],
+    "forbidden_categories": [
+      "refund_refusal"
+    ],
+    "language": "hi",
+    "narrative": "Fictional: मेरी Demo Kiran सिलाई मशीन सुरक्षा योजना के तहत मरम्मत के लिए जमा है। योजना में दस दिन लिखे हैं, लेकिन चालीस दिन हो गए और कोई स्थिति नहीं बताता। मेरे पास जमा पर्ची है।",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F23",
+    "expected_issue_categories": [
+      "refund_refusal",
+      "misleading_advertising"
+    ],
+    "forbidden_categories": [
+      "warranty",
+      "defective_product"
+    ],
+    "language": "hi",
+    "narrative": "Fictional: Demo Iris ने घर पर आजमाने के बाद पूरी रकम वापसी का विज्ञापन दिया था। मैंने तय तारीख में सामान लौटाया, लेकिन अब कंपनी बिल में न लिखी कटौती कर रही है। विज्ञापन और वापसी रसीद सुरक्षित हैं।",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F24",
+    "expected_issue_categories": [
+      "service_deficiency",
+      "refund_refusal"
+    ],
+    "forbidden_categories": [
+      "warranty"
+    ],
+    "language": "hi",
+    "narrative": "Fictional: Demo Neel की बुक की गई घर की सफाई हुई ही नहीं। मैंने पैसे वापस मांगे, लेकिन कंपनी ने मना किया और कूपन दिया। मेरे पास भुगतान और बुकिंग का संदेश है।",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F25",
+    "expected_issue_categories": [
+      "warranty",
+      "defective_product",
+      "refund_refusal"
+    ],
+    "forbidden_categories": [
+      "subscription_billing"
+    ],
+    "language": "en",
+    "narrative": "Fictional: My Demo Slate tablet loses power even after three repairs under its written cover. The seller rejected my request to return the price, saying I must keep accepting repairs. The service slips show the same fault each time.",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F26",
+    "expected_issue_categories": [
+      "online_shopping",
+      "misleading_advertising",
+      "refund_refusal"
+    ],
+    "forbidden_categories": [
+      "warranty"
+    ],
+    "language": "en",
+    "narrative": "Fictional: The Demo Lark marketplace listing promised a sealed, new mixer, but the parcel contained an opened display unit. I requested the price back through its website and was refused. I have the listing and unboxing photos.",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F27",
+    "expected_issue_categories": [
+      "service_deficiency",
+      "refund_refusal"
+    ],
+    "forbidden_categories": [
+      "warranty"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Harbor charged for six home physiotherapy appointments for my father but delivered only one. I paid as the purchaser and requested the balance back; it refuses because my father did not pay personally.",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F28",
+    "expected_issue_categories": [
+      "warranty"
+    ],
+    "forbidden_categories": [
+      "refund_refusal",
+      "subscription_billing"
+    ],
+    "language": "en",
+    "narrative": "Fictional: The Demo Cove shop denies its written two-year cover for my headphones, citing accidental-damage exclusions I cannot find in the card. I do not know the cause of the problem yet and want the coverage terms compared.",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F29",
+    "expected_issue_categories": [
+      "service_deficiency"
+    ],
+    "forbidden_categories": [
+      "refund_refusal",
+      "warranty"
+    ],
+    "language": "en",
+    "narrative": "Fictional: I bought Demo Crest appliance installation as a gift for my aunt. The installer never arrived and says only my aunt can raise a service complaint. I have the booking receipt but have not asked for money back.",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  },
+  {
+    "id": "F30",
+    "expected_issue_categories": [
+      "subscription_billing",
+      "misleading_advertising",
+      "refund_refusal"
+    ],
+    "forbidden_categories": [
+      "warranty"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Finch sold a fitness-video trial marked no automatic renewal. A renewal debit appeared anyway. I disputed it and requested its reversal, but support refused and sent a membership term absent from my saved trial screen.",
+    "jurisdiction": "IN",
+    "review_note": "Fresh synthetic factual-triage targets, established before live calls. Expected labels are investigative topics, not legal conclusions; forbidden labels test unsupported inference."
+  }
+]

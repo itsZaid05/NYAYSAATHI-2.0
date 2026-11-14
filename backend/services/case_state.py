@@ -157,6 +157,40 @@ def narrative_segments(text):
 def ground_dynamic_extraction(result, narrative):
     """Only deterministic selection/alignment creates factual provenance."""
     segments = narrative_segments(narrative)
+    if result.issue_review:
+        from backend.services.issue_taxonomy import ISSUE_RUBRIC
+        from backend.schemas import ConsumerIssue
+
+        if set(result.issue_review) != set(ISSUE_RUBRIC):
+            raise ValueError("Incomplete issue-family review")
+        reviewed_issues = []
+        for category, review in result.issue_review.items():
+            if any(sid not in segments for sid in review.fact_segment_ids):
+                raise ValueError("Issue review selected an unknown narrative segment")
+            if review.status != "present":
+                continue
+            if result.scope != "consumer":
+                raise ValueError("Positive consumer findings conflict with scope")
+            if not review.fact_segment_ids:
+                raise ValueError("Positive issue review needs narrative provenance")
+            if not review.evidence_needed or not review.research_terms:
+                # Reject this incomplete finding without discarding other
+                # independently grounded concerns in the same response.
+                review.status = "unclear"
+                continue
+            reviewed_issues.append(
+                ConsumerIssue(
+                    id="review-" + category,
+                    category=category,
+                    title=review.reason[:300],
+                    fact_segment_ids=review.fact_segment_ids,
+                    unresolved_facts=review.unresolved_facts,
+                    evidence_needed=review.evidence_needed,
+                    research_terms=review.research_terms,
+                )
+            )
+        # Materialise all supported facets; never choose only one winning label.
+        result.issue_details = reviewed_issues
     if result.scope is None:
         # Preserve the strict legacy adapter contract; new dynamic output uses segment selection.
         if any(f not in narrative for f in result.facts) or any(

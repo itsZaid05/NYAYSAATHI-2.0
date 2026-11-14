@@ -263,6 +263,7 @@ class GeminiProvider:
 
     def extract(self, narrative, language, questions):
         from backend.services.case_state import narrative_segments
+        from backend.services.issue_taxonomy import ISSUE_RUBRIC
 
         return self.generate(
             "You are a supportive fictional Indian consumer intake assistant. Extract facts and timeline "
@@ -275,21 +276,21 @@ class GeminiProvider:
             "Use selected language for assistant_message and questions; keep provenance excerpts verbatim. "
             "Independently determine scope: consumer, unsupported or unclear. A consumer complaint may mention "
             "police, employment, business or family incidentally; do not reject its consumer aspects based on a word. "
-            "Identify ALL distinct possible consumer issues in issue_details, not one category. Examine each distinct "
-            "disputed act: marketing representations, order fulfilment, goods condition, coverage promises, "
-            "recurring-payment consent, and refusal of a requested payment return. A cover/protection promise is a warranty issue even if the word warranty is absent. A marketing promise conflicting with delivered terms is a representation question. If non-fulfilment and a "
-            "separate refund refusal are both described, examine both factual questions rather than compressing "
-            "everything into a refund label. Do not add unsupported issues or duplicate the same question. Titles describe "
-            "questions to investigate, never findings of illegality. Each issue MUST select fact_segment_ids from supplied narrative_segments; leave fact_quotes empty because the backend resolves them to original text. Each issue needs "
-            "unresolved_facts, case-specific evidence_needed and research_terms for statute retrieval. "
-            "Choose misleading_advertising for disputed marketing representations, subscription_billing for "
-            "recurring charges/cancellation, and other_consumer for unfamiliar consumer transactions. "
+            "Complete issue_review for EVERY issue family independently using the supplied rubric. Set issue_details to [] (the backend builds them from the review). Use present only when quoted narrative segments support the disputed concern; use unclear when essential facts are missing, not_stated when absent. A concern can span multiple families; do not let one category absorb another. Do not inflate coverage by guessing every label. For present entries include exact fact_segment_ids, a short conditional reason/question title, case-specific evidence_needed, research_terms and unresolved_facts. For absent entries keep arrays empty and briefly explain the absence. Evaluate the online transaction facet separately from substantive concerns, without asserting standing or wrongdoing. Examine each distinct "
+            "disputed act using the rubric. Complete coverage is not a target number of positive labels. "
+            "For every positive finding, distinguish a directly stated concern from an assumption about how transactions usually happen. "
+            "Delivery, saved advertising or digital content alone does not establish that ordering/payment took place online. "
+            "A broken contractual promise does not by itself establish a disputed pre-contract advertisement. "
+            "Do not invent a goods fault solely from a cover dispute or a refund refusal solely from payment. "
+            "If an extra concern is only inferred, mark it unclear and ask about the missing factual basis. "
+            "Titles describe conditional questions to investigate, never findings of illegality. "
             "If unclear, ask the minimum facts to establish the transaction and purpose. Never invent statutes.",
             {
                 "narrative": narrative,
                 "language": language,
                 "known_fact_gaps": questions,
                 "narrative_segments": narrative_segments(narrative),
+                "issue_rubric": ISSUE_RUBRIC,
             },
             Extracted,
         )

@@ -47,3 +47,9 @@ Enter a new monthly-billing or misleading-promise dispute directly rather than c
 A fully automated fresh narrative is exercised by `NYAY_TEST_URL=http://127.0.0.1:8011 node tests/generalized-browser.cjs`. It reports the legal-source segment as blocked. Do not present this as a source-grounded legal opinion: there are zero approved legal passages, and seven expected secondary tags were missed in the thirty-case evaluation. Details and all original expectations remain in UNSEEN_EVALUATION.md.
 
 If startup reports transient capacity/quota failure, retain the draft intake and use **Retry AI connection** after the displayed cooldown. Do not present a failed probe as a live success or keep replaying requests against an exhausted account.
+
+## Current multi-issue rehearsal
+
+Run `NYAY_TEST_URL=http://127.0.0.1:8011 node tests/generalized-browser.cjs` for a separately entered new membership dispute involving a marketing promise, recurring debit and explicit payment-reversal refusal. Its successful latest run includes evidence, story, editable document/PDF, separate consent-based demo recipient, refresh, revocation and deletion.
+
+For the required legal release, run the same command with `--require-grounded`. This is a strict acceptance gate: it currently exits 2 because the corpus is empty. It must not be presented as a completed legal demonstration. See LEGAL_INTELLIGENCE_CONTINUATION.md for first-exposure versus replay scores and actual provider failures.

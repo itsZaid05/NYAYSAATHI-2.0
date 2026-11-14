@@ -37,12 +37,25 @@ def decoder_schema(model, data=None):
     schema = visit(raw)
     if model.__name__ == "Extracted" and data and data.get("narrative_segments"):
         ids = list(data["narrative_segments"])
+        from backend.services.issue_taxonomy import ISSUE_RUBRIC
+
+        review = visit(definitions["IssueReview"])
+        review["properties"]["fact_segment_ids"]["items"] = {
+            "type": "string",
+            "enum": ids,
+        }
+        schema["properties"]["issue_review"] = {
+            "type": "object",
+            "properties": {category: review for category in ISSUE_RUBRIC},
+            "required": list(ISSUE_RUBRIC),
+            "additionalProperties": False,
+        }
         schema["properties"]["scope"] = {
             "type": "string",
             "enum": ["consumer", "unsupported", "unclear"],
         }
         schema["required"] = list(
-            dict.fromkeys(schema.get("required", []) + ["scope", "issue_details"])
+            dict.fromkeys(schema.get("required", []) + ["scope", "issue_review"])
         )
         item = schema["properties"]["issue_details"]["items"]
         item["properties"].pop("fact_quotes", None)

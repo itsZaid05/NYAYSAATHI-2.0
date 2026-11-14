@@ -27,6 +27,9 @@ def evaluate_case(case):
             "live_dynamic_understanding": a.understanding_method.startswith("Gemini"),
             "consumer_scope": a.scope_status == "consumer",
             "expected_issue_coverage": expected.issubset(got),
+            "no_forbidden_issue_inference": not (
+                set(case.get("forbidden_categories", [])) & got
+            ),
             "issue_fact_provenance": bool(a.issue_details)
             and all(
                 q in case["narrative"] for i in a.issue_details for q in i.fact_quotes
@@ -45,8 +48,11 @@ def evaluate_case(case):
             "checks": checks,
             "expected_categories": sorted(expected),
             "actual_categories": sorted(got),
+            "unexpected_categories": sorted(got - expected),
+            "forbidden_categories": case.get("forbidden_categories", []),
             "scope": a.scope_status,
             "issues": [i.model_dump() for i in a.issue_details],
+            "issue_review": {k: v.model_dump() for k, v in a.issue_review.items()},
             "followups": a.unknowns,
             "assistant": a.assistant_message,
             "source_ids": [s.id for s in a.sources],
@@ -75,6 +81,7 @@ def main():
     p.add_argument("--embedding-model")
     p.add_argument("--pause", type=float, default=4.5)
     p.add_argument("--output", default="runtime/unseen-evaluation.json")
+    p.add_argument("--cases", default="tests/evaluation/unseen_consumer_cases.json")
     args = p.parse_args()
     if not args.live:
         p.error(
@@ -103,9 +110,8 @@ def main():
         profile = verify_runtime_models()
         if not profile["generation_verified"]:
             raise SystemExit("No generation model passed the actual startup probe")
-    cases = json.loads(
-        (ROOT / "tests/evaluation/unseen_consumer_cases.json").read_text()
-    )
+    cases_path = (ROOT / args.cases).resolve()
+    cases = json.loads(cases_path.read_text())
     if args.only:
         cases = [c for c in cases if c["id"] in args.only.split(",")]
     if args.limit:
@@ -114,6 +120,8 @@ def main():
         "checked_at": datetime.now(timezone.utc).isoformat(),
         "model_configuration": profile,
         "synthetic_only": True,
+        "cases_file": str(cases_path.relative_to(ROOT)),
+        "cases_sha256": hashlib.sha256(cases_path.read_bytes()).hexdigest(),
         "source_count": 0,
         "results": [],
     }

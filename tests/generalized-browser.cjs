@@ -3,6 +3,18 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const { chromium } = require("playwright");
 (async () => {
+  const base = process.env.NYAY_TEST_URL || "http://127.0.0.1:8011";
+  const requireGrounded = process.argv.includes("--require-grounded");
+  const healthResponse = await fetch(base + "/api/health");
+  assert.equal(healthResponse.status, 200);
+  const health = await healthResponse.json();
+  if (requireGrounded && !health.reviewed_sources) {
+    console.error(
+      "BLOCKED: authentic-source browser acceptance requires an approved official corpus; health reports zero passages. No legal analysis or source success is simulated.",
+    );
+    process.exitCode = 2;
+    return;
+  }
   const b = await chromium.launch({
     executablePath: process.env.CHROMIUM_PATH || "/usr/bin/chromium",
     headless: true,
@@ -15,7 +27,6 @@ const { chromium } = require("playwright");
   const p = await guest.newPage();
   let errors = [];
   p.on("pageerror", (e) => errors.push(e.message));
-  const base = process.env.NYAY_TEST_URL || "http://127.0.0.1:8011";
   await p.goto(base);
   await p
     .getByRole("button", { name: "Start a fictional case", exact: true })
@@ -39,7 +50,7 @@ const { chromium } = require("playwright");
     );
   }
   const narrative =
-    "Fictional: Demo Arbor kept billing INR 1450 automatically every month after confirming my gardening plan ended on 2026-10-18. The shop offered a month of tools instead of returning the extra charge. I have its cancellation acknowledgment and bank record. I want the extra charge reversed.";
+    "Fictional: Demo Alder advertised a household gardening membership that could end at any time without more debits. It confirmed my cancellation on 2026-10-18 but debited INR 1450 again on 2026-11-04. Support refused my written request to reverse that extra payment, saying cancellation only pauses deliveries, contrary to the saved advertisement. I have the offer, acknowledgment and bank record.";
   await p.locator("#narrative").fill(narrative);
   await p.locator('[name="processing"]').check();
   await p.locator('[name="fictional"]').check();
@@ -58,14 +69,61 @@ const { chromium } = require("playwright");
     `Live intake did not complete: ${a.ai_status}; ${a.safety_flags.join("; ")}`,
   );
   assert.match(a.understanding_method, /Gemini multi-issue/);
-  assert.ok(a.issue_details.some((i) => i.category === "subscription_billing"));
+  for (const category of [
+    "subscription_billing",
+    "refund_refusal",
+    "misleading_advertising",
+  ]) {
+    assert.ok(
+      a.issue_details.some((i) => i.category === category),
+      `Missing supported facet: ${category}`,
+    );
+  }
+  if (requireGrounded) {
+    assert.ok(
+      a.sources.length > 0 && a.legal_analysis?.claims.length > 0,
+      "No source-grounded legal analysis was accepted",
+    );
+    const { createHash } = require("node:crypto");
+    for (const source of a.sources) {
+      assert.match(new URL(source.url).hostname, /\.(gov|nic)\.in$/);
+      const artifact = fs.readFileSync(
+        "knowledge/artifacts/" + source.artifact_sha256,
+      );
+      assert.equal(
+        createHash("sha256").update(artifact).digest("hex"),
+        source.artifact_sha256,
+      );
+    }
+    for (const claim of a.legal_analysis.claims) {
+      assert.equal(claim.support_status, "supported");
+      claim.source_ids.forEach((id, index) => {
+        const source = a.sources.find((s) => s.id === id);
+        assert.ok(
+          source && source.quote.includes(claim.supporting_quotes[index]),
+        );
+      });
+      assert.ok(claim.fact_quotes.every((quote) => narrative.includes(quote)));
+    }
+    await p.locator('[data-page="ai-insights"]').click();
+    for (const source of a.sources) {
+      assert.ok(
+        await p.locator(`a[href="${source.url}"]`).count(),
+        "Official source link absent from frontend",
+      );
+    }
+    console.log(
+      "AUTHENTIC-SOURCE STRUCTURAL CHECKS PASSED; substantive legal accuracy still requires independent qualified review.",
+    );
+    await p.locator('[data-page="dashboard"]').click();
+  }
   await p.getByRole("button", { name: "Add evidence", exact: true }).click();
   await p.locator('select[name="kind"]').selectOption("communication");
   await p.locator('input[type="file"]').setInputFiles({
     name: "synthetic-cancellation.txt",
     mimeType: "text/plain",
     buffer: Buffer.from(
-      "Fictional Demo Arbor: Gardening plan ended on 2026-10-18. Monthly INR 1450 charge disputed. This is a synthetic cancellation acknowledgment.",
+      "Fictional Demo Alder: Membership ended on 2026-10-18. INR 1450 debit on 2026-11-04 disputed and reversal refused. This is a synthetic cancellation acknowledgment.",
     ),
   });
   const uploaded = p.waitForResponse(
@@ -156,9 +214,10 @@ const { chromium } = require("playwright");
   console.log(
     "PASS LIVE UNSEEN: new subscription narrative -> dynamic issues -> evidence-preserved state -> editable request -> PDF -> demo lawyer acknowledgment -> refresh -> revoke -> delete.",
   );
-  console.log(
-    "BLOCKED: authentic statutory retrieval/legal applicability segment; approved corpus is empty.",
-  );
+  if (!health.reviewed_sources)
+    console.log(
+      "BLOCKED: authentic statutory retrieval/legal applicability segment; approved corpus is empty.",
+    );
   await b.close();
 })().catch((e) => {
   console.error(e);

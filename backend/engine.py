@@ -217,6 +217,7 @@ def assess(
         and not danger
     )
     issue_details = []
+    issue_review = {}
     scope_status = (
         "consumer"
         if supported
@@ -240,6 +241,10 @@ def assess(
             if result.scope == "consumer" and not result.issue_details:
                 raise ProviderUnavailable(
                     "Dynamic consumer classification omitted all issue provenance"
+                )
+            if any(r.status == "unclear" for r in result.issue_review.values()):
+                flags.append(
+                    "Some possible issue families remain uncertain; the listed concerns are not an exhaustive legal assessment."
                 )
             if re.search(
                 r"section\s+\d|धारा\s*[०-९\d]|you (?:are entitled|must file)|guaranteed (?:refund|outcome|win|success)|file within",
@@ -295,6 +300,7 @@ def assess(
             if result.scope is not None:
                 scope_status = result.scope
                 issue_details = result.issue_details
+                issue_review = result.issue_review
                 supported = (
                     result.scope == "consumer" and not danger and jurisdiction == "IN"
                 )
@@ -320,6 +326,7 @@ def assess(
                 and old.understanding_method.startswith("Gemini")
             ):
                 issue_details = old.issue_details
+                issue_review = old.issue_review
                 scope_status = old.scope_status
                 understanding_method = old.understanding_method
                 category = old.category
@@ -339,6 +346,7 @@ def assess(
                 ai_status = "Current Gemini request unavailable; previously grounded intake retained"
     elif context_unchanged and old:
         issue_details = old.issue_details
+        issue_review = old.issue_review
         scope_status = old.scope_status
         understanding_method = old.understanding_method
         if understanding_method.startswith("Gemini"):
@@ -541,6 +549,7 @@ def assess(
         timeline=timeline,
         issues=[i.title for i in issue_details] or [category.replace("_", " ")],
         issue_details=issue_details,
+        issue_review=issue_review,
         scope_status=scope_status,
         understanding_method=understanding_method,
         sources=sources,

@@ -117,6 +117,7 @@ class Draft(StrictModel):
 
 
 class CaseAssessment(StrictModel):
+    issue_review: dict[str, IssueReview] = Field(default_factory=dict)
     legal_validation_notice: str = "Citation provenance can be checked; AI support evaluation is not independent legal correctness or professional review."
     issue_details: list[ConsumerIssue] = Field(default_factory=list)
     scope_status: Literal["consumer", "unsupported", "unclear"] = "unclear"
@@ -192,6 +193,7 @@ class CaseAssessment(StrictModel):
 
 
 class Extracted(StrictModel):
+    issue_review: dict[str, IssueReview] = Field(default_factory=dict)
     scope: Literal["consumer", "unsupported", "unclear"] | None = None
     issue_details: list[ConsumerIssue] = Field(default_factory=list, max_length=8)
     assistant_message: str = ""
@@ -359,6 +361,15 @@ class ConsumerIssue(StrictModel):
 
 class ModelProbe(StrictModel):
     status: Literal["ok"]
+
+
+class IssueReview(StrictModel):
+    status: Literal["present", "unclear", "not_stated"]
+    reason: str = Field(min_length=3, max_length=500)
+    fact_segment_ids: list[str] = Field(default_factory=list, max_length=6)
+    unresolved_facts: list[str] = Field(default_factory=list, max_length=6)
+    evidence_needed: list[str] = Field(default_factory=list, max_length=8)
+    research_terms: list[str] = Field(default_factory=list, max_length=12)
 
 
 CaseAssessment.model_rebuild()

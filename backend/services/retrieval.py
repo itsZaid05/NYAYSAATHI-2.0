@@ -10,7 +10,7 @@ def retrieve_for_issues(provider, narrative, issues, *, semantic, event_date=Non
     ranks = {}
     modes = []
     # Bounded calls and per-issue diversity keep one verbose allegation from hiding the others.
-    for issue in issues[:6]:
+    for issue in issues[:8]:
         query = (
             " ".join([issue.title] + issue.research_terms)
             + "\n"
@@ -30,7 +30,7 @@ def retrieve_for_issues(provider, narrative, issues, *, semantic, event_date=Non
     mode = (
         "; ".join(modes)
         + "; multi-issue research over "
-        + str(min(len(issues), 6))
+        + str(min(len(issues), 8))
         + " issues"
     )
     return selected, mode
