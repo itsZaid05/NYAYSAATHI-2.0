@@ -55,6 +55,7 @@ class GeminiProvider:
     live_observations = {}
     artifact_text_cache = {}
     generation_cooldown_until = 0.0
+    generation_state = {}
     base = "https://generativelanguage.googleapis.com/v1beta"
 
     def _ready(self):
@@ -126,7 +127,15 @@ class GeminiProvider:
                 http_status=429,
                 retry_after=str(wait),
             )
-        self._ready()
+        try:
+            self._ready()
+        except ProviderUnavailable:
+            type(self).generation_state = {
+                "ok": False,
+                "model": settings.gemini_model,
+                "status": "not_ready",
+            }
+            raise
         from backend.services.provider_schema import decoder_schema
 
         # User/document data is untrusted content, never system instructions.
@@ -162,6 +171,11 @@ class GeminiProvider:
                     },
                 )
                 if not r.is_success:
+                    type(self).generation_state = {
+                        "ok": False,
+                        "model": settings.gemini_model,
+                        "http_status": r.status_code,
+                    }
                     delay = r.headers.get("retry-after")
                     if r.status_code == 429:
                         try:
@@ -204,8 +218,18 @@ class GeminiProvider:
                     "at": datetime.now(timezone.utc).isoformat(),
                     "status": "validated JSON response",
                 }
+                type(self).generation_state = {
+                    "ok": True,
+                    "model": settings.gemini_model,
+                    "http_status": 200,
+                }
                 return result
         except ValidationError as exc:
+            type(self).generation_state = {
+                "ok": False,
+                "model": settings.gemini_model,
+                "status": "output_rejected",
+            }
             locations = [
                 ".".join(map(str, e["loc"]))
                 for e in exc.errors(include_input=False, include_url=False)[:6]
@@ -213,9 +237,28 @@ class GeminiProvider:
             raise ProviderUnavailable(
                 "Gemini JSON contract rejected at: " + ", ".join(locations)
             ) from None
-        except (httpx.HTTPError, ValueError, KeyError, IndexError):
+        except httpx.HTTPError as exc:
+            # Exception messages may contain request URLs/content. Expose only
+            # the transport class, never the raw error or response body.
+            type(self).generation_state = {
+                "ok": False,
+                "model": settings.gemini_model,
+                "status": "transport_failure",
+                "error_type": type(exc).__name__,
+            }
             raise ProviderUnavailable(
-                "Gemini unavailable or returned invalid structured output; no AI result accepted"
+                "Gemini transport unavailable ("
+                + type(exc).__name__
+                + "); no AI result accepted"
+            ) from None
+        except (ValueError, KeyError, IndexError):
+            type(self).generation_state = {
+                "ok": False,
+                "model": settings.gemini_model,
+                "status": "malformed_response",
+            }
+            raise ProviderUnavailable(
+                "Gemini returned an invalid response envelope; no AI result accepted"
             ) from None
 
     def extract(self, narrative, language, questions):

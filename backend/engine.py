@@ -242,7 +242,7 @@ def assess(
                     "Dynamic consumer classification omitted all issue provenance"
                 )
             if re.search(
-                r"section\s+\d|धारा\s*[०-९\d]|you (?:are entitled|must file)|guaranteed|file within",
+                r"section\s+\d|धारा\s*[०-९\d]|you (?:are entitled|must file)|guaranteed (?:refund|outcome|win|success)|file within",
                 result.assistant_message,
                 re.I,
             ):
@@ -253,10 +253,22 @@ def assess(
             questions = list(
                 dict.fromkeys([q.strip() for q in result.unknowns if q.strip()])
             )[:5]
+            if not questions and result.issue_details:
+                gaps = list(
+                    dict.fromkeys(
+                        gap
+                        for issue in result.issue_details
+                        for gap in issue.unresolved_facts
+                    )
+                )[:4]
+                prefix = "कृपया स्पष्ट करें: " if language == "hi" else "Could you clarify: "
+                questions = [prefix + gap.rstrip("?.।") + "?" for gap in gaps]
             if any(
                 not q.endswith(("?", "？"))
                 or re.search(
-                    r"\bsection\b|धारा|guarantee|must file|entitled|\d+%", q, re.I
+                    r"\bsection\b|धारा|guaranteed (?:refund|outcome|win|success)|must file|entitled|\d+%",
+                    q,
+                    re.I,
                 )
                 for q in questions
             ):

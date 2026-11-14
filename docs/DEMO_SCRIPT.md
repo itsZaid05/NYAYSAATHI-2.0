@@ -37,3 +37,13 @@ Story Mode selects from 16 original fictional scenarios. Documents now accept sy
 Generated Documents provides seller representation, refund/replacement request, grievance summary, chronology, evidence inventory and lawyer brief. Each persists independently, supports edits and individual TXT/PDF download; the full packet and demo-lawyer snapshot workflow remain available.
 
 The legal-source segment is still explicitly blocked: there are zero approved official passages. Do not present this rehearsal as the full source-grounded acceptance demo. The source manifest documents the migration/access/rights work and the offline authentic-artifact path. A qualified reviewer must evaluate legal interpretations once real passages are available.
+
+## New unseen-input rehearsal
+
+Run `python -m scripts.run_demo --port 8011` without model flags. Review `/api/health` for the requested/selected models, actual probe results and any cooldown; an override/failure is visible. Use only synthetic data and explicit AI consent.
+
+Enter a new monthly-billing or misleading-promise dispute directly rather than clicking the laptop example. The dashboard identifies multiple issues where supported by narrative provenance, and each issue includes its own factual excerpts, evidence suggestions and unresolved facts. Uploading a document preserves that novel classification. Reopen/refine context, generate the appropriate editable template, export PDF, voluntarily share with the demo inbox, acknowledge, revoke and delete through the UI.
+
+A fully automated fresh narrative is exercised by `NYAY_TEST_URL=http://127.0.0.1:8011 node tests/generalized-browser.cjs`. It reports the legal-source segment as blocked. Do not present this as a source-grounded legal opinion: there are zero approved legal passages, and seven expected secondary tags were missed in the thirty-case evaluation. Details and all original expectations remain in UNSEEN_EVALUATION.md.
+
+If startup reports transient capacity/quota failure, retain the draft intake and use **Retry AI connection** after the displayed cooldown. Do not present a failed probe as a live success or keep replaying requests against an exhausted account.

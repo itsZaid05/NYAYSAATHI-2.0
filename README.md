@@ -2,7 +2,7 @@
 
 An India-first **fictional-data consumer case-preparation demonstrator**, preserving NyaySaathi's existing purple/cream identity and navigation. One FastAPI service serves the existing vanilla frontend and persists cases in SQLite with FTS5.
 
-**Current boundary:** local intake → facts/timeline → evidence → editable seller letter → PDF → consent-based demo lawyer inbox works. Verified legal reasoning is withheld until official passages pass manual source/rights review. Real Gemini intake and embeddings have now been exercised with explicitly selected supported models; the saved default model settings need correction. Authentic-source legal analysis remains unverified and gated. This is not legal advice or an official filing service.
+**Current boundary:** local intake → facts/timeline → evidence → editable seller letter → PDF → consent-based demo lawyer inbox works. Verified legal reasoning is withheld until official passages pass manual source/rights review. Real Gemini intake and embeddings have now been exercised with explicitly selected supported models; ordinary startup now probes and visibly resolves incompatible generation settings. Authentic-source legal analysis remains unverified and gated. This is not legal advice or an official filing service.
 
 ## Install and run
 
@@ -15,7 +15,7 @@ python -m venv .venv
 mkdir -p runtime/cache
 export XDG_CACHE_HOME="$PWD/runtime/cache"
 .venv/bin/python -m scripts.seed_demo
-.venv/bin/python -m scripts.run_demo --model gemini-3.1-flash-lite --embedding-model gemini-embedding-001 --port 8011
+.venv/bin/python -m scripts.run_demo --port 8011
 ```
 
 The command above binds local port **8011** and reads the private, randomly generated lawyer password from `runtime/demo-lawyer-password`. It does not print the password. Use a local development browser to access the server. The server serves only `/`, `/style.css`, `/app.js` and API routes, never `.env`, the database or the synthetic dataset. Do not use a directory-wide static HTTP server.
@@ -26,14 +26,14 @@ For development with an explicitly configured environment:
 .venv/bin/python -m uvicorn backend.app:app --host 127.0.0.1 --port 8010 --reload --no-access-log
 ```
 
-`python main.py` also runs the integrated app on port 8000. No live process survives an environment snapshot. Use the existing checkout; tasks are already isolated and do not need a Git worktree unless explicitly requested.
+`python main.py` also runs the integrated app on port 8011 (or the `PORT` override). No live process survives an environment snapshot. Use the existing checkout; tasks are already isolated and do not need a Git worktree unless explicitly requested.
 
 ## Configuration
 
 See `.env.example` for names and non-secret defaults. Export variables with a service manager or shell; the backend does not automatically load `.env`. Never place secret values in JavaScript, source files, docs or chat.
 
 - `GEMINI_API_KEY`: secure backend binding for `generativelanguage.googleapis.com`.
-- `GEMINI_MODEL`: select a supported stable model after `python -m scripts.check_gemini`. No model name is guessed or hard-coded.
+- `GEMINI_MODEL`: select a supported model after `python -m scripts.check_gemini`. Empty/unavailable settings use a visibly reported, previously audited fallback only after an actual startup probe succeeds.
 - `GEMINI_EMBEDDING_MODEL`: optional, verify model availability and permission first.
 - `GEMINI_TERMS_REVIEWED=true`: operator has reviewed terms/pricing/account quotas; does not itself prove availability. Each session still requires separate AI opt-in. Sensitive-looking input is blocked from model transmission.
 - `DEMO_LAWYER_PASSWORD`: private demonstration-account password, no default. The local demo runner can use the seeded private file instead.
@@ -69,10 +69,10 @@ The implementation now includes canonical parties/amounts/remedy provenance, nat
 
 The additive schema-v2 migration adds per-session demo AI budgets. Existing case JSON is read with safe defaults; full corrected narratives and original labelled dialogue remain stored. AI consent can be changed independently of deleting the case. The local model budget is 20 AI-context mutations/hour/session and does not describe account/provider quota. Consent withdrawal and deletion are never charged.
 
-Actual account validation found the saved generation model unavailable to new users and the saved embedding identifier absent. These explicit runtime-only overrides were successfully exercised; they do not change saved environment variables:
+Actual account validation found the saved generation model unavailable to this account. The paginated catalogue and an actual embedding call now validate the saved embedding identifier. Ordinary startup selects and reports a successfully probed generation fallback; explicit overrides below were also exercised. Saved environment variables remain unchanged:
 
 ```bash
-.venv/bin/python -m scripts.run_demo --model gemini-3.1-flash-lite --embedding-model gemini-embedding-001 --port 8011
+.venv/bin/python -m scripts.run_demo --port 8011
 .venv/bin/python -m scripts.validate_live --model gemini-3.1-flash-lite --embedding-model gemini-embedding-001
 NYAY_TEST_URL=http://127.0.0.1:8011 node tests/live-browser.cjs
 ```
@@ -80,3 +80,12 @@ NYAY_TEST_URL=http://127.0.0.1:8011 node tests/live-browser.cjs
 Use the actual current model-list and generation checks on your account before selecting models. Model listing alone did not establish generation availability here. Read [live validation](docs/GEMINI_LIVE_VALIDATION.md) for HTTP outcomes, current pricing/terms-access limits and quota caveats.
 
 **Legal source gate remains open:** India Code migrated to `indiacode.gov.in`; the former PDF URL is invalid HTML. New domain grants were saved to the draft but not applied or published. No authentic statute has been approved. The new [offline importer](docs/LEGAL_SOURCE_MANIFEST.md) accepts only a reviewer-attested official artifact with independently established provenance, recorded checksum, rights/version metadata and exact passages. It never treats a local PDF as self-authenticating. Source-grounded legal conclusions remain withheld until these requirements are met.
+## Current unseen-problem validation
+
+Dynamic Gemini scope and multi-issue extraction now precede keyword fallback. Each issue/entity references exact narrative segment IDs; the backend creates provenance from original text, not model summaries. Each issue contributes research terms and case-specific evidence suggestions. Evidence uploads preserve novel issue understanding across refresh, documents and handoff.
+
+Ordinary startup (`python -m scripts.run_demo --port 8011`) verifies actual account/model access with synthetic probes, reports fallback decisions and quota cooldown in `/api/health`, and does not rewrite saved variables. Catalogue pagination now recognises later-page embedding models. Model flags remain optional explicit overrides.
+
+The thirty new-case live evaluation has **30 accepted dynamic/provenance/evidence responses, but only 23/30 full strict passes** using the latest recorded attempt per case. Seven secondary issue tags remain missing; this is not a guarantee for all unseen cases. Read [actual unseen evaluation](docs/UNSEEN_EVALUATION.md) and its committed per-case results, rather than inferring success from mocks or AI self-grading.
+
+**The legal Definition of Done is not met:** no authentic legal passage has cleared source/rights/version review. New source domains are already in the draft but not applied; reachable NCH/NALSA portal policies require prior reproduction permission. No source-grounded legal opinion or independent applicability validation is claimed. See [source manifest](docs/LEGAL_SOURCE_MANIFEST.md) and the unsent [permission-request draft](docs/SOURCE_REUSE_REQUEST.md).

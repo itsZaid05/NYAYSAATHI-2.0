@@ -1,41 +1,48 @@
-# Gemini live validation — 2026-11-14
+# Current Gemini live validation — 2026-11-14
 
-All transmitted narratives and files were synthetic. The platform secret was used through the backend HTTPS route; no credential value was printed or committed. Real-user beta is gated.
+Actual calls used the securely injected backend key and synthetic data only. No API key value was printed or committed. `GEMINI_TERMS_REVIEWED` is the operator's acknowledgement; current terms, paid-plan entitlement and quota availability are not inferred from a consumer subscription.
 
-## Actual account observations
+## Configuration and startup
 
-| Check | Actual result |
-|---|---|
-| Model list with configured key | HTTP 200; adapter validation run received 50 model records |
-| Configured `gemini-2.5-flash` generation | HTTP 404: provider says this model is not available to new users, despite listing it |
-| Configured `gemini-embedding-2` | Absent from the observed model-list response |
-| Listed `gemini-3.8-flash` minimal generation | HTTP 503, high demand; not claimed working |
-| Listed stable `gemini-3.1-flash-lite` minimal generation | HTTP 200; JSON status response, 23 total tokens in the initial minimal check |
-| Structured fictional intake via real adapter | PASS; seller and INR 45,000 extracted with exact provenance; supportive response and missing-date questions |
-| Follow-up after supplied dates/platform | PASS; 3 timeline events; questions updated to remaining model/seller-response/evidence facts |
-| Listed `gemini-embedding-001` | HTTP 200; direct output-dimension probe returned 768 values; adapter default returned **3072** values |
-| Full browser → API → real Gemini intake/follow-up | PASS; persisted entities/history/timeline, generated lawyer brief and deletion exercised |
-| Official-source grounded analysis | **BLOCKED**: no approved official passages; not substituted with synthetic law |
-| Live hybrid retrieval over approved statutes | **BLOCKED** for the same reason; successful embedding alone is not hybrid RAG |
-| Unsupported citation / entailment rejection | LOCAL VERIFIED with synthetic fixtures and mocked evaluator; not a live legal-correctness claim |
-| Timeout / 429 Retry-After / embedding outage handling | LOCAL VERIFIED using controlled transport failures; real 503 observed separately |
+Ordinary `python -m scripts.run_demo --port 8011` now verifies actual account access with a synthetic startup probe, rather than relying on manual flags or model-list presence:
 
-## Reproducible commands
+- The saved generation setting `gemini-2.5-flash` appears in the catalogue but actual generation returns HTTP 404 for this account.
+- The previously exercised stable audit fallback `gemini-3.1-flash-lite` passed actual generation and is selected **with visible diagnosis**, in memory. Saved environment variables are not rewritten.
+- Catalogue pagination revealed `gemini-embedding-2` beyond the original first-page result. Actual current embedding calls succeeded with 3072-dimensional vectors, so the operator's working embedding setting is retained. The previous report's “absent” observation was only first-page visibility, not proof of account-wide unavailability. `gemini-embedding-001` remains the previously verified fallback and an explicit evaluation option.
+- `/api/health` separates configuration, actual observations, current quota cooldown and live availability. Its model configuration is also saved without secrets to private `runtime/provider-status.json`. A missing key/terms acknowledgement causes no model transmission; failed probes do not become readiness claims.
 
-The saved environment variables were **not silently replaced**. These explicit runtime overrides select models that were actually exercised:
+`GEMINI_VERIFY_ON_START=true` is the default. Set false only to deliberately skip live probing for a local/offline environment; it does not verify a model. A restarted process must establish fresh observations rather than assuming old connections survive.
+
+## Actual live testing
+
+Thirty new consumer narratives were sent to the provider, including Hindi, mixed issues, subscriptions and misleading representations. The frozen expectations were never included in prompts. Initial failures exposed fact-paraphrase, ungrounded-remedy and JSON-shape defects. The final implementation:
+
+1. Uses a compact, inlined provider decoder schema (the initial complex schema returned HTTP 400).
+2. Keeps full Pydantic type/bound checks after generation.
+3. Constrains issue/entity source-segment IDs to the actual narrative; backend reconstructs exact provenance.
+4. Discards model summaries as canonical facts and does not infer a requested remedy without its excerpt.
+5. Requires case-specific evidence suggestions and multi-issue research terms.
+
+Live full rounds scored 9/30 then 20/30 on all strict checks; the targeted recheck produced the final latest-per-case total **23/30** strict passes, with **30/30** dynamic understanding/provenance/evidence-suggestion checks. Seven secondary-label misses remain. This is not legal-correctness validation; see UNSEEN_EVALUATION.md.
+
+A separately entered gardening-plan billing narrative passed actual frontend → Gemini → context/evidence → document/PDF → authenticated demo recipient → persistence/revocation/deletion checks. It did not use a predefined example button. The law segment remains blocked because the approved legal corpus is empty.
+
+## Failure behavior and quotas
+
+Actual HTTP 429 free-tier throttling and a transient HTTP 503 occurred. The provider now reads Retry-After/RetryInfo, activates a bounded cooldown and avoids immediate duplicate generation attempts. Evaluation stops its sequential run at quota cooldown instead of claiming unattempted cases passed. Controlled tests cover timeout, malformed JSON, quota handling and embedding outage. No unbounded retry loop or verification bypass was introduced.
+
+The public terms/pricing URLs redirect to `aistudio.google.com`, still outside the applied allowlist. Its grant is already saved in the draft. No current price or guaranteed account capacity is asserted. Consult the operator account and provider terms before expanding traffic or processing anything other than fictional data.
+
+## Reproduce
 
 ```bash
-.venv/bin/python -m scripts.validate_live --model gemini-3.1-flash-lite --embedding-model gemini-embedding-001
-.venv/bin/python -m scripts.run_demo --model gemini-3.1-flash-lite --embedding-model gemini-embedding-001 --port 8011
-NYAY_TEST_URL=http://127.0.0.1:8011 node tests/live-browser.cjs
+.venv/bin/python -m scripts.run_demo --port 8011
+.venv/bin/python -m scripts.evaluate_unseen --live --workers 1 --model gemini-3.1-flash-lite --embedding-model gemini-embedding-001 --output runtime/unseen-recheck.json
+NYAY_TEST_URL=http://127.0.0.1:8011 node tests/generalized-browser.cjs
 ```
 
-`runtime/live-validation/live-results.json` is the non-secret machine-readable result for model-list, minimal generation, structured intake, multi-turn follow-up and embeddings, with explicit blocked legal checks. The browser run used two real generation requests, not a mocked response. Screenshot: `runtime/live-intake-desktop.png` (local ignored artifact).
+Hybrid retrieval, grounded legal explanations and legal applicability over authentic reviewed statutes are **BLOCKED**, not credited by successful embeddings or AI self-agreement.
 
-## Terms, pricing and quota
+The authenticated provider-recheck endpoint was actually exercised: HTTP 200 with successful generation and embedding probes. A prior startup 503 and its failed browser attempt remain recorded as failures; a later complete live browser journey passed. Current availability now uses the latest completed request status, rather than allowing an old success observation to mask a failed new probe.
 
-`GEMINI_TERMS_REVIEWED=true` is present as an operator acknowledgement, not independent proof of provider terms or an API quota entitlement. Public terms/pricing links now return HTTP 301 to `https://aistudio.google.com/docs/terms` and `/docs/pricing`; that destination is currently denied by the environment proxy. Its domain was added to the draft for review. No current price, paid plan, available account quota or consumer-subscription benefit is asserted.
-
-Only minimal, explicitly authorised fictional testing was performed. Before expanding use, the operator must review current API data-handling terms, actual account billing and quotas. Demo session AI-context mutations are capped at 20 per hour independently of provider quota. Consent withdrawal/deletion remain possible when the budget is exhausted. No real confidential-data processing is enabled.
-
-Hindi intake was also exercised against the real provider: it returned a supportive Hindi response, one seller, one amount, and Hindi purchase/delivery/fault-date questions. Native image OCR currently has only English/orientation language packs; this is separate from Gemini's bilingual conversation capability.
+One later intake request failed with the then-combined transport/response-envelope diagnostic despite successful connectivity probes. Its exact cause cannot be reconstructed from that safe summary. Reporting now separates transport exception class from malformed response without retaining sensitive error text. The final complete unseen browser rerun passed afterward; all failures remain explicitly recorded in TEST_REPORT.md. A minimal successful connectivity check does not guarantee every subsequent request succeeds.

@@ -360,5 +360,9 @@ def test_provider_timeout_and_rate_limit_keep_safe_error_details(client, monkeyp
         "Client",
         lambda **kw: real_client(transport=httpx.MockTransport(timeout), **kw),
     )
-    with pytest.raises(ProviderUnavailable):
+    with pytest.raises(ProviderUnavailable) as timeout_error:
         GeminiProvider().extract("Fictional laptop", "en", [])
+    assert "ReadTimeout" in str(timeout_error.value)
+    assert "synthetic transport timeout" not in str(timeout_error.value)
+    assert GeminiProvider.generation_state["status"] == "transport_failure"
+    assert GeminiProvider.generation_state["error_type"] == "ReadTimeout"

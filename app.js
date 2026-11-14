@@ -112,6 +112,14 @@ function render() {
       " " +
       t("AI configuration: ", "AI कॉन्फ़िगरेशन: ") +
       profile.diagnostics.join(" ");
+  if (state.health.gemini_configured && !state.health.live_ai_available) {
+    const retry = document.createElement("button");
+    retry.type = "button";
+    retry.dataset.action = "provider-recheck";
+    retry.textContent = t("Retry AI connection", "AI कनेक्शन फिर जांचें");
+    retry.disabled = state.busy || state.health.provider_cooldown_seconds > 0;
+    $("#system-status").append(document.createTextNode(" "), retry);
+  }
   const views = {
     dashboard,
     intake,
@@ -254,6 +262,35 @@ async function openCase(id) {
   render();
 }
 async function action(name) {
+  if (name === "provider-recheck") {
+    const intake = $("#intake-form");
+    const draft = intake
+      ? {
+          narrative: intake.elements.narrative.value,
+          jurisdiction: intake.elements.jurisdiction.value,
+          processing: intake.elements.processing.checked,
+          fictional: intake.elements.fictional.checked,
+        }
+      : null;
+    state.health = await api("/provider/recheck", "POST");
+    render();
+    if (draft && $("#intake-form")) {
+      const f = $("#intake-form");
+      f.elements.narrative.value = draft.narrative;
+      f.elements.jurisdiction.value = draft.jurisdiction;
+      f.elements.processing.checked = draft.processing;
+      f.elements.fictional.checked = draft.fictional;
+    }
+    notice(
+      state.health.live_ai_available
+        ? t("AI connectivity verified.", "AI कनेक्शन जांच सफल।")
+        : t(
+            "AI remains unavailable; see the provider diagnosis.",
+            "AI अभी अनुपलब्ध; प्रदाता का निदान देखें।",
+          ),
+    );
+    return;
+  }
   if (name.startsWith("go-")) {
     state.page = name.slice(3);
     render();
@@ -458,6 +495,19 @@ async function run(operation) {
   } finally {
     state.busy = false;
     document.body.setAttribute("aria-busy", "false");
+    const retry = $('[data-action="provider-recheck"]');
+    if (retry) {
+      retry.disabled = state.health.provider_cooldown_seconds > 0;
+      if (retry.disabled)
+        setTimeout(
+          () => {
+            state.health.provider_cooldown_seconds = 0;
+            const current = $('[data-action="provider-recheck"]');
+            if (current) current.disabled = false;
+          },
+          (state.health.provider_cooldown_seconds + 1) * 1000,
+        );
+    }
   }
 }
 document.addEventListener("click", (event) => {

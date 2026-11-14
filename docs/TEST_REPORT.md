@@ -1,40 +1,43 @@
-# Test report — grounded-intelligence iteration, 2026-11-14
+# Current test report — 2026-11-14
 
-Baseline: `0f3f93f`. Dedicated branch: `feature/grounded-consumer-intelligence`. First tested milestone: `35be10f`. This report supersedes the previous local-only report; prior 61-test functionality has been retained and extended. Python 3.12.14, FastAPI 0.115.12, Pydantic 2.11.4, SQLite FTS5, WeasyPrint, system Chromium/Playwright and local Tesseract 5.
+Branch: `feature/generalized-consumer-analysis`, based on remote main `1274bee` after PR #2. Implementation milestone: `25de2d0`. All identities/documents/narratives used for provider calls were synthetic.
 
-## Actual executions
+## Commands and observed results
 
-| Command / check | Actual result |
+| Check | Actual outcome |
 |---|---|
-| `/workspace/nyay-consumer-venv/bin/python -m pytest -q` | **81 passed**, one upstream Starlette/AnyIO deprecation warning; no skipped tests in this environment |
-| `NYAY_TEST_URL=http://127.0.0.1:8011 node tests/browser.cjs` | **PASS LOCAL**: full journey, separate authenticated demo-lawyer handoff, revocation/deletion, 1440/768/390px layouts and persistent Hindi switch, rechecked on the upgraded server |
-| `NYAY_TEST_URL=http://127.0.0.1:8011 node tests/live-browser.cjs` | **PASS LIVE** real Gemini intake + follow-up via frontend/authenticated API; canonical entity/history/timeline, lawyer-brief generation and deletion. Official-law segment explicitly **BLOCKED** |
-| `python -m scripts.validate_live --model gemini-3.1-flash-lite --embedding-model gemini-embedding-001` | Real model list, minimal generation, structured intake, multi-turn factual follow-up and real embeddings **PASS**; actual-law hybrid retrieval/reasoning **BLOCKED**, not replaced by fixtures |
-| Local OCR image-upload test | **PASS**; actual synthetic invoice PNG decoded by Tesseract; amount, order reference, date and document provenance verified |
-| Individual six-template TXT/PDF API tests | **PASS**, including edits/persistence and Unicode PDFs |
-| `node --check app.js`, `git diff --check` | Passed during implementation; final checks run before commit |
+| `/workspace/nyay-consumer-venv/bin/python -m pytest -q` | **99 passed**, one upstream Starlette/AnyIO deprecation warning, no skips in this environment |
+| Live 30-case unseen evaluation | Full rounds 9/30 then 20/30 strict passes; targeted 3/10 recheck. Latest recorded outputs: **23/30 strict passes**, **30/30 dynamic understanding/provenance/evidence-suggestion checks** |
+| `node tests/generalized-browser.cjs` against port 8011 | PASS LIVE for a separate new subscription narrative through issue understanding, upload, documents/PDF, demo recipient acknowledgment, persistence, revocation and deletion; law segment blocked |
+| `node tests/browser.cjs` | **PASS LOCAL**: full original workflow, separate demo recipient, three viewport widths and Hindi persistence rerun on the upgraded service |
+| Ordinary startup `python -m scripts.run_demo --port 8011` | Actual configured-model probe detected generation HTTP 404, selected and verified `gemini-3.1-flash-lite`; configured `gemini-embedding-2` appeared on a later catalogue page and actually returned 3072-dimensional vectors. Decisions are visible, not silent environment rewrites |
+| Strict provider JSON-schema probe | Raw complex Pydantic schema returned HTTP 400; compact inlined decoder schema succeeded. Full Pydantic/provenance limits still run after generation |
+| Dependency/hash, JS syntax, Python formatting and Git whitespace checks | Hash-pinned dependency installation preserved; `uv pip check` reports 34 compatible packages; `node --check`, `ruff format --check` and `git diff --check` passed |
 
-The suite retains **31 synthetic evaluation narratives**, including Hindi/English, incomplete/ambiguous facts, unsupported jurisdiction/domain, identifiers, prompt injection and fabricated authority. Added checks cover canonical corrections/history/language, trusted-reference relative dates, missing facts, non-category-count readiness, six independently persisted templates, authentic-provenance offline-import requirements, section-aware **unapproved** candidates, story relevance/labels, unsupported proposition rejection, explicit beta gate, AI context budget, consent withdrawal under exhaustion, model timeout/429 Retry-After and embedding outage lexical fallback.
+## What the automated suite establishes
 
-One original readiness expectation intentionally changed: four self-classified file uploads with missing factual/source coverage now remain Partial. The lifecycle test still checks all persistence, draft editing, PDF, sharing, lawyer isolation/receipt, revocation, audit and cascading deletion assertions. A browser assertion was updated to wait for the newly persistent asynchronous language update rather than expecting an immediate label-only change.
+Existing security and case lifecycle regressions are preserved: private sessions, owner/role access, CSRF/cross-origin checks, consent, TTL/deletion, safe PDF/TXT/PNG uploads and OCR, protected/signed downloads, six editable templates, Unicode PDF, audit, handoff snapshots and revocation.
 
-## Mocked versus actual evidence
+New tests cover the actual generalisation failure modes: novel narratives reach dynamic understanding before keyword rejection; incidental police references do not discard consumer aspects; multi-issue research is decomposed; issue/entity IDs map to original narrative text; paraphrased summaries and inferred remedies are not promoted into user facts; evidence uploads preserve novel issue context through draft/PDF/read operations; provider schemas are compact but backend validation stays strict; known permission-required portals cannot be approved merely by writing “public”; startup model fallback is actually probed/reported; quota cooldown avoids repeated calls; factual gaps remain visible when the model emits no direct question; and subscription stories recognise the new issue family.
 
-- **Actual external:** authenticated model list, successful stable-model generation, structured English/Hindi intake, multi-turn updates, real embedding requests and frontend → backend → Gemini calls. Detailed account/model results are in GEMINI_LIVE_VALIDATION.md.
-- **Actual local:** database/session/security, PDF/TXT/image extraction, Tesseract OCR, document templates/export, signed downloads, lawyer snapshot workflow, context/corrections, original scenario retrieval and UI/browser interactions.
-- **Synthetic fixtures/mocks:** lexical/hybrid ranking contract, statutory-source validation, support evaluator acceptance/rejection, malformed/counterfeit source records, timeout/429 and embedding failures. Test-only source passages are not real law and are never persisted into the production corpus.
-- **Not run / blocked:** legal retrieval and claim entailment over genuine approved legislation; current legal applicability review; authentic judgment comparison; live procedural filing; public or real-user deployment. No qualified reviewer has assessed new statutory interpretations.
+## Live versus mocked versus blocked
 
-## Release assessment
+**Actual external:** model catalogue, generation, English/Hindi dynamic intake, thirty new-case attempts with targeted rechecks, real embeddings, a new live browser narrative, and provider 400/404/429/503 observations. No success is inferred from model listing alone.
 
-No approved statute, authentic judgment, statutory deadline, guaranteed remedy, advocate verification, winning percentage or government submission has been fabricated. There are **zero approved legal passages**. Source cards/analysis visibly abstain until real artifact/provenance/rights/version requirements can be met. Real embedding generation alone is not reported as a live hybrid legal RAG system.
+**Actual local:** SQLite persistence, canonical corrected context, narrative IDs, OCR, exports, source artifact/date/rights validation mechanics, owner/CSRF controls and demonstration recipient workflow.
 
-Current India Code legacy content is invalid HTML or timeouts; the website announces migration to a domain missing from the running allowlist. NCH pages are reachable but their copyrighted content is not bulk indexed. New domain additions were saved to the environment draft without publication. Genuine official documents can alternatively be supplied through the reviewer-attested offline importer.
+**Mock/fixture-only:** ranking over approved-looking synthetic passages, claim-support acceptance/rejection, artificial timeouts and deterministic catalogue/fallback branches. These are not authentic law or evidence of legal correctness.
 
-## Security / operational limits
+**Still blocked:** a genuinely approved statutory/rules/guidance corpus, live real-source hybrid retrieval, source-grounded legal explanations and independent assessment of their substantive applicability. The corpus remains empty. NCH and NALSA policies require prior reproduction permission. Migrated India Code is excluded by the current running policy despite its saved draft grant. No independent qualified legal reviewer has approved interpretations.
 
-Demonstration-only processing is explicitly gated. Native OCR is bounded but can misread; only English (`eng`) and orientation (`osd`) Tesseract packs are installed, so Hindi image OCR is not claimed. Text PDFs and bilingual intake/PDF rendering remain supported. No file authenticity verification or production malware sandbox is claimed. The separate AI support evaluator is not an independent legal professional. Guest-cookie recovery, strong beta identity, production-global abuse controls, encryption/backup erasure and provider/privacy/legal contracts still need review. No public service was deployed.
+Detailed, unaltered expectation/results mapping: [UNSEEN_EVALUATION.md](UNSEEN_EVALUATION.md) and [evaluation/unseen-live-results.json](evaluation/unseen-live-results.json). The seven strict coverage failures remain open. AI agreement is not scored as legal truth.
 
-## Final artifact inspection
+## Release/deployment conclusion
 
-Generated a real three-page Hindi/English packet with seller representation and lawyer brief. Opened it with pypdf, rasterised its first page with pdftoppm and visually inspected the rendering; Devanagari text and explicit no-law/no-filing disclosures render correctly. The actual live browser dashboard screenshot was also visually inspected. Artifacts remain private ignored runtime files. Some technical audit/readiness messages remain English; full translation and a full WCAG audit are not claimed.
+The scoped fictional-data preparation workflow is usable, and the novel-input routing/configuration bugs were fixed. The full requested Definition of Done is **NOT MET**: authentic legal material and independent legal validation remain external prerequisites, and seven expected secondary issue labels were missed in the benchmark. No public deployment or environment publication occurred. The service is loopback-only on port 8011; real-user processing remains gated. No claim of arbitrary unseen-problem accuracy, verified advocates or official government filing is made.
+
+## Final resilience check
+
+A final restart received an actual transient HTTP 503 during the generation probe. The app retained local operation and did not claim live availability. A new authenticated/CSRF-protected, rate-limited `POST /api/provider/recheck` and visible “Retry AI connection” action allow explicit recovery without restarting. It preserves an unsaved intake and respects provider cooldown; tests cover authentication/CSRF and a three-probe/five-minute budget. The failed live browser attempt is retained as provider unavailability, not counted as passing. A subsequent fresh live browser journey passed, including story, document and handoff steps. The authenticated provider-recheck endpoint was also exercised against the actual API: HTTP 200, generation and embedding probes both verified. Historical success cannot mask a current failed generation or model-catalogue probe; explicit regression tests cover both. A final ordinary restart again verified generation and embedding access on the latest code.
+
+A subsequent live intake attempt also failed safely with the provider’s combined network/response-envelope diagnostic; the original failure was not sufficiently specific to determine its cause. Transport-class versus malformed-response reporting was then separated without exposing raw errors or response bodies. After that diagnostic change, the final complete unseen browser run passed on the latest service. This does not erase the intervening failed attempt or establish provider uptime. The final unit suite remained 99 passed; formatting/syntax/whitespace checks passed, all three raw evaluation-report hashes matched their committed manifest, and scanning the 79 tracked/new delivery files found no injected-secret values or credential-pattern matches.

@@ -178,7 +178,12 @@ def health():
         "provider_cooldown_seconds": max(
             0, int(GeminiProvider.generation_cooldown_until - time.monotonic())
         ),
-        "live_ai_available": bool(GeminiProvider.live_observations.get("generation"))
+        "latest_generation_state": GeminiProvider.generation_state,
+        "live_ai_available": bool(
+            settings.gemini_key and settings.gemini_model and settings.terms_reviewed
+        )
+        and bool(GeminiProvider.generation_state.get("ok"))
+        and GeminiProvider.generation_state.get("model") == settings.gemini_model
         and time.monotonic() >= GeminiProvider.generation_cooldown_until,
         "embedding_model": settings.embedding_model,
         "processing_mode": "demonstration only; real-user beta is gated",
@@ -188,6 +193,30 @@ def health():
         else "reviewed source pack loaded",
         "demo_only": True,
     }
+
+
+@app.post("/api/provider/recheck")
+def recheck_provider(who=Depends(actor)):
+    consume(who["token_hash"], "provider_probe", limit=3, window=300)
+    if time.monotonic() < GeminiProvider.generation_cooldown_until:
+        raise HTTPException(
+            429,
+            "Provider cooldown is still active",
+            headers={
+                "Retry-After": str(
+                    max(
+                        1,
+                        int(
+                            GeminiProvider.generation_cooldown_until - time.monotonic()
+                        ),
+                    )
+                )
+            },
+        )
+    from backend.services.model_configuration import verify_runtime_models
+
+    verify_runtime_models()
+    return health()
 
 
 @app.post("/api/session")

@@ -344,3 +344,124 @@ def test_subscription_story_selection_uses_the_new_issue_family(client):
     )
     assert scenarios[0].id == "subscription"
     assert all(s.label == "Fictional illustration — not a judgment" for s in scenarios)
+
+
+def test_empty_direct_questions_expose_identified_case_specific_gaps(
+    client, monkeypatch
+):
+    text = "Fictional: Demo Fit continued debits after my membership ended."
+    result = extraction(text)
+    result.unknowns = []
+    result.follow_up = ""
+    result.issue_details[0].unresolved_facts = ["Cancellation acknowledgment date"]
+    monkeypatch.setattr(GeminiProvider, "extract", lambda *args: result)
+    a = client.post(
+        "/api/cases/intake",
+        json={
+            "narrative": text,
+            "consent": {
+                "processing": True,
+                "fictional_demo": True,
+                "ai_processing": True,
+            },
+        },
+    ).json()
+    assert a["unknowns"] == ["Could you clarify: Cancellation acknowledgment date?"]
+
+
+def test_question_about_documented_guarantee_is_not_an_outcome_guarantee(
+    client, monkeypatch
+):
+    text = "Fictional: Demo Tools promised three years of cover for my drill, but refused a repair."
+    result = extraction(
+        text, category="warranty", title="Scope of the documented cover"
+    )
+    result.unknowns = ["Could you provide the written guarantee terms?"]
+    monkeypatch.setattr(GeminiProvider, "extract", lambda *args: result)
+    a = client.post(
+        "/api/cases/intake",
+        json={
+            "narrative": text,
+            "consent": {
+                "processing": True,
+                "fictional_demo": True,
+                "ai_processing": True,
+            },
+        },
+    ).json()
+    assert a["scope_status"] == "consumer"
+    assert a["unknowns"] == ["Could you provide the written guarantee terms?"]
+
+
+def test_provider_recheck_is_authenticated_bounded_and_exposes_real_result(
+    client, monkeypatch
+):
+    monkeypatch.setattr(settings, "gemini_key", "synthetic-probe-key")
+    monkeypatch.setattr(settings, "gemini_model", "test-model")
+    monkeypatch.setattr(settings, "terms_reviewed", True)
+    from backend.services import model_configuration
+    from backend.db import connect
+
+    def verify():
+        settings.model_configuration = {
+            "generation_verified": True,
+            "diagnostics": ["Synthetic recovered provider test"],
+        }
+        GeminiProvider.live_observations["generation"] = {
+            "status": "synthetic unit test"
+        }
+        GeminiProvider.generation_state = {"ok": True, "model": settings.gemini_model}
+        return settings.model_configuration
+
+    monkeypatch.setattr(model_configuration, "verify_runtime_models", verify)
+    monkeypatch.setattr(GeminiProvider, "live_observations", {})
+    r = client.post("/api/provider/recheck")
+    assert r.status_code == 200 and r.json()["live_ai_available"] is True
+    client.post("/api/provider/recheck")
+    client.post("/api/provider/recheck")
+    assert client.post("/api/provider/recheck").status_code == 429
+    assert (
+        client.post(
+            "/api/provider/recheck", headers={"X-CSRF-Token": "wrong"}
+        ).status_code
+        == 403
+    )
+
+
+def test_old_success_cannot_mask_a_failed_current_provider_probe(client, monkeypatch):
+    monkeypatch.setattr(
+        GeminiProvider,
+        "live_observations",
+        {"generation": {"status": "previous success"}},
+    )
+    monkeypatch.setattr(
+        GeminiProvider,
+        "generation_state",
+        {"ok": False, "model": settings.gemini_model, "http_status": 503},
+    )
+    r = client.get("/api/health").json()
+    assert r["live_gemini_verified"] is True
+    assert r["live_ai_available"] is False
+    assert r["latest_generation_state"]["http_status"] == 503
+
+
+def test_failed_catalogue_recheck_invalidates_previous_live_availability(
+    client, monkeypatch
+):
+    from backend.services.model_configuration import verify_runtime_models
+
+    monkeypatch.setattr(settings, "gemini_key", "synthetic-probe-key")
+    monkeypatch.setattr(settings, "terms_reviewed", True)
+    monkeypatch.setattr(
+        GeminiProvider, "generation_state", {"ok": True, "model": settings.gemini_model}
+    )
+
+    def unavailable(_):
+        raise ProviderUnavailable("Synthetic catalogue outage")
+
+    monkeypatch.setattr(GeminiProvider, "models", unavailable)
+    profile = verify_runtime_models()
+    assert profile["generation_verified"] is False
+    health = client.get("/api/health").json()
+    assert health["live_ai_available"] is False
+    assert health["latest_generation_state"]["status"] == "catalogue_unavailable"

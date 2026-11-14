@@ -20,6 +20,24 @@ const { chromium } = require("playwright");
   await p
     .getByRole("button", { name: "Start a fictional case", exact: true })
     .click();
+  const retry = p.getByRole("button", {
+    name: "Retry AI connection",
+    exact: true,
+  });
+  if (await retry.count()) {
+    const checked = p.waitForResponse(
+      (r) => r.url().endsWith("/provider/recheck"),
+      { timeout: 90000 },
+    );
+    await retry.click();
+    const checkResponse = await checked;
+    assert.equal(checkResponse.status(), 200);
+    assert.equal(
+      (await checkResponse.json()).live_ai_available,
+      true,
+      "Provider remained unavailable after explicit recheck",
+    );
+  }
   const narrative =
     "Fictional: Demo Arbor kept billing INR 1450 automatically every month after confirming my gardening plan ended on 2026-10-18. The shop offered a month of tools instead of returning the extra charge. I have its cancellation acknowledgment and bank record. I want the extra charge reversed.";
   await p.locator("#narrative").fill(narrative);
@@ -34,20 +52,22 @@ const { chromium } = require("playwright");
     .getByRole("button", { name: "Create confidential case", exact: true })
     .click();
   const a = await (await response).json();
-  assert.equal(a.scope_status, "consumer");
+  assert.equal(
+    a.scope_status,
+    "consumer",
+    `Live intake did not complete: ${a.ai_status}; ${a.safety_flags.join("; ")}`,
+  );
   assert.match(a.understanding_method, /Gemini multi-issue/);
   assert.ok(a.issue_details.some((i) => i.category === "subscription_billing"));
   await p.getByRole("button", { name: "Add evidence", exact: true }).click();
   await p.locator('select[name="kind"]').selectOption("communication");
-  await p
-    .locator('input[type="file"]')
-    .setInputFiles({
-      name: "synthetic-cancellation.txt",
-      mimeType: "text/plain",
-      buffer: Buffer.from(
-        "Fictional Demo Arbor: Gardening plan ended on 2026-10-18. Monthly INR 1450 charge disputed. This is a synthetic cancellation acknowledgment.",
-      ),
-    });
+  await p.locator('input[type="file"]').setInputFiles({
+    name: "synthetic-cancellation.txt",
+    mimeType: "text/plain",
+    buffer: Buffer.from(
+      "Fictional Demo Arbor: Gardening plan ended on 2026-10-18. Monthly INR 1450 charge disputed. This is a synthetic cancellation acknowledgment.",
+    ),
+  });
   const uploaded = p.waitForResponse(
     (r) => r.url().endsWith("/evidence") && r.request().method() === "POST",
   );

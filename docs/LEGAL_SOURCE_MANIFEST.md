@@ -47,3 +47,13 @@ It preserves exact text and section boundaries and marks every candidate pending
 Legal explanations now require structured source/quote mappings, fact provenance, qualified applicability and a **separate Gemini support-evaluation call**. Unsupported citations, invented facts, outcome guarantees and failed/unavailable support verdicts are rejected. This independent prompt is still an AI check; it does not replace independent legal review or prove statutory entailment. This path is tested with explicitly synthetic fixtures and remains **unverified with authentic law** until the corpus exists.
 
 Authentic precedent providers (India and future UK) remain disabled. The 16 original scenario cards are fictional learning material, never judgments. The 306 legacy records remain quarantined.
+
+## Current source/reuse recheck
+
+On this iteration the migrated India Code request still failed at proxy CONNECT 403; its already-saved draft domain remains unapplied. The legacy candidate returns invalid HTML, not an Act. The legacy Department endpoint returns 503. Recovered workspace/upload locations contained no supplied authentic official PDF to use as an offline substitute.
+
+NCH's actual disclaimer was inspected at https://consumerhelpline.gov.in/public/disclaimer and requires prior reproduction permission. NALSA's https://nalsa.gov.in/website-policies/ similarly requires prior permission and excludes third-party rights from any grant. These findings, timestamps and response hashes are recorded in `knowledge/source_access_reviews.json`; their content has not been inserted into legal retrieval. The importer/provider now reject these portal sources without an explicit documented grant/evidence. A public page is not silently treated as licensed.
+
+`docs/SOURCE_REUSE_REQUEST.md` contains a concrete request draft for the operator to review; **it was not sent**. For a statute obtained from another authoritative publisher, separately establish its actual reproduction basis and compilation conditions. Applying a network grant does not itself clear reuse, amendments, commencement or legal interpretation.
+
+The source count remains **0**. Independent legal applicability assessment is consequently **NOT PERFORMED**. Current claim checks provide deterministic provenance safeguards plus a separately prompted AI support signal; that signal is explicitly not professional legal review or proof of legal correctness.

@@ -12,6 +12,13 @@ EMBEDDING_FALLBACK = "gemini-embedding-001"
 
 
 def verify_runtime_models():
+    # A fresh probe supersedes historical success, including when catalogue
+    # access fails before any generation request can be attempted.
+    GeminiProvider.generation_state = {
+        "ok": False,
+        "model": settings.gemini_model,
+        "status": "verification_pending",
+    }
     profile = {
         "checked_at": datetime.now(timezone.utc).isoformat(),
         "requested_generation": settings.gemini_model,
@@ -24,6 +31,7 @@ def verify_runtime_models():
     }
     settings.model_configuration = profile
     if not (settings.gemini_key and settings.terms_reviewed):
+        GeminiProvider.generation_state["status"] = "not_ready"
         profile["diagnostics"].append(
             "Backend key or operator terms acknowledgement missing; no transmission attempted."
         )
@@ -32,6 +40,7 @@ def verify_runtime_models():
     try:
         models = p.models()
     except ProviderUnavailable as exc:
+        GeminiProvider.generation_state["status"] = "catalogue_unavailable"
         profile["diagnostics"].append(str(exc))
         return profile
     available = {
@@ -41,7 +50,6 @@ def verify_runtime_models():
         for m in models
     }
     candidates = list(dict.fromkeys([settings.gemini_model, GENERATION_FALLBACK]))
-    original = settings.gemini_model
     for candidate in candidates:
         if "generateContent" not in available.get(candidate, []):
             profile["diagnostics"].append(
