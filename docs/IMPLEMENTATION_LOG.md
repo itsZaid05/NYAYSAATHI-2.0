@@ -1,5 +1,9 @@
 # Implementation log
 
+## Mac Safari launch handoff — 2026-11-19
+- Cloud startup, actual Gemini generation/embedding probes, HTTP 200 and headless page rendering succeeded. This chat lacks working shared-browser credentials and preview relay, so the cloud loopback address is not reachable from the user's Mac Safari.
+- Added a local macOS launcher using Homebrew Python 3.12/Pango/Tesseract, an isolated runtime virtualenv, hash-pinned dependencies, private demo seeding, loopback-only server and health-gated Safari opening. It copies no cloud secrets and preserves the legal-source gate. Shell/embedded-Python syntax and Linux refusal were checked; native macOS/Homebrew/Safari execution is not claimed tested.
+
 - Audited the complete selected checkout before code changes. Corrected requested target to NYAYSAATHI-2.0, per user.
 - Created feature/india-consumer-workflow. Retained recognizable brand, CSS and navigation. Removed mock analytics and unsupported performance/advocate claims from the active UI.
 - Quarantined legacy dataset and disabled old RAG entry point. Building persistent API, privacy boundaries, review-gated knowledge providers and real Gemini adapter.

@@ -6,6 +6,8 @@ An India-first **fictional-data consumer case-preparation demonstrator**, preser
 
 ## Install and run
 
+**Testing in Safari on a Mac:** extract the source ZIP and run `Run_NyaySaathi_Mac.command`. It prepares local dependencies and opens Safari after the local server is ready. [Mac instructions and credential limits](docs/MAC_SAFARI.md).
+
 Python 3.11+ (tested on 3.12), Linux with Pango/Harfbuzz and DejaVu/Noto Devanagari fonts for PDF rendering. On Debian/Ubuntu these are supplied by `libpango-1.0-0`, `libpangoft2-1.0-0`, `libharfbuzz0b`, `fonts-dejavu-core`, `fonts-noto-core`. Use your environment's approved package installer if missing. No Node build or ML weight download is required.
 
 ```bash
