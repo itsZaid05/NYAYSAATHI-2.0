@@ -1,4 +1,6 @@
-# Final feature matrix — grounded-intelligence iteration
+# Feature matrix — current recorded implementation
+
+Reviewed for presentation documentation on 22 November 2026. Status reflects the dated implementation/test reports, not a new live check or an assurance of availability today. Approved authentic legal passages remain **0**.
 
 `WORKING — LIVE VERIFIED` means an actual external service succeeded. `WORKING — LOCAL VERIFIED` means real local behavior passed; mocked provider tests do not upgrade that label.
 
@@ -37,7 +39,7 @@ The requested complete grounded-law acceptance journey remains **PARTIAL**. No a
 
 | Capability | Current status | Evidence / remaining limit |
 |---|---|---|
-| Dynamic scope and multiple factual issues | WORKING — LIVE VERIFIED | Keyword fallback no longer vetoes unseen narratives before Gemini. Thirty new cases have accepted dynamic/provenance/evidence outputs; seven strict secondary-category misses remain |
+| Dynamic scope and multiple factual issues | WORKING — LIVE VERIFIED | Structured review of all eight factual families precedes keyword fallback. Fresh cohort: 26/30 strict and 17/30 exact sets; final same-cohort replay: 28/30 strict and 22/30 exact sets. Unsupported labels/timeouts remain |
 | Exact factual provenance | WORKING — LOCAL VERIFIED | Provider selects constrained narrative IDs; server resolves original text. Summaries/inferred remedies cannot become user facts |
 | Per-issue retrieval and evidence requirements | PARTIAL | Research is decomposed and contextual evidence suggestions replace universal warranty checklists; genuine-law retrieval is still blocked |
 | Evidence refresh preserves novel context | WORKING — LIVE VERIFIED | Independent unseen subscription browser case retained issue state through upload, draft/PDF, refresh, handoff and deletion |
@@ -45,4 +47,4 @@ The requested complete grounded-law acceptance journey remains **PARTIAL**. No a
 | Provider failure / cooldown | WORKING — LOCAL VERIFIED | Actual 429/503 observations and controlled retry/cooldown regression tests; quotas are an external limit |
 | Reviewed Indian law corpus / independent legal applicability | BLOCKED — EXTERNAL DEPENDENCY | No cleared authentic passages; migrated-source grant unapplied; reachable NCH/NALSA portal reuse requires prior permission |
 
-The overall requested legal-assistant Definition of Done remains **NOT MET**. Neither 30 accepted triage responses nor a 23/30 strict issue-coverage score establishes legal correctness or guarantees arbitrary unseen-problem handling.
+The overall requested legal-assistant Definition of Done remains **NOT MET**. Neither the 140-test Linux suite nor the fresh/replay triage scores establish legal correctness or guarantee arbitrary unseen-problem handling. The replay is not a second unseen evaluation. See LEGAL_INTELLIGENCE_CONTINUATION.md for full results.
