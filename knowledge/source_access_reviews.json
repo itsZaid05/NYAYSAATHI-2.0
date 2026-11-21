@@ -1,0 +1,20 @@
+[
+  {
+    "host": "consumerhelpline.gov.in",
+    "policy_url": "https://consumerhelpline.gov.in/public/disclaimer",
+    "checked_at": "2026-11-14T09:01:40.897191+00:00",
+    "policy_artifact_sha256": "4f830553bd664cb88454ed213423a6177bc5f05ce91ee874fdc09a995e53b277",
+    "reuse_status": "permission_required",
+    "finding": "Portal policy explicitly requires prior permission to reproduce its material. No permission was supplied or inferred.",
+    "indexing_status": "excluded_from_approved_corpus"
+  },
+  {
+    "host": "nalsa.gov.in",
+    "policy_url": "https://nalsa.gov.in/website-policies/",
+    "checked_at": "2026-11-14T09:01:40.897546+00:00",
+    "policy_artifact_sha256": "543fada568b12b558350d95736fdc998ee49fc98c2085486e4c06f33f8b57a47",
+    "reuse_status": "permission_required",
+    "finding": "Portal policy explicitly requires prior permission to reproduce its material. No permission was supplied or inferred.",
+    "indexing_status": "excluded_from_approved_corpus"
+  }
+]

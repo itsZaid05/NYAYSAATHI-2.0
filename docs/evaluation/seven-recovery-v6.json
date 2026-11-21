@@ -1,0 +1,341 @@
+{
+  "checked_at": "2026-11-14T09:59:54.415356+00:00",
+  "model_configuration": {
+    "selected_generation": "gemini-3.1-flash-lite",
+    "selected_embedding": "gemini-embedding-2",
+    "selection": "explicit evaluation override; actual case calls establish generation success"
+  },
+  "synthetic_only": true,
+  "cases_file": "tests/evaluation/revalidated_seven_cases.json",
+  "cases_sha256": "47560e8724709aee90311f48fc33858ccc9a981615625f0dc851f99a709d6eb5",
+  "source_count": 0,
+  "results": [
+    {
+      "id": "D05",
+      "language": "en",
+      "status": "PASS",
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "no_forbidden_issue_inference": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "expected_categories": [
+        "defective_product",
+        "warranty"
+      ],
+      "actual_categories": [
+        "defective_product",
+        "warranty"
+      ],
+      "unexpected_categories": [],
+      "forbidden_categories": [],
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "review-defective_product",
+          "category": "defective_product",
+          "title": "The user reports that their air conditioner repeatedly trips its circuit despite multiple repair attempts.",
+          "fact_quotes": [
+            "Fictional: My Demo Cool air conditioner repeatedly trips its circuit after authorised installation.",
+            "A technician fitted a new component twice under a two-year cover promise, but the same fault returns."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f1"
+          ],
+          "unresolved_facts": [
+            "Nature of the circuit fault",
+            "Specific component replaced"
+          ],
+          "evidence_needed": [
+            "Job sheets",
+            "Purchase invoice",
+            "Communication with the service provider"
+          ],
+          "research_terms": [
+            "air conditioner circuit tripping causes",
+            "consumer rights for repeated product failure"
+          ]
+        },
+        {
+          "id": "review-warranty",
+          "category": "warranty",
+          "title": "The user mentions a two-year cover promise and repeated repair attempts that have not resolved the issue.",
+          "fact_quotes": [
+            "A technician fitted a new component twice under a two-year cover promise, but the same fault returns."
+          ],
+          "fact_segment_ids": [
+            "f1"
+          ],
+          "unresolved_facts": [
+            "Terms of the two-year cover",
+            "Service provider's response to the recurring fault"
+          ],
+          "evidence_needed": [
+            "Warranty documentation",
+            "Service records"
+          ],
+          "research_terms": [
+            "warranty repair obligations",
+            "consumer rights for failed repairs"
+          ]
+        }
+      ],
+      "issue_review": {
+        "defective_product": {
+          "status": "present",
+          "reason": "The user reports that their air conditioner repeatedly trips its circuit despite multiple repair attempts.",
+          "fact_segment_ids": [
+            "f0",
+            "f1"
+          ],
+          "unresolved_facts": [
+            "Nature of the circuit fault",
+            "Specific component replaced"
+          ],
+          "evidence_needed": [
+            "Job sheets",
+            "Purchase invoice",
+            "Communication with the service provider"
+          ],
+          "research_terms": [
+            "air conditioner circuit tripping causes",
+            "consumer rights for repeated product failure"
+          ]
+        },
+        "refund_refusal": {
+          "status": "not_stated",
+          "reason": "The user has not requested a refund or reported a refusal of one.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "misleading_advertising": {
+          "status": "not_stated",
+          "reason": "No pre-transaction representation or advertisement is disputed.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "subscription_billing": {
+          "status": "not_stated",
+          "reason": "This is a one-time product purchase, not a subscription.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "warranty": {
+          "status": "present",
+          "reason": "The user mentions a two-year cover promise and repeated repair attempts that have not resolved the issue.",
+          "fact_segment_ids": [
+            "f1"
+          ],
+          "unresolved_facts": [
+            "Terms of the two-year cover",
+            "Service provider's response to the recurring fault"
+          ],
+          "evidence_needed": [
+            "Warranty documentation",
+            "Service records"
+          ],
+          "research_terms": [
+            "warranty repair obligations",
+            "consumer rights for failed repairs"
+          ]
+        },
+        "online_shopping": {
+          "status": "not_stated",
+          "reason": "The narrative does not specify that the purchase was made online.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "service_deficiency": {
+          "status": "not_stated",
+          "reason": "The primary issue is a product fault, not a deficiency in a standalone service contract.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "other_consumer": {
+          "status": "not_stated",
+          "reason": "All concerns are covered by the product and warranty categories.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        }
+      },
+      "followups": [
+        "Who was the seller, and which platform or service provider was involved?",
+        "When did you purchase, receive and first notice the problem?",
+        "How much did you pay, and was this a personal purchase or for resale/business?",
+        "What resolution would you like, and what has the seller said so far?"
+      ],
+      "assistant": "I am sorry to hear that your air conditioner is still not working properly despite the repairs. It is understandable that you are frustrated after three service visits. To help you move forward, I have listed a few questions below to clarify the situation.",
+      "source_ids": [],
+      "retrieval_mode": "unavailable — no reviewed official passages; multi-issue research over 2 issues",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review",
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "diagnostics": [
+        "Educational case preparation; user allegations and document excerpts are not verified facts. No complaint has been filed.",
+        "Verified law unavailable: no reviewed official passages matched the case. Legal conclusions and deadlines are withheld."
+      ],
+      "seconds": 2.97
+    },
+    {
+      "id": "V05",
+      "language": "en",
+      "status": "PASS",
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "no_forbidden_issue_inference": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "expected_categories": [
+        "service_deficiency"
+      ],
+      "actual_categories": [
+        "service_deficiency"
+      ],
+      "unexpected_categories": [],
+      "forbidden_categories": [],
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "review-service_deficiency",
+          "category": "service_deficiency",
+          "title": "The installer failed to attend the scheduled appointment.",
+          "fact_quotes": [
+            "The installer never attended, but says only the person living at the address can complain."
+          ],
+          "fact_segment_ids": [
+            "f1"
+          ],
+          "unresolved_facts": [
+            "Did the business provide a reason for the non-attendance beyond the complaint policy?"
+          ],
+          "evidence_needed": [
+            "Appointment confirmation documents",
+            "Communication with the business"
+          ],
+          "research_terms": [
+            "Demo Setup service policy",
+            "non-attendance of service provider"
+          ]
+        }
+      ],
+      "issue_review": {
+        "defective_product": {
+          "status": "not_stated",
+          "reason": "The complaint concerns a service, not a physical product.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "refund_refusal": {
+          "status": "unclear",
+          "reason": "The user mentions the installer's refusal to accept a complaint, but it is not explicitly stated if a refund was requested and denied by the business.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "misleading_advertising": {
+          "status": "not_stated",
+          "reason": "No specific pre-transaction representation or advertisement is disputed.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "subscription_billing": {
+          "status": "not_stated",
+          "reason": "This was a single purchase, not a subscription.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "warranty": {
+          "status": "not_stated",
+          "reason": "No warranty or guarantee claim is mentioned.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "online_shopping": {
+          "status": "unclear",
+          "reason": "The user mentions buying a service, but the specific online checkout or app transaction context is not explicitly described.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        },
+        "service_deficiency": {
+          "status": "present",
+          "reason": "The installer failed to attend the scheduled appointment.",
+          "fact_segment_ids": [
+            "f1"
+          ],
+          "unresolved_facts": [
+            "Did the business provide a reason for the non-attendance beyond the complaint policy?"
+          ],
+          "evidence_needed": [
+            "Appointment confirmation documents",
+            "Communication with the business"
+          ],
+          "research_terms": [
+            "Demo Setup service policy",
+            "non-attendance of service provider"
+          ]
+        },
+        "other_consumer": {
+          "status": "not_stated",
+          "reason": "All concerns are covered by service deficiency.",
+          "fact_segment_ids": [],
+          "unresolved_facts": [],
+          "evidence_needed": [],
+          "research_terms": []
+        }
+      },
+      "followups": [
+        "When did you purchase, receive and first notice the problem?",
+        "What resolution would you like, and what has the seller said so far?"
+      ],
+      "assistant": "I am sorry to hear that the installation service you gifted did not go as planned. It is frustrating when a service provider fails to show up, especially when you have already paid for it. I would like to help you look into this.",
+      "source_ids": [],
+      "retrieval_mode": "unavailable — no reviewed official passages; multi-issue research over 1 issues",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review",
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "diagnostics": [
+        "Educational case preparation; user allegations and document excerpts are not verified facts. No complaint has been filed.",
+        "Some possible issue families remain uncertain; the listed concerns are not an exhaustive legal assessment.",
+        "Verified law unavailable: no reviewed official passages matched the case. Legal conclusions and deadlines are withheld."
+      ],
+      "seconds": 2.7
+    }
+  ],
+  "passed": 2,
+  "total": 2,
+  "unique_followup_sets": 2,
+  "unique_evidence_sets": 2,
+  "legal_acceptance": "BLOCKED: authentic approved corpus absent"
+}

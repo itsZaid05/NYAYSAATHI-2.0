@@ -1,0 +1,120 @@
+{
+  "checked_at": "2026-11-14T09:54:44.249706+00:00",
+  "reviewer": "Coding assistant factual-label review; not a qualified independent legal reviewer",
+  "original_fixture_sha256": "88f14fac12304c77b2adbabb55f3323256ece7e66dc0668805059cb9889b5450",
+  "original_fixture_unchanged": true,
+  "reviews": [
+    {
+      "id": "R03",
+      "expected_issue_categories": [
+        "refund_refusal",
+        "service_deficiency"
+      ],
+      "language": "en",
+      "narrative": "Fictional: Demo Events cancelled a pottery class I paid INR 1900 to attend. I declined its offer of credit because I am moving cities. The receipt never said credit would be the only option. What facts matter for requesting my money back?",
+      "jurisdiction": "IN",
+      "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions.",
+      "original_expected_issue_categories": [
+        "refund_refusal",
+        "service_deficiency"
+      ],
+      "expectation_review": "Keep refund_refusal + service_deficiency: paid class cancelled and credit offered in place of money. Refund entitlement remains legally unassessed."
+    },
+    {
+      "id": "R05",
+      "expected_issue_categories": [
+        "refund_refusal",
+        "misleading_advertising"
+      ],
+      "language": "en",
+      "narrative": "Fictional: Demo Audio promised a completely reversible home trial for INR 12400. I sent the speaker back within the trial dates on my receipt. They now cite a restocking deduction that was absent from the saved trial advertisement. I want to understand the competing conditions.",
+      "jurisdiction": "IN",
+      "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions.",
+      "original_expected_issue_categories": [
+        "refund_refusal",
+        "misleading_advertising"
+      ],
+      "expectation_review": "Keep refund_refusal + misleading_advertising: disputed deduction in return of trial payment and allegedly omitted advertised condition. Online shopping is not explicitly established."
+    },
+    {
+      "id": "D05",
+      "expected_issue_categories": [
+        "defective_product",
+        "warranty"
+      ],
+      "language": "en",
+      "narrative": "Fictional: My Demo Cool air conditioner repeatedly trips its circuit after authorised installation. A technician fitted a new component twice under a two-year cover promise, but the same fault returns. I have three job sheets and want to know what further evidence to collect.",
+      "jurisdiction": "IN",
+      "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions.",
+      "original_expected_issue_categories": [
+        "defective_product",
+        "warranty"
+      ],
+      "expectation_review": "Keep defective_product + warranty: recurring goods fault and performance of an express cover promise are distinct factual research questions."
+    },
+    {
+      "id": "M05",
+      "expected_issue_categories": [
+        "misleading_advertising",
+        "online_shopping"
+      ],
+      "language": "en",
+      "narrative": "Fictional: Demo Games displayed a limited-time price of INR 799, then added an unavoidable activation payment only after I created an account and entered payment details. I did not complete that second payment. I saved each screen and want to know what can be documented.",
+      "jurisdiction": "IN",
+      "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions.",
+      "original_expected_issue_categories": [
+        "misleading_advertising",
+        "online_shopping"
+      ],
+      "expectation_review": "Keep misleading_advertising + online_shopping: pricing representation and explicit account/payment-screen transaction context. Online is a channel facet, not a finding of wrongdoing or established standing."
+    },
+    {
+      "id": "W02",
+      "expected_issue_categories": [
+        "warranty",
+        "service_deficiency"
+      ],
+      "language": "en",
+      "narrative": "Fictional: An authorised Demo Home repairer retained my appliance for seven weeks under its protection plan. It gives no job status and wants a storage payment before returning it. I have the intake sheet and plan terms.",
+      "jurisdiction": "IN",
+      "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions.",
+      "original_expected_issue_categories": [
+        "warranty",
+        "service_deficiency"
+      ],
+      "expectation_review": "Keep warranty + service_deficiency: stated protection plan and prolonged repair service retention need separate research."
+    },
+    {
+      "id": "W03",
+      "expected_issue_categories": [
+        "warranty",
+        "defective_product"
+      ],
+      "language": "en",
+      "narrative": "Fictional: My refurbished Demo Camera was sold with six months of written cover. The lens stopped focusing after a month. The shop says cover excludes all optical parts, but the card lists only cosmetic exclusions. I kept the original card.",
+      "jurisdiction": "IN",
+      "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions.",
+      "original_expected_issue_categories": [
+        "warranty",
+        "defective_product"
+      ],
+      "expectation_review": "Keep warranty + defective_product: lens failure and disputed cover exclusion are distinct. Misleading advertising would need evidence of a pre-contract representation, not merely a disputed post-sale denial."
+    },
+    {
+      "id": "V05",
+      "expected_issue_categories": [
+        "service_deficiency"
+      ],
+      "language": "en",
+      "narrative": "Fictional: I bought a household appliance installation service from Demo Setup as a gift for my sister. The installer never attended, but says only the person living at the address can complain. I paid INR 1700 and have the appointment confirmations.",
+      "jurisdiction": "IN",
+      "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions.",
+      "original_expected_issue_categories": [
+        "service_deficiency",
+        "refund_refusal"
+      ],
+      "expectation_review": "Remove refund_refusal: missed service and purchaser/beneficiary complaint-standing dispute are stated, but no refund request/refusal is alleged. Do not infer one merely because money was paid."
+    }
+  ],
+  "legal_accuracy": "Not assessed: no approved corpus or independent qualified review."
+}

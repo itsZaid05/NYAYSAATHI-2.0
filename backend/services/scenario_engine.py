@@ -18,7 +18,9 @@ class ScenarioEngine:
                     ).casefold(),
                 )
             )
-            return len(tokens & words) + (5 if row["category"] == category else 0)
+            return len(tokens & words) + (
+                5 if category in row.get("categories", [row["category"]]) else 0
+            )
 
         ranked = sorted(rows, key=score, reverse=True)[:k]
         return [

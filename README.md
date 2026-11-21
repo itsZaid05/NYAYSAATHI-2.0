@@ -1,82 +1,146 @@
 # NyaySaathi 2.0
 
-An India-first **fictional-data consumer case-preparation demonstrator**, preserving NyaySaathi's existing purple/cream identity and navigation. One FastAPI service serves the existing vanilla frontend and persists cases in SQLite with FTS5.
+**An India-first AI-assisted consumer case-preparation platform.** NyaySaathi helps a person turn an unfamiliar dispute into organised facts, evidence questions, editable documents and a consent-based handoff to a demonstration lawyer account.
 
-**Current boundary:** local intake → facts/timeline → evidence → editable seller letter → PDF → consent-based demo lawyer inbox works. Verified legal reasoning is withheld until official passages pass manual source/rights review. Real Gemini intake and embeddings have now been exercised with explicitly selected supported models; the saved default model settings need correction. Authentic-source legal analysis remains unverified and gated. This is not legal advice or an official filing service.
+**Current release:** a working **fictional-data demonstration**, not a production legal-advice or filing service. Gemini intake, persistent preparation, document/PDF generation and demo handoff have been exercised. **Approved authentic legal passages: 0.** Source-grounded legal conclusions and statutory citations remain withheld until provenance, version and reuse reviews are complete. The full legal-intelligence Definition of Done is not yet met.
 
-## Install and run
+## Why we are building it
 
-Python 3.11+ (tested on 3.12), Linux with Pango/Harfbuzz and DejaVu/Noto Devanagari fonts for PDF rendering. On Debian/Ubuntu these are supplied by `libpango-1.0-0`, `libpangoft2-1.0-0`, `libharfbuzz0b`, `fonts-dejavu-core`, `fonts-noto-core`. Use your environment's approved package installer if missing. No Node build or ML weight download is required.
+The project grew from experiences of people struggling to know where to begin: a threatening scam call, a family member relying on someone else to understand a legal process, or an online buyer unsure what to preserve after receiving an empty box. Fear, unfamiliar language and disorganised information can make asking for help harder.
+
+The broader vision includes accessible legal support across situations and jurisdictions. The implemented prototype starts with a narrower, testable scope: **Indian consumer disputes** involving goods, refunds, warranties, subscriptions, disputed advertising and purchased services. Bullying, domestic violence, criminal accusations and foreign-law questions are outside this initial scope; a compassionate intake does not make the system qualified to analyse every legal problem.
+
+## What works today
+
+| Capability | Current behaviour and boundary |
+|---|---|
+| Consented guest workspace | Persistent private sessions, case ownership, separate AI/sharing consent, correction, withdrawal and deletion. Guest sessions are not a claim of complete anonymity. |
+| Gemini intake | English/Hindi responses, personalised follow-up questions, structured parties/amounts and a review of multiple consumer issue families when provider access and consent are available. |
+| Facts and timeline | Narrative segment IDs preserve exact factual provenance; missing facts remain questions. Allegations and document excerpts are not treated as proven facts. |
+| Evidence assistance | Contextual suggestions, local PDF/TXT extraction, bounded PNG/JPEG OCR when Tesseract is installed, and limited discrepancy/relevance checks. Extraction does not authenticate a document. |
+| Story mode | Sixteen original bilingual fictional scenario cards. These are learning aids, not judgments, predictions or an exemption from professional obligations. |
+| Readiness | Qualitative completeness findings. Readiness is not case strength or a probability of winning; missing legal-source coverage remains visible. |
+| Documents and case packet | Six editable preparation templates, individual exports and a downloadable PDF packet. Drafts are not officially filed complaints or bail applications. |
+| Demo lawyer handoff | Explicit sharing of a packet snapshot, a separate demonstration recipient, receipt acknowledgment and revocation. No verified advocate, matching marketplace or live consultation is claimed. |
+| Legal retrieval infrastructure | Existing FTS5/embedding retrieval, source/quote checks and a separately prompted AI support check. **Authentic-law integration remains blocked by the empty approved corpus.** |
+
+The 306 legacy records remain quarantined under `synthetic_demo/`; they are never used as authentic precedent or outcome statistics. UK case-law retrieval and unapproved ingestion remain disabled. The application does not contain thousands of verified judgments, an outcome predictor, a trained bias detector, blockchain, federated learning or court integration.
+
+## How the solution works
+
+```mermaid
+flowchart TD
+    A[Consented fictional Indian consumer narrative] --> B[FastAPI scope and privacy gates]
+    B --> C[Gemini structured multi-issue intake]
+    C --> D[Validate exact narrative references]
+    D --> E[Persist facts, timeline, gaps and evidence]
+    E --> F{Approved relevant legal sources?}
+    F -->|No: current release| G["Withhold law and citations; continue factual preparation"]
+    F -->|Yes: source review required| H[Hybrid lexical and semantic retrieval]
+    H --> I[Grounded explanation with claim/source mappings]
+    I --> J[Deterministic citation checks and separate AI support check]
+    J --> K["Qualified interpretation; professional review still needed"]
+    E --> L[Contextual evidence checklist and fictional story]
+    G --> L
+    K --> L
+    L --> M[Editable preparation documents and PDF]
+    M --> N[Optional consent-based demo handoff]
+```
+
+The application retrieves material at request time; it has **not been fine-tuned on legal judgments**. Semantic embeddings are a search representation, not proof of legal understanding. Exact quotations can establish traceability, not substantive applicability. The same Gemini service providing a separate support check is not an independent legal expert.
+
+The implementation preserves the existing purple/cream UI and navigation: vanilla HTML/CSS/JavaScript → one FastAPI backend → Pydantic models → SQLite/FTS5, with optional Gemini embeddings and local Tesseract OCR. It does not require a React rebuild, Postgres migration, microservices or autonomous agents. [Detailed explanation and example](docs/SOLUTION_EXPLAINED.md).
+
+## Run locally
+
+Use the project folder containing `main.py` and `requirements.lock`. The backend does not automatically load `.env`.
+
+- **Windows/PyCharm:** [step-by-step PowerShell and native PDF setup](docs/WINDOWS_PYCHARM.md).
+- **macOS/Safari:** run `Run_NyaySaathi_Mac.command`; [setup, credential limits and native-test status](docs/MAC_SAFARI.md).
+- **Linux:** Python 3.11+; tested with Python 3.12. PDF export requires Pango/Harfbuzz and Unicode fonts. Debian/Ubuntu packages include `libpango-1.0-0`, `libpangoft2-1.0-0`, `libharfbuzz0b`, `fonts-dejavu-core`, `fonts-noto-core`. OCR additionally needs native Tesseract and optionally its Hindi language pack.
+
+From the project root on Linux:
 
 ```bash
-cd /workspace/NYAYSAATHI-2.0
 python -m venv .venv
 .venv/bin/python -m pip install --require-hashes -r requirements.lock
 mkdir -p runtime/cache
 export XDG_CACHE_HOME="$PWD/runtime/cache"
 .venv/bin/python -m scripts.seed_demo
-.venv/bin/python -m scripts.run_demo --model gemini-3.1-flash-lite --embedding-model gemini-embedding-001 --port 8011
+.venv/bin/python -m scripts.run_demo --port 8011
 ```
 
-The command above binds local port **8011** and reads the private, randomly generated lawyer password from `runtime/demo-lawyer-password`. It does not print the password. Use a local development browser to access the server. The server serves only `/`, `/style.css`, `/app.js` and API routes, never `.env`, the database or the synthetic dataset. Do not use a directory-wide static HTTP server.
+Wait for `Uvicorn running on http://127.0.0.1:8011`, then visit that address **on the machine running the server**. A cloud machine's loopback address is not reachable directly from your laptop. Cloud browser/preview controls were unavailable in the recorded handoff; no public URL is promised. Keep the server terminal open. `python main.py` also starts the integrated app on port 8011, but the demo runner additionally reads the private seeded demonstration-recipient password.
 
-For development with an explicitly configured environment:
+Do not serve the whole repository with a static HTTP server. The application deliberately serves only its frontend assets and access-controlled routes; `.env`, runtime files and the database are not public assets.
 
-```bash
-.venv/bin/python -m uvicorn backend.app:app --host 127.0.0.1 --port 8010 --reload --no-access-log
-```
+## Backend configuration
 
-`python main.py` also runs the integrated app on port 8000. No live process survives an environment snapshot. Use the existing checkout; tasks are already isolated and do not need a Git worktree unless explicitly requested.
+See [.env.example](.env.example) for names, not secret values. Export settings in the server process or configure the IDE/service environment. Credentials configured in the cloud do not automatically transfer to a local computer.
 
-## Configuration
+| Variable | Purpose |
+|---|---|
+| `GEMINI_API_KEY` | Backend-only provider credential; never put it in frontend files or chat. |
+| `GEMINI_MODEL` / `GEMINI_EMBEDDING_MODEL` | Choose models after actual account checks. Startup probes report selection and failures; a listed model alone is not proof of generation access. |
+| `GEMINI_TERMS_REVIEWED` | Operator acknowledgement of provider terms/pricing/quota; does not replace per-case AI consent or establish real-confidential-data readiness. |
+| `GEMINI_VERIFY_ON_START` | Defaults to true; uses synthetic connectivity probes and reports outcomes in `/api/health`. |
+| `DEMO_LAWYER_PASSWORD` | Private demonstration-account password. The demo runner can instead read the seeded private file. |
+| `NYAYSAATHI_RUNTIME` | Private database, evidence and local operational files; ignored by Git. |
+| `COOKIE_SECURE` | Enable behind properly configured HTTPS; the local demonstration uses loopback HTTP. |
+| `SESSION_TTL_HOURS` / `RETENTION_DAYS` | Bounded session/case retention; see deployment notes for cleanup and backups. |
 
-See `.env.example` for names and non-secret defaults. Export variables with a service manager or shell; the backend does not automatically load `.env`. Never place secret values in JavaScript, source files, docs or chat.
+Previously exercised generation: `gemini-3.1-flash-lite`; embeddings: configured `gemini-embedding-2` and previously tested `gemini-embedding-001`. The saved `gemini-2.5-flash` rejected generation for the tested account, so startup visibly selected a successfully probed fallback without rewriting saved variables. Availability, terms and quotas must be checked for each deployment. [Recorded live results](docs/GEMINI_LIVE_VALIDATION.md).
 
-- `GEMINI_API_KEY`: secure backend binding for `generativelanguage.googleapis.com`.
-- `GEMINI_MODEL`: select a supported stable model after `python -m scripts.check_gemini`. No model name is guessed or hard-coded.
-- `GEMINI_EMBEDDING_MODEL`: optional, verify model availability and permission first.
-- `GEMINI_TERMS_REVIEWED=true`: operator has reviewed terms/pricing/account quotas; does not itself prove availability. Each session still requires separate AI opt-in. Sensitive-looking input is blocked from model transmission.
-- `DEMO_LAWYER_PASSWORD`: private demonstration-account password, no default. The local demo runner can use the seeded private file instead.
-- `NYAYSAATHI_RUNTIME`: private persistent directory (default `runtime/`). DB/file permissions restrict access; disk encryption and backups are deployment responsibilities.
-- `COOKIE_SECURE=true` behind HTTPS. Leave false only for local HTTP.
-- `SESSION_TTL_HOURS` (default 24, maximum 168), `RETENTION_DAYS` (default 7, maximum 30). Case data is also removed when its owning session expires. Cleanup occurs on startup and authenticated requests; schedule maintenance for idle installations if necessary.
+## Data, API and privacy controls
 
-Official-source and Gemini domains must be allowed by the environment policy. See [source review and rights](docs/SOURCES_AND_RIGHTS.md). A network/settings draft was saved; this does not apply or publish it. The migrated India Code domain is currently denied; the old PDF URL returns invalid HTML. See the current source manifest. No secret is requested in chat.
+Additive database migrations in [backend/schema.sql](backend/schema.sql) store sessions, redacted narratives, case state, evidence BLOBs, audit records, handoff snapshots, download grants, FTS entries and optional cached vectors. Cases survive page reloads; guest access depends on the session cookie and cannot be recovered after it is lost or expires.
 
-## Tests
+Core routes include `POST /api/cases/intake`, case messages/assessment/context/consent, evidence upload, editable drafts, protected PDF export, share/revoke, deletion, source lookup and a separate demonstration-recipient inbox. `/docs` lists the full API. Mutations require same-origin checks and matching CSRF tokens; case and recipient routes enforce ownership/role access. [Security and operational boundaries](docs/DEPLOYMENT.md).
+
+The implementation has consent records, access controls, private file permissions, bounded uploads, local OCR and retention/deletion controls. **It does not provide end-to-end encryption, encrypted SQLite by default, blockchain audit logs, professional-confidentiality guarantees or certified regulatory compliance.** TLS, disk/backup encryption, provider contracts and stronger real-user authentication require deployment work. Sensitive-input screening is imperfect. Use fictional identities, narratives and documents; real-user processing remains gated.
+
+## Adding authentic legal material later
+
+The uploaded project presentation is a vision/reference document, **not an approved legal source**. Neither project PDFs nor invalid HTML disguised as a PDF may populate the legal corpus.
+
+The [offline workflow](docs/OFFLINE_INGESTION.md) stages a candidate privately, leaves all reviews pending, validates without indexing, and admits only explicitly approved passages after recorded provenance, effective-version and reuse review. Required permission scope covers retention, local search, external embeddings, LLM context and quoted exports. Atomic batch admission feeds the existing provider without rebuilding RAG; it does not grant rights or certify legal accuracy. No permission or authenticity is inferred from a government-looking link. [Source/rights evidence and blockers](docs/LEGAL_SOURCE_MANIFEST.md).
+
+## Evaluation and current limitations
+
+Latest recorded full automated suite: **140 passed in the Linux environment**. That is not a native Windows/macOS test claim or a substantive legal-accuracy result.
+
+| Evaluation | Strict triage checks | Exact expected label sets |
+|---|---:|---:|
+| Fresh 30-case first exposure | 26/30 | 17/30 |
+| Final replay of the same cohort | 28/30 | 22/30 |
+
+The replay is not a second unseen score. Unsupported extra labels and provider timeouts remain visible. A strict pass checks expected coverage and predeclared negative controls, not correctness of every added label. No win probability or legal-correctness percentage follows from these figures. [Raw results and method](docs/LEGAL_INTELLIGENCE_CONTINUATION.md).
 
 ```bash
 .venv/bin/python -m pytest -q
-# Optional browser test, using the environment's installed Playwright + Chromium:
 NYAY_TEST_URL=http://127.0.0.1:8011 node tests/browser.cjs
+NYAY_TEST_URL=http://127.0.0.1:8011 node tests/generalized-browser.cjs
+# Strict authentic-source gate: currently blocked with zero approved passages.
+NYAY_TEST_URL=http://127.0.0.1:8011 node tests/generalized-browser.cjs --require-grounded
 ```
 
-For another machine, install Playwright using your normal approved tooling (`npm install --no-save --package-lock=false playwright`), set `CHROMIUM_PATH` if required, and supply `NYAY_LAWYER_PASSWORD_FILE` to the local private file for the browser handoff test. The script tests deletion only on a newly created fictional case. No external messages are sent.
+Browser checks use the project's Playwright/Chromium setup and freshly created fictional cases. Native OCR needs Tesseract. Positive source-admission/hybrid tests use explicitly synthetic fixtures in temporary roots; these are not real-law validation. [Actual test reports](docs/TEST_REPORT.md).
 
-[Actual test results](docs/TEST_REPORT.md) distinguish local, synthetic-fixture and blocked live checks. [Demo script](docs/DEMO_SCRIPT.md), [audit](docs/REPO_AUDIT.md), [feature matrix](docs/FEATURE_MATRIX.md), [deployment](docs/DEPLOYMENT.md).
+## Next milestones
 
-## Data and API
+1. Obtain authentic consumer-law/rules/guidance artifacts; review provenance, commencement/amendments and reuse rights; validate grounded outputs with qualified independent legal review.
+2. Improve multi-label precision and test new disputes without benchmark-specific answers; preserve abstention, evidence provenance and honest provider-failure handling.
+3. Complete privacy/security/provider assessments before real-user operation, including robust accounts, encryption/backup controls and abuse protection.
+4. Explore actual advocate onboarding, accessible voice intake and additional jurisdictions only with verified capabilities, permissions and jurisdiction-specific evaluation.
 
-`backend/schema.sql` contains idempotent additive version-1/version-2 migrations, applied at startup. It stores sessions, cases, full redacted narratives, evidence BLOBs/text, audit records, handoff snapshots, expiring signed grants, FTS index and optional embedding cache. Runtime files are ignored by Git. `scripts.seed_demo` creates one fictional case/draft and private local session material; repeating it creates a separate case.
+Court filing, outcome forecasting, trained social-bias analysis, federated learning, emotion inference, a legal digital twin and global coverage remain proposed work or research ideas. They are not completed integrations or guarantees of future performance.
 
-Case routes implement intake, follow-up, assessment, uploads, draft editing, PDF, share/revoke, consent audit and deletion. `/docs` contains OpenAPI contracts. Mutations require session cookies plus the `X-CSRF-Token` matching the readable `nyay_csrf` cookie, except session creation. Each case route checks owner access; lawyer routes check a separate role and expose only explicitly shared packet snapshots.
+## Presentation and references
 
-The 306-record old dataset is quarantined under `synthetic_demo/` and never used for legal retrieval. No real judgments are claimed. UK retrieval and unapproved external ingestion are disabled.
+- [Detailed solution, architecture and tradeoffs](docs/SOLUTION_EXPLAINED.md).
+- [Presentation script for 23 November 2026, India time](docs/PRESENTATION_SCRIPT.md).
+- [Slide-by-slide corrections, claim review and source notes](docs/PRESENTATION_NOTES.md).
+- [Rehearsal/demo procedure](docs/DEMO_SCRIPT.md), [feature matrix](docs/FEATURE_MATRIX.md), [repository audit](docs/REPO_AUDIT.md), [implementation log](docs/IMPLEMENTATION_LOG.md).
+- [User-supplied YouTube link](https://youtu.be/5yU9Otp08-U). The request was blocked in this environment; its title, transcript, content and demo claims have not been verified here.
 
-## Grounded-intelligence iteration (current)
-
-The implementation now includes canonical parties/amounts/remedy provenance, natural Gemini follow-ups, saved conversation/corrections, contextual dashboard, 16 original bilingual fictional scenarios, six document templates, structured document findings and local Tesseract OCR for synthetic PNG/JPEG images. Python Pillow is explicitly pinned; native Tesseract (`tesseract-ocr`, optional `tesseract-ocr-hin`) is required for OCR. If absent, image extraction fails visibly; PDF/TXT still work.
-
-The additive schema-v2 migration adds per-session demo AI budgets. Existing case JSON is read with safe defaults; full corrected narratives and original labelled dialogue remain stored. AI consent can be changed independently of deleting the case. The local model budget is 20 AI-context mutations/hour/session and does not describe account/provider quota. Consent withdrawal and deletion are never charged.
-
-Actual account validation found the saved generation model unavailable to new users and the saved embedding identifier absent. These explicit runtime-only overrides were successfully exercised; they do not change saved environment variables:
-
-```bash
-.venv/bin/python -m scripts.run_demo --model gemini-3.1-flash-lite --embedding-model gemini-embedding-001 --port 8011
-.venv/bin/python -m scripts.validate_live --model gemini-3.1-flash-lite --embedding-model gemini-embedding-001
-NYAY_TEST_URL=http://127.0.0.1:8011 node tests/live-browser.cjs
-```
-
-Use the actual current model-list and generation checks on your account before selecting models. Model listing alone did not establish generation availability here. Read [live validation](docs/GEMINI_LIVE_VALIDATION.md) for HTTP outcomes, current pricing/terms-access limits and quota caveats.
-
-**Legal source gate remains open:** India Code migrated to `indiacode.gov.in`; the former PDF URL is invalid HTML. New domain grants were saved to the draft but not applied or published. No authentic statute has been approved. The new [offline importer](docs/LEGAL_SOURCE_MANIFEST.md) accepts only a reviewer-attested official artifact with independently established provenance, recorded checksum, rights/version metadata and exact passages. It never treats a local PDF as self-authenticating. Source-grounded legal conclusions remain withheld until these requirements are met.
+The supplied ten-page `NyaaySaathi.pdf` names Kushagra Goel, Zaid Yusuf, Rohin Vashishth and Sujal Gupta as presenters. No individual implementation roles are inferred. The deck's market figures and court-backlog statistic lack dated citations in the supplied material and are not repeated as verified facts.

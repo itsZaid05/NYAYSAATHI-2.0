@@ -1,0 +1,86 @@
+{
+  "recorded_at": "2026-11-14T10:04:04.925072+00:00",
+  "baseline_commit": "1bbf9cb",
+  "branch": "feature/generalized-consumer-analysis",
+  "synthetic_only": true,
+  "runs": [
+    {
+      "file": "seven-review-v4.json",
+      "sha256": "dfa46e167f05dfa550c3f62033b5acff773e3a7ddf20bfcc680fc94d0c8b3975",
+      "attempted": 7,
+      "strict_passed": 5,
+      "exact_issue_sets": 2,
+      "failed_ids": [
+        "D05",
+        "V05"
+      ],
+      "additional_label_ids": [
+        "R03",
+        "R05",
+        "W03"
+      ]
+    },
+    {
+      "file": "seven-recovery-v6.json",
+      "sha256": "81212d60a106f4fb6e6816be27e756ddbd5050749cf2c22f49a41437d0fd4a98",
+      "attempted": 2,
+      "strict_passed": 2,
+      "exact_issue_sets": 2,
+      "failed_ids": [],
+      "additional_label_ids": []
+    },
+    {
+      "file": "fresh30-v5.json",
+      "sha256": "33666d5e0b937e4304632a49bc6f1d6df96244e9ed5533f4291740cc9e539e56",
+      "attempted": 30,
+      "strict_passed": 26,
+      "exact_issue_sets": 17,
+      "failed_ids": [
+        "F11",
+        "F12",
+        "F15",
+        "F29"
+      ],
+      "additional_label_ids": [
+        "F02",
+        "F05",
+        "F06",
+        "F10",
+        "F13",
+        "F24",
+        "F26",
+        "F28",
+        "F30"
+      ]
+    },
+    {
+      "file": "fresh30-final-replay-v6.json",
+      "sha256": "500d934c3f519432190d088b9f390085798bda44b41882b8c8ae21746149312f",
+      "attempted": 30,
+      "strict_passed": 28,
+      "exact_issue_sets": 22,
+      "failed_ids": [
+        "F13",
+        "F27"
+      ],
+      "additional_label_ids": [
+        "F06",
+        "F10",
+        "F13",
+        "F22",
+        "F24",
+        "F26",
+        "F30"
+      ]
+    }
+  ],
+  "approved_legal_sources": 0,
+  "independent_legal_accuracy_review": "NOT PERFORMED: no authentic corpus or qualified independent reviewer",
+  "notes": [
+    "The v5 30-case first exposure is the fresh evaluation. The v6 replay uses the same frozen narratives and is a regression run, not another unseen score.",
+    "Strict checks require expected coverage and no predeclared forbidden tags; unlisted additional tags do not automatically fail that score. Exact-set counts and full additional labels are reported separately.",
+    "The original seven-case expectations remain intact. V05 lacked an alleged refund request/refusal; the separate reviewed fixture removes that unjustified expected label. D05 recovered after an actual initial HTTP 503.",
+    "No AI self-evaluation is used as a legal correctness result.",
+    "Original local browser passed; new multi-issue browser initially hit HTTP 503, then passed on latest code. Authentic-source strict browser exited 2 because corpus is empty."
+  ]
+}

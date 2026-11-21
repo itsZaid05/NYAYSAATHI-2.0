@@ -154,10 +154,6 @@ def assess(
         flags.append(
             "Urgent safety concern: contact local emergency services (112 in India). This is not an emergency service."
         )
-    if not supported:
-        flags.append(
-            "Outside supported scope or insufficient information. Consult a qualified professional; NALSA information is in Help."
-        )
     if len(clean) > sum(len(f.text) for f in facts) + 300:
         flags.append(
             "The factual summary may be abbreviated; the complete redacted account is available in Settings for correction."
@@ -180,6 +176,19 @@ def assess(
             [r.model_dump(mode="json") for r in provider.records], sort_keys=True
         ).encode()
     ).hexdigest()
+    context_fingerprint = hashlib.sha256(
+        (
+            clean
+            + language
+            + jurisdiction
+            + (
+                datetime.now(ZoneInfo("Asia/Kolkata")).date().isoformat()
+                if relative_ambiguous
+                else ""
+            )
+        ).encode()
+    ).hexdigest()
+    context_unchanged = bool(old and old.context_fingerprint == context_fingerprint)
     fingerprint = hashlib.sha256(
         (
             clean
@@ -204,7 +213,20 @@ def assess(
         and consent.ai_processing
         and consent.fictional_demo
         and clean == text
-        and supported
+        and jurisdiction == "IN"
+        and not danger
+    )
+    issue_details = []
+    issue_review = {}
+    scope_status = (
+        "consumer"
+        if supported
+        else "unclear"
+        if category == "needs_clarification"
+        else "unsupported"
+    )
+    understanding_method = (
+        "Conservative local fallback — not dynamic legal classification"
     )
     ai_status = "Local structured preparation — Gemini not used"
     if ai_allowed:
@@ -212,14 +234,20 @@ def assess(
             result = GeminiProvider().extract(
                 clean, language, [q.question for q in context.questions]
             )
-            if any(f not in clean for f in result.facts) or any(
-                e.description not in clean or e.date not in e.description
-                for e in result.timeline
-            ):
-                raise ProviderUnavailable("AI fact provenance rejected")
+            from backend.services.case_state import ground_dynamic_extraction
+
+            result = ground_dynamic_extraction(result, clean)
             validate_intelligence(result, clean)
+            if result.scope == "consumer" and not result.issue_details:
+                raise ProviderUnavailable(
+                    "Dynamic consumer classification omitted all issue provenance"
+                )
+            if any(r.status == "unclear" for r in result.issue_review.values()):
+                flags.append(
+                    "Some possible issue families remain uncertain; the listed concerns are not an exhaustive legal assessment."
+                )
             if re.search(
-                r"section\s+\d|धारा\s*[०-९\d]|you (?:are entitled|must file)|guaranteed|file within",
+                r"section\s+\d|धारा\s*[०-९\d]|you (?:are entitled|must file)|guaranteed (?:refund|outcome|win|success)|file within",
                 result.assistant_message,
                 re.I,
             ):
@@ -230,10 +258,22 @@ def assess(
             questions = list(
                 dict.fromkeys([q.strip() for q in result.unknowns if q.strip()])
             )[:5]
+            if not questions and result.issue_details:
+                gaps = list(
+                    dict.fromkeys(
+                        gap
+                        for issue in result.issue_details
+                        for gap in issue.unresolved_facts
+                    )
+                )[:4]
+                prefix = "कृपया स्पष्ट करें: " if language == "hi" else "Could you clarify: "
+                questions = [prefix + gap.rstrip("?.।") + "?" for gap in gaps]
             if any(
                 not q.endswith(("?", "？"))
                 or re.search(
-                    r"\bsection\b|धारा|guarantee|must file|entitled|\d+%", q, re.I
+                    r"\bsection\b|धारा|guaranteed (?:refund|outcome|win|success)|must file|entitled|\d+%",
+                    q,
+                    re.I,
                 )
                 for q in questions
             ):
@@ -257,13 +297,63 @@ def assess(
             )
             if result.timeline:
                 timeline = sorted(result.timeline, key=lambda x: x.date)
+            if result.scope is not None:
+                scope_status = result.scope
+                issue_details = result.issue_details
+                issue_review = result.issue_review
+                supported = (
+                    result.scope == "consumer" and not danger and jurisdiction == "IN"
+                )
+                category = (
+                    issue_details[0].category
+                    if supported
+                    else "unsupported_domain"
+                    if result.scope == "unsupported"
+                    else "needs_clarification"
+                )
+                understanding_method = (
+                    "Gemini multi-issue understanding with verbatim fact provenance"
+                )
             ai_status = (
                 "Gemini live structured intake; entity and fact provenance validated"
             )
         except (ProviderUnavailable, ValueError) as exc:
             ai_status = "Gemini unavailable or unverified — local preparation only"
             flags.append(str(exc))
-    elif unchanged and old:
+            if (
+                context_unchanged
+                and old
+                and old.understanding_method.startswith("Gemini")
+            ):
+                issue_details = old.issue_details
+                issue_review = old.issue_review
+                scope_status = old.scope_status
+                understanding_method = old.understanding_method
+                category = old.category
+                supported = scope_status == "consumer" and not danger
+                context.parties = old.parties
+                context.amounts = old.amounts
+                context.desired_remedy = old.desired_remedy
+                context.assistant_message = old.assistant_message
+                context.questions = [
+                    Question(
+                        key="retained-" + str(i),
+                        question=q,
+                        reason="Previous provenance-checked intake; current request failed",
+                    )
+                    for i, q in enumerate(old.unknowns)
+                ]
+                ai_status = "Current Gemini request unavailable; previously grounded intake retained"
+    elif context_unchanged and old:
+        issue_details = old.issue_details
+        issue_review = old.issue_review
+        scope_status = old.scope_status
+        understanding_method = old.understanding_method
+        if understanding_method.startswith("Gemini"):
+            supported = (
+                scope_status == "consumer" and jurisdiction == "IN" and not danger
+            )
+            category = old.category
         context.assistant_message = old.assistant_message or context.assistant_message
         context.parties = old.parties or context.parties
         context.amounts = old.amounts or context.amounts
@@ -280,6 +370,9 @@ def assess(
             ]
         ai_status = old.ai_status
     if not supported:
+        flags.append(
+            "Outside supported scope or insufficient information. Consult a qualified professional; NALSA information is in Help."
+        )
         context.questions = [
             Question(
                 key="scope",
@@ -287,9 +380,13 @@ def assess(
                 reason="Scope gate",
             )
         ]
+    from backend.services.retrieval import retrieve_for_issues
+
     sources, mode = (
-        provider.search(
+        retrieve_for_issues(
+            provider,
             clean,
+            issue_details,
             semantic=ai_allowed,
             event_date=timeline[0].date if timeline else None,
         )
@@ -370,6 +467,12 @@ def assess(
                 else "No readable supporting document uploaded. Mention in chat does not establish availability.",
             )
         )
+    if issue_details:
+        from backend.services.evidence_requirements import requirements_for_issues
+
+        contextual = requirements_for_issues(issue_details, documents, language)
+        if contextual:
+            items = contextual
     findings = [
         ReadinessFinding(
             dimension="transaction facts",
@@ -419,7 +522,16 @@ def assess(
         else "Needs information"
     )
     scenarios = (
-        ScenarioEngine().select(clean, category, language, sources) if supported else []
+        ScenarioEngine().select(
+            clean
+            + " "
+            + " ".join(term for i in issue_details for term in i.research_terms),
+            category,
+            language,
+            sources,
+        )
+        if supported
+        else []
     )
     if analysis and scenarios:
         scenarios[0].similarities = (
@@ -435,7 +547,11 @@ def assess(
         facts=facts,
         unknowns=[q.question for q in context.questions],
         timeline=timeline,
-        issues=[category.replace("_", " ")],
+        issues=[i.title for i in issue_details] or [category.replace("_", " ")],
+        issue_details=issue_details,
+        issue_review=issue_review,
+        scope_status=scope_status,
+        understanding_method=understanding_method,
         sources=sources,
         options=options,
         evidence=items,
@@ -462,6 +578,7 @@ def assess(
         evidence_analysis=documents,
         conversation=old.conversation if old else [],
         analysis_fingerprint=fingerprint,
+        context_fingerprint=context_fingerprint,
     )
 
 

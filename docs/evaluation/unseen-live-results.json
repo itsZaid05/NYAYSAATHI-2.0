@@ -1,0 +1,1940 @@
+{
+  "checked_at": "2026-11-14T09:11:20.216470+00:00",
+  "baseline_commit": "1274bee",
+  "implementation_milestone": "25de2d0",
+  "synthetic_only": true,
+  "method": "Frozen original expectations. Full 30-case v2 run plus targeted post-fix v3 recheck of its 10 failures. Latest recorded attempt per case; not a single uniformly rerun final batch. Expected labels were never passed to the model.",
+  "models": [
+    "gemini-3.1-flash-lite",
+    "gemini-embedding-001"
+  ],
+  "rounds": [
+    {
+      "file": "unseen-full-v1.json",
+      "sha256": "954befa7197b191ee51bcfd866f8644c7b7f4c4e503abbf6e462de15ee64a251",
+      "attempted": 30,
+      "strict_passed": 9
+    },
+    {
+      "file": "unseen-full-v2.json",
+      "sha256": "1fb4c2819b16201ab22740fada477dfeaacab6a408aec3f9d776386a68733c8f",
+      "attempted": 30,
+      "strict_passed": 20
+    },
+    {
+      "file": "unseen-failure-recheck-v3.json",
+      "sha256": "7817c57bbf3c62af1d0bba572fa57e3ada6f70d0e3b021817ddcef29c8e79dd1",
+      "attempted": 10,
+      "strict_passed": 3
+    }
+  ],
+  "latest_total": 30,
+  "latest_strict_passed": 23,
+  "dynamic_understanding_accepted": 30,
+  "scope_accepted": 30,
+  "quote_provenance_passed": 30,
+  "evidence_suggestions_passed": 30,
+  "unique_followup_sets": 16,
+  "unique_evidence_sets": 30,
+  "approved_legal_sources": 0,
+  "legal_correctness": "NOT ASSESSED: no approved corpus or independent legal review; no inference from AI self-evaluation",
+  "remaining_secondary_label_misses": [
+    "D05",
+    "M05",
+    "R03",
+    "R05",
+    "V05",
+    "W02",
+    "W03"
+  ],
+  "results": [
+    {
+      "id": "D01",
+      "language": "en",
+      "status": "PASS",
+      "validation_run": "full-v2",
+      "expected_categories": [
+        "defective_product"
+      ],
+      "actual_categories": [
+        "defective_product"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "defective_product_001",
+          "category": "defective_product",
+          "title": "Structural failure of dining bench legs",
+          "fact_quotes": [
+            "Fictional: The legs of my new Demo Oak dining bench split when one adult sat down."
+          ],
+          "fact_segment_ids": [
+            "f0"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Photographs of the split legs",
+            "Receipt of purchase",
+            "Delivery documentation"
+          ],
+          "research_terms": [
+            "consumer rights defective furniture India",
+            "implied warranty of merchantability India"
+          ]
+        }
+      ],
+      "followups": [
+        "Who was the seller, and which platform or service provider was involved?",
+        "What resolution would you like, and what has the seller said so far?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "D02",
+      "language": "en",
+      "status": "PASS",
+      "validation_run": "full-v2",
+      "expected_categories": [
+        "defective_product"
+      ],
+      "actual_categories": [
+        "defective_product"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "defective_product_001",
+          "category": "defective_product",
+          "title": "Solar backup battery fails to hold charge",
+          "fact_quotes": [
+            "Fictional: A newly installed Demo Solar backup battery cannot hold charge for even ten minutes, although the installer measured the household load before sale."
+          ],
+          "fact_segment_ids": [
+            "f0"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Purchase receipt",
+            "Installation report",
+            "Communication with installer regarding load measurement"
+          ],
+          "research_terms": [
+            "consumer rights defective goods India",
+            "solar battery warranty claims"
+          ]
+        }
+      ],
+      "followups": [
+        "Who was the seller, and which platform or service provider was involved?",
+        "When did you purchase, receive and first notice the problem?",
+        "What resolution would you like, and what has the seller said so far?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "D03",
+      "language": "en",
+      "status": "PASS",
+      "validation_run": "full-v2",
+      "expected_categories": [
+        "defective_product",
+        "misleading_advertising"
+      ],
+      "actual_categories": [
+        "defective_product",
+        "misleading_advertising"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "issue_001",
+          "category": "defective_product",
+          "title": "Raincoat leaking at seams",
+          "fact_quotes": [
+            "Fictional: My Demo Dry raincoat leaks across the seams during light rain."
+          ],
+          "fact_segment_ids": [
+            "f0"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Video recording of the leak",
+            "Purchase invoice",
+            "Photos of the seams"
+          ],
+          "research_terms": [
+            "consumer rights defective goods",
+            "product liability India"
+          ]
+        },
+        {
+          "id": "issue_002",
+          "category": "misleading_advertising",
+          "title": "Product performance discrepancy",
+          "fact_quotes": [
+            "The product page I saved calls it suitable for monsoons."
+          ],
+          "fact_segment_ids": [
+            "f1"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Screenshot of product page",
+            "Product description"
+          ],
+          "research_terms": [
+            "misleading advertisement consumer protection"
+          ]
+        }
+      ],
+      "followups": [
+        "When did you purchase the raincoat?",
+        "When did you receive the item?",
+        "When did you first notice the leaking issue?",
+        "What resolution are you seeking from the seller, and have you contacted them yet?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "D04",
+      "language": "hi",
+      "status": "PASS",
+      "validation_run": "targeted-v3",
+      "expected_categories": [
+        "defective_product"
+      ],
+      "actual_categories": [
+        "defective_product"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "defective_product_001",
+          "category": "defective_product",
+          "title": "मिक्सर का ढक्कन पहली बार उपयोग में अलग होना",
+          "fact_quotes": [
+            "काल्पनिक: Demo Kitchen से खरीदे मिक्सर का ढक्कन पहली बार उपयोग करते समय अलग हो गया।"
+          ],
+          "fact_segment_ids": [
+            "f0"
+          ],
+          "unresolved_facts": [
+            "क्या उत्पाद में कोई विनिर्माण दोष है या उपयोगकर्ता की त्रुटि?",
+            "क्या विक्रेता ने उत्पाद बदलने या मरम्मत करने से इनकार किया है?"
+          ],
+          "evidence_needed": [
+            "खरीद का बिल",
+            "उपयोग के निर्देश",
+            "क्षतिग्रस्त ढक्कन की तस्वीरें या वीडियो"
+          ],
+          "research_terms": [
+            "उपभोक्ता संरक्षण अधिनियम",
+            "दोषपूर्ण उत्पाद अधिकार",
+            "विक्रेता की जिम्मेदारी"
+          ]
+        }
+      ],
+      "followups": [
+        "खरीद की तारीख क्या थी?",
+        "क्या आपने विक्रेता को लिखित में शिकायत दर्ज की है?",
+        "आप इस मामले में क्या समाधान चाहते हैं (जैसे रिफंड या रिप्लेसमेंट)?",
+        "क्या आपके पास कोई वारंटी कार्ड है?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "D05",
+      "language": "en",
+      "status": "FAIL",
+      "validation_run": "targeted-v3",
+      "expected_categories": [
+        "defective_product",
+        "warranty"
+      ],
+      "actual_categories": [
+        "warranty"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": false,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "warranty_issue_001",
+          "category": "warranty",
+          "title": "Recurring technical fault despite multiple repair attempts under warranty",
+          "fact_quotes": [
+            "Fictional: My Demo Cool air conditioner repeatedly trips its circuit after authorised installation.",
+            "A technician fitted a new component twice under a two-year cover promise, but the same fault returns."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f1"
+          ],
+          "unresolved_facts": [
+            "Details of the original purchase date",
+            "Specifics of the seller's response to the recurring fault"
+          ],
+          "evidence_needed": [
+            "Original purchase invoice",
+            "Warranty terms and conditions document",
+            "Copies of all three job sheets",
+            "Correspondence with the service provider regarding the failed repairs"
+          ],
+          "research_terms": [
+            "consumer rights for defective goods",
+            "warranty repair obligations",
+            "remedies for repeated product failure"
+          ]
+        }
+      ],
+      "followups": [
+        "Who was the seller, and which platform or service provider was involved?",
+        "When did you purchase, receive and first notice the problem?",
+        "How much did you pay, and was this a personal purchase or for resale/business?",
+        "What resolution would you like, and what has the seller said so far?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "M01",
+      "language": "en",
+      "status": "PASS",
+      "validation_run": "targeted-v3",
+      "expected_categories": [
+        "misleading_advertising"
+      ],
+      "actual_categories": [
+        "misleading_advertising"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "misleading_advertising_001",
+          "category": "misleading_advertising",
+          "title": "Disputed laboratory certification for water purifier",
+          "fact_quotes": [
+            "Fictional: Demo Filter advertised that its purifier removes a named contaminant and displayed a laboratory seal.",
+            "The laboratory told me that seal belongs to another model."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f1"
+          ],
+          "unresolved_facts": [
+            "Verification of the laboratory's statement regarding the seal",
+            "Confirmation of the specific model purchased"
+          ],
+          "evidence_needed": [
+            "Copy of the advertisement",
+            "Correspondence with the laboratory",
+            "Proof of purchase"
+          ],
+          "research_terms": [
+            "misleading advertisement consumer protection",
+            "false certification claims",
+            "product representation dispute"
+          ]
+        }
+      ],
+      "followups": [
+        "Who was the seller, and which platform or service provider was involved?",
+        "When did you purchase, receive and first notice the problem?",
+        "How much did you pay, and was this a personal purchase or for resale/business?",
+        "What resolution would you like, and what has the seller said so far?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "M02",
+      "language": "en",
+      "status": "PASS",
+      "validation_run": "full-v2",
+      "expected_categories": [
+        "misleading_advertising",
+        "subscription_billing"
+      ],
+      "actual_categories": [
+        "misleading_advertising",
+        "subscription_billing"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "misleading_advertising_001",
+          "category": "misleading_advertising",
+          "title": "Hidden recurring fees not disclosed at checkout",
+          "fact_quotes": [
+            "Fictional: Demo Learn displayed one total price of INR 3600 for a language course, but after I enrolled it locked the speaking exercises behind a recurring INR 499 fee.",
+            "The checkout screenshot did not mention that charge."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f1"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Checkout screenshot",
+            "Course enrollment confirmation email",
+            "Terms of service provided at purchase"
+          ],
+          "research_terms": [
+            "misleading advertising",
+            "hidden fees",
+            "consumer protection disclosure"
+          ]
+        },
+        {
+          "id": "subscription_billing_001",
+          "category": "subscription_billing",
+          "title": "Unauthorized recurring charge for course features",
+          "fact_quotes": [
+            "Fictional: Demo Learn displayed one total price of INR 3600 for a language course, but after I enrolled it locked the speaking exercises behind a recurring INR 499 fee."
+          ],
+          "fact_segment_ids": [
+            "f0"
+          ],
+          "unresolved_facts": [
+            "Did the terms of service mention the recurring fee?"
+          ],
+          "evidence_needed": [
+            "Billing statement showing the recurring charge",
+            "Platform subscription settings"
+          ],
+          "research_terms": [
+            "unauthorized subscription",
+            "recurring payment consent"
+          ]
+        }
+      ],
+      "followups": [
+        "When did you purchase the course?",
+        "Have you contacted Demo Learn support about this issue yet?",
+        "What was their response, if any?",
+        "Do you have a copy of the checkout screen you mentioned?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "M03",
+      "language": "en",
+      "status": "PASS",
+      "validation_run": "full-v2",
+      "expected_categories": [
+        "misleading_advertising"
+      ],
+      "actual_categories": [
+        "misleading_advertising"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "misleading_advertising_sheets",
+          "category": "misleading_advertising",
+          "title": "Discrepancy between advertised material and product label",
+          "fact_quotes": [
+            "Fictional: Demo Cotton described its sheets as pure organic cotton.",
+            "The sewn-in label says polyester blend."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f1"
+          ],
+          "unresolved_facts": [
+            "Identity of the seller",
+            "Purchase date",
+            "Purchase price"
+          ],
+          "evidence_needed": [
+            "Copy of the invoice",
+            "Screenshot of the original product listing",
+            "Photograph of the sewn-in label",
+            "Photograph of the product packaging"
+          ],
+          "research_terms": [
+            "misleading advertising consumer protection",
+            "false product description",
+            "consumer rights misrepresentation of goods"
+          ]
+        }
+      ],
+      "followups": [
+        "Who was the seller, and which platform or service provider was involved?",
+        "When did you purchase, receive and first notice the problem?",
+        "How much did you pay, and was this a personal purchase or for resale/business?",
+        "What resolution would you like, and what has the seller said so far?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "M04",
+      "language": "hi",
+      "status": "PASS",
+      "validation_run": "full-v2",
+      "expected_categories": [
+        "misleading_advertising"
+      ],
+      "actual_categories": [
+        "misleading_advertising"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "misleading_advertising_demo_travel",
+          "category": "misleading_advertising",
+          "title": "Misleading room description and amenities",
+          "fact_quotes": [
+            "काल्पनिक: Demo Travel ने कमरे की तस्वीर में समुद्र का दृश्य और निजी बाथरूम दिखाया था।",
+            "पहुंचने पर कमरा बिना खिड़की का था और बाथरूम साझा था।"
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f1"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Booking confirmation document",
+            "Photographs of the room as advertised",
+            "Photographs of the room as provided",
+            "Communication with Demo Travel regarding the discrepancy"
+          ],
+          "research_terms": [
+            "misleading advertisement consumer protection",
+            "unfair trade practice hotel booking",
+            "breach of service contract"
+          ]
+        }
+      ],
+      "followups": [
+        "क्या आप बुकिंग की तारीख और होटल में पहुंचने की तारीख बता सकते हैं?",
+        "आपने इस बुकिंग के लिए कुल कितनी राशि का भुगतान किया था?",
+        "क्या आपने होटल या Demo Travel से इस बारे में कोई शिकायत की है, और उनका क्या जवाब था?",
+        "आप इस मामले में क्या समाधान चाहते हैं (जैसे रिफंड या मुआवजा)?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "M05",
+      "language": "en",
+      "status": "FAIL",
+      "validation_run": "targeted-v3",
+      "expected_categories": [
+        "misleading_advertising",
+        "online_shopping"
+      ],
+      "actual_categories": [
+        "misleading_advertising"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": false,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "misleading_advertising_001",
+          "category": "misleading_advertising",
+          "title": "Hidden activation fees not disclosed at initial price display",
+          "fact_quotes": [
+            "Fictional: Demo Games displayed a limited-time price of INR 799, then added an unavoidable activation payment only after I created an account and entered payment details."
+          ],
+          "fact_segment_ids": [
+            "f0"
+          ],
+          "unresolved_facts": [
+            "What was the total amount of the hidden activation fee?",
+            "Did the website explicitly state that additional fees would apply before the checkout process?"
+          ],
+          "evidence_needed": [
+            "Screenshots of the initial price display",
+            "Screenshots showing the added activation fee",
+            "Terms and conditions provided during account creation"
+          ],
+          "research_terms": [
+            "drip pricing regulations India",
+            "unfair trade practices consumer protection act",
+            "disclosure requirements for online pricing"
+          ]
+        }
+      ],
+      "followups": [
+        "Who was the seller, and which platform or service provider was involved?",
+        "When did you purchase, receive and first notice the problem?",
+        "What resolution would you like, and what has the seller said so far?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "R01",
+      "language": "en",
+      "status": "PASS",
+      "validation_run": "full-v2",
+      "expected_categories": [
+        "refund_refusal"
+      ],
+      "actual_categories": [
+        "refund_refusal"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "refund_refusal_001",
+          "category": "refund_refusal",
+          "title": "Refusal to refund payment for cancelled custom order",
+          "fact_quotes": [
+            "Fictional: Demo Furnishings collected INR 8300 for a custom chair on 2026-10-02, then cancelled because its artisan left.",
+            "Its written message says it will keep the full amount as a design charge although no design was supplied."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f1"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Copy of the written message from Demo Furnishings",
+            "Proof of payment of INR 8300",
+            "Order confirmation or contract terms"
+          ],
+          "research_terms": [
+            "refund policy for cancelled custom orders",
+            "unfair trade practice retention of payment without service",
+            "consumer rights for non-delivery of goods"
+          ]
+        }
+      ],
+      "followups": [
+        "Do you have a copy of the written communication where they stated they would keep the money as a design charge?",
+        "Was there any prior agreement or contract signed regarding non-refundable design fees?",
+        "Have you formally requested a refund from them in writing, and if so, what was their specific response?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "R02",
+      "language": "en",
+      "status": "PASS",
+      "validation_run": "full-v2",
+      "expected_categories": [
+        "online_shopping",
+        "refund_refusal"
+      ],
+      "actual_categories": [
+        "online_shopping",
+        "refund_refusal"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "delivery_failure",
+          "category": "online_shopping",
+          "title": "Non-delivery of parcel",
+          "fact_quotes": [
+            "Fictional: A parcel from Demo Ceramics never reached me.",
+            "The courier confirms it was sent back unopened on 2026-10-11."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f1"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Tracking number",
+            "Courier confirmation document"
+          ],
+          "research_terms": [
+            "non-delivery of goods",
+            "consumer rights online shopping"
+          ]
+        },
+        {
+          "id": "refund_refusal",
+          "category": "refund_refusal",
+          "title": "Marketplace refusal to refund",
+          "fact_quotes": [
+            "The marketplace says its automated window ended and will keep my INR 2450."
+          ],
+          "fact_segment_ids": [
+            "f2"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Marketplace communication",
+            "Transaction receipt"
+          ],
+          "research_terms": [
+            "refund policy",
+            "marketplace liability"
+          ]
+        }
+      ],
+      "followups": [
+        "What resolution would you like?",
+        "What has the seller said so far?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "R03",
+      "language": "en",
+      "status": "FAIL",
+      "validation_run": "targeted-v3",
+      "expected_categories": [
+        "refund_refusal",
+        "service_deficiency"
+      ],
+      "actual_categories": [
+        "refund_refusal"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": false,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "refund_refusal_pottery_class",
+          "category": "refund_refusal",
+          "title": "Refusal of monetary refund for cancelled service",
+          "fact_quotes": [
+            "Fictional: Demo Events cancelled a pottery class I paid INR 1900 to attend.",
+            "I declined its offer of credit because I am moving cities."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f1"
+          ],
+          "unresolved_facts": [
+            "Has the company explicitly stated a no-refund policy in their terms and conditions?",
+            "What is the specific communication history regarding the refund request?"
+          ],
+          "evidence_needed": [
+            "Copy of the original receipt",
+            "Correspondence with Demo Events regarding the cancellation and refund request"
+          ],
+          "research_terms": [
+            "consumer rights cancelled service refund India",
+            "unfair contract terms refund policy"
+          ]
+        }
+      ],
+      "followups": [
+        "When did you purchase the class and when was the cancellation notice received?",
+        "Do you have a copy of the terms and conditions provided at the time of booking?",
+        "What specific response did Demo Events provide when you declined the credit offer?",
+        "What is your preferred outcome, such as a full refund to your original payment method?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "R04",
+      "language": "hi",
+      "status": "PASS",
+      "validation_run": "full-v2",
+      "expected_categories": [
+        "refund_refusal"
+      ],
+      "actual_categories": [
+        "refund_refusal"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "order_cancellation_refund",
+          "category": "refund_refusal",
+          "title": "Refusal to provide cash refund for cancelled order",
+          "fact_quotes": [
+            "काल्पनिक: Demo Books ने 2026-10-10 को मेरी किताबों का ऑर्डर खुद रद्द किया।",
+            "मैंने 1350 रुपये दिए थे।",
+            "कंपनी नकद लौटाने के बजाय केवल कूपन दे रही है।"
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f1",
+            "f2"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Payment receipt",
+            "Cancellation notification",
+            "Communication regarding coupon offer"
+          ],
+          "research_terms": [
+            "refund policy",
+            "consumer rights cancelled order",
+            "monetary refund vs store credit"
+          ]
+        }
+      ],
+      "followups": [
+        "आप क्या समाधान चाहते हैं?",
+        "विक्रेता ने अब तक क्या कहा है?",
+        "क्या आपके पास विक्रेता के साथ हुई बातचीत का कोई लिखित प्रमाण है?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "R05",
+      "language": "en",
+      "status": "FAIL",
+      "validation_run": "targeted-v3",
+      "expected_categories": [
+        "misleading_advertising",
+        "refund_refusal"
+      ],
+      "actual_categories": [
+        "misleading_advertising"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": false,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "issue_001",
+          "category": "misleading_advertising",
+          "title": "Disputed restocking fee not disclosed in initial advertisement",
+          "fact_quotes": [
+            "Fictional: Demo Audio promised a completely reversible home trial for INR 12400.",
+            "They now cite a restocking deduction that was absent from the saved trial advertisement."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f2"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Copy of the original advertisement",
+            "Copy of the terms and conditions provided at purchase",
+            "Communication from Demo Audio regarding the deduction"
+          ],
+          "research_terms": [
+            "unfair trade practices India",
+            "misleading advertisement consumer protection",
+            "hidden fees in home trials"
+          ]
+        }
+      ],
+      "followups": [
+        "When did you purchase, receive and first notice the problem?",
+        "What resolution would you like, and what has the seller said so far?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "S01",
+      "language": "en",
+      "status": "PASS",
+      "validation_run": "full-v2",
+      "expected_categories": [
+        "subscription_billing"
+      ],
+      "actual_categories": [
+        "subscription_billing"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "sub_billing_001",
+          "category": "subscription_billing",
+          "title": "Unauthorized recurring charges after cancellation",
+          "fact_quotes": [
+            "Fictional: Demo Fitness kept drawing INR 799 monthly after acknowledging my membership cancellation on 2026-09-30.",
+            "It says a verbal conversation with its front desk automatically extended my membership, which I deny."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f2"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Cancellation confirmation email or document",
+            "Bank statements showing post-cancellation charges",
+            "Any written communication regarding the alleged verbal extension"
+          ],
+          "research_terms": [
+            "unauthorized recurring payment",
+            "subscription cancellation dispute",
+            "consumer protection gym membership"
+          ]
+        }
+      ],
+      "followups": [
+        "Who was the seller, and which platform or service provider was involved?",
+        "What resolution would you like, and what has the seller said so far?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "S02",
+      "language": "en",
+      "status": "PASS",
+      "validation_run": "full-v2",
+      "expected_categories": [
+        "misleading_advertising",
+        "subscription_billing"
+      ],
+      "actual_categories": [
+        "misleading_advertising",
+        "subscription_billing"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "sub_001",
+          "category": "subscription_billing",
+          "title": "Unauthorized annual subscription charge after trial",
+          "fact_quotes": [
+            "Fictional: A Demo Reader seven-day trial asked for my card solely for verification.",
+            "An annual INR 2999 debit appeared on day two."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f1"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Transaction receipt",
+            "Screenshot of the trial offer page",
+            "Communication with the service provider"
+          ],
+          "research_terms": [
+            "unauthorized subscription charge",
+            "trial period billing dispute",
+            "consumer protection digital services"
+          ]
+        },
+        {
+          "id": "adv_001",
+          "category": "misleading_advertising",
+          "title": "Discrepancy between trial terms and actual billing",
+          "fact_quotes": [
+            "Fictional: A Demo Reader seven-day trial asked for my card solely for verification.",
+            "The trial page I saved shows no annual commitment."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f2"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Saved trial page documentation",
+            "Terms and conditions provided at sign-up"
+          ],
+          "research_terms": [
+            "misleading marketing",
+            "deceptive trial offer",
+            "unfair trade practices"
+          ]
+        }
+      ],
+      "followups": [
+        "Who was the seller, and which platform or service provider was involved?",
+        "When did you purchase, receive and first notice the problem?",
+        "What resolution would you like, and what has the seller said so far?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "S03",
+      "language": "en",
+      "status": "PASS",
+      "validation_run": "full-v2",
+      "expected_categories": [
+        "subscription_billing"
+      ],
+      "actual_categories": [
+        "subscription_billing"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "double_billing_issue",
+          "category": "subscription_billing",
+          "title": "Duplicate yearly fee deduction",
+          "fact_quotes": [
+            "Fictional: Demo Cloud deducted its yearly fee twice when I switched from mobile billing to direct billing.",
+            "Both receipts refer to the same account period."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f1"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Receipt for mobile billing transaction",
+            "Receipt for direct billing transaction",
+            "Account statement showing both charges"
+          ],
+          "research_terms": [
+            "duplicate subscription charge",
+            "billing error resolution",
+            "subscription cancellation policy"
+          ]
+        }
+      ],
+      "followups": [
+        "When did you purchase, receive and first notice the problem?",
+        "How much did you pay, and was this a personal purchase or for resale/business?",
+        "What resolution would you like, and what has the seller said so far?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "S04",
+      "language": "en",
+      "status": "PASS",
+      "validation_run": "full-v2",
+      "expected_categories": [
+        "service_deficiency",
+        "subscription_billing"
+      ],
+      "actual_categories": [
+        "service_deficiency",
+        "subscription_billing"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "issue_001",
+          "category": "subscription_billing",
+          "title": "Unauthorized charges after account closure",
+          "fact_quotes": [
+            "Fictional: Demo Music charged my family plan after closing the account because its own system could not verify the region."
+          ],
+          "fact_segment_ids": [
+            "f0"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Copy of closure notice",
+            "Charge receipt",
+            "Bank statement showing the charge"
+          ],
+          "research_terms": [
+            "unauthorized subscription charge after cancellation",
+            "recurring payment dispute"
+          ]
+        },
+        {
+          "id": "issue_002",
+          "category": "service_deficiency",
+          "title": "Inability to access account or cancellation tools",
+          "fact_quotes": [
+            "I cannot sign in to use the service or retrieve a cancellation button."
+          ],
+          "fact_segment_ids": [
+            "f1"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Screenshots of login error messages"
+          ],
+          "research_terms": [
+            "service access denial",
+            "inability to cancel subscription"
+          ]
+        }
+      ],
+      "followups": [
+        "When did you originally close your account?",
+        "What is the exact amount of the charge you are disputing?",
+        "Have you contacted Demo Music support regarding this charge, and if so, what was their response?",
+        "What specific resolution are you seeking from the company?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "S05",
+      "language": "en",
+      "status": "PASS",
+      "validation_run": "full-v2",
+      "expected_categories": [
+        "subscription_billing"
+      ],
+      "actual_categories": [
+        "service_deficiency",
+        "subscription_billing"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "service_gap_001",
+          "category": "service_deficiency",
+          "title": "Incomplete delivery of scheduled water bottles",
+          "fact_quotes": [
+            "Fictional: Demo Water delivered only three of eight scheduled bottles while continuing its recurring debit.",
+            "The delivery log and the seller’s messages disagree about which days were missed."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f1"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Delivery logs",
+            "Communication history with seller",
+            "Subscription agreement"
+          ],
+          "research_terms": [
+            "service deficiency",
+            "breach of contract",
+            "delivery failure"
+          ]
+        },
+        {
+          "id": "billing_001",
+          "category": "subscription_billing",
+          "title": "Recurring charges despite service failure",
+          "fact_quotes": [
+            "Fictional: Demo Water delivered only three of eight scheduled bottles while continuing its recurring debit.",
+            "I want to separate the service gap from the ongoing payments."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f2"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Bank statements",
+            "Subscription cancellation terms"
+          ],
+          "research_terms": [
+            "recurring payment",
+            "unauthorized billing",
+            "subscription cancellation"
+          ]
+        }
+      ],
+      "followups": [
+        "When did you purchase, receive and first notice the problem?",
+        "How much did you pay, and was this a personal purchase or for resale/business?",
+        "What resolution would you like, and what has the seller said so far?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "V01",
+      "language": "en",
+      "status": "PASS",
+      "validation_run": "full-v2",
+      "expected_categories": [
+        "service_deficiency"
+      ],
+      "actual_categories": [
+        "service_deficiency"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "service_non_delivery",
+          "category": "service_deficiency",
+          "title": "Failure to deliver agreed photography services",
+          "fact_quotes": [
+            "Fictional: Demo Moments accepted INR 18000 to photograph my graduation and deliver edited files.",
+            "It sent only thumbnails and stopped responding before the agreed delivery date passed."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f1"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Copy of the contract",
+            "Proof of payment",
+            "Communication logs with Demo Moments"
+          ],
+          "research_terms": [
+            "service contract breach",
+            "non-delivery of digital services"
+          ]
+        }
+      ],
+      "followups": [
+        "What was the specific date of the graduation event?",
+        "When was the payment of INR 18000 made?",
+        "What was the agreed-upon delivery date for the edited files?",
+        "Have you attempted to contact Demo Moments through any other channels since they stopped responding?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "V02",
+      "language": "en",
+      "status": "PASS",
+      "validation_run": "targeted-v3",
+      "expected_categories": [
+        "service_deficiency"
+      ],
+      "actual_categories": [
+        "misleading_advertising",
+        "service_deficiency"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "defective_service_delivery",
+          "category": "service_deficiency",
+          "title": "Damaged goods during transit",
+          "fact_quotes": [
+            "Fictional: Demo Move packed my household ceramics but delivered several broken boxes."
+          ],
+          "fact_segment_ids": [
+            "f0"
+          ],
+          "unresolved_facts": [
+            "Extent of damage to the ceramics",
+            "Whether the damage was documented upon delivery"
+          ],
+          "evidence_needed": [
+            "Photographs of the broken boxes and damaged items",
+            "Copy of the delivery receipt",
+            "Inventory list provided by the mover"
+          ],
+          "research_terms": [
+            "mover liability for damaged goods",
+            "consumer rights for household goods transit"
+          ]
+        },
+        {
+          "id": "liability_exclusion_dispute",
+          "category": "misleading_advertising",
+          "title": "Disputed liability exclusion clause",
+          "fact_quotes": [
+            "Its inventory notes the contents while the receipt contains a liability exclusion I did not notice."
+          ],
+          "fact_segment_ids": [
+            "f1"
+          ],
+          "unresolved_facts": [
+            "Whether the liability exclusion was clearly communicated at the time of booking"
+          ],
+          "evidence_needed": [
+            "Original service agreement or booking confirmation",
+            "Terms and conditions provided at the time of purchase"
+          ],
+          "research_terms": [
+            "enforceability of liability exclusion clauses in consumer contracts",
+            "unfair contract terms consumer protection"
+          ]
+        }
+      ],
+      "followups": [
+        "When did you purchase, receive and first notice the problem?",
+        "How much did you pay, and was this a personal purchase or for resale/business?",
+        "What resolution would you like, and what has the seller said so far?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "V03",
+      "language": "en",
+      "status": "PASS",
+      "validation_run": "full-v2",
+      "expected_categories": [
+        "misleading_advertising",
+        "service_deficiency"
+      ],
+      "actual_categories": [
+        "misleading_advertising",
+        "service_deficiency"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "misleading_advertising_001",
+          "category": "misleading_advertising",
+          "title": "Discrepancy between promised one-to-one sessions and delivered group recordings",
+          "fact_quotes": [
+            "Fictional: Demo Tutor promised six one-to-one language sessions but assigned group video recordings instead.",
+            "I saved the specific sales promise."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f3"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Copy of the specific sales promise",
+            "Communication confirming the one-to-one session agreement"
+          ],
+          "research_terms": [
+            "misleading representation of services",
+            "breach of service description",
+            "consumer protection service standards"
+          ]
+        },
+        {
+          "id": "service_deficiency_001",
+          "category": "service_deficiency",
+          "title": "Failure to provide personal learning sessions as paid",
+          "fact_quotes": [
+            "I paid INR 5400 for personal learning.",
+            "The tutor says its general terms allow any teaching format."
+          ],
+          "fact_segment_ids": [
+            "f1",
+            "f2"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Payment receipt",
+            "Terms and conditions document provided by the tutor"
+          ],
+          "research_terms": [
+            "service deficiency",
+            "contractual obligation for personal tutoring",
+            "unfair trade practice in education services"
+          ]
+        }
+      ],
+      "followups": [
+        "Who was the seller, and which platform or service provider was involved?",
+        "When did you purchase, receive and first notice the problem?",
+        "What resolution would you like, and what has the seller said so far?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "V04",
+      "language": "en",
+      "status": "PASS",
+      "validation_run": "full-v2",
+      "expected_categories": [
+        "service_deficiency"
+      ],
+      "actual_categories": [
+        "service_deficiency"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "service_dispute_october",
+          "category": "service_deficiency",
+          "title": "Disputed service availability and billing for October",
+          "fact_quotes": [
+            "Fictional: Demo Net says my home connection was active throughout October, while its own complaint tickets record repeated outages.",
+            "I paid the full monthly invoice."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f1"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Copy of the monthly invoice for October",
+            "Records of the complaint tickets mentioned",
+            "Proof of payment",
+            "Any correspondence with Demo Net regarding the outages"
+          ],
+          "research_terms": [
+            "service level agreement",
+            "billing dispute",
+            "internet service provider consumer rights"
+          ]
+        }
+      ],
+      "followups": [
+        "Who was the seller, and which platform or service provider was involved?",
+        "When did you purchase, receive and first notice the problem?",
+        "How much did you pay, and was this a personal purchase or for resale/business?",
+        "What resolution would you like, and what has the seller said so far?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "V05",
+      "language": "en",
+      "status": "FAIL",
+      "validation_run": "targeted-v3",
+      "expected_categories": [
+        "refund_refusal",
+        "service_deficiency"
+      ],
+      "actual_categories": [
+        "service_deficiency"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": false,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "service_non_delivery",
+          "category": "service_deficiency",
+          "title": "Non-attendance of scheduled installation service",
+          "fact_quotes": [
+            "The installer never attended, but says only the person living at the address can complain."
+          ],
+          "fact_segment_ids": [
+            "f1"
+          ],
+          "unresolved_facts": [
+            "Did the company provide any reason for the non-attendance beyond the claim about the complainant's identity?"
+          ],
+          "evidence_needed": [
+            "Appointment confirmation documents",
+            "Proof of payment",
+            "Any communication logs with the installer or company"
+          ],
+          "research_terms": [
+            "service deficiency",
+            "consumer rights installation service",
+            "third party complaint rights"
+          ]
+        }
+      ],
+      "followups": [
+        "When did you purchase, receive and first notice the problem?",
+        "What resolution would you like, and what has the seller said so far?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "W01",
+      "language": "en",
+      "status": "PASS",
+      "validation_run": "full-v2",
+      "expected_categories": [
+        "warranty"
+      ],
+      "actual_categories": [
+        "service_deficiency",
+        "warranty"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "warranty_dispute",
+          "category": "warranty",
+          "title": "Disputed warranty coverage for drill motor failure",
+          "fact_quotes": [
+            "Fictional: Demo Tools promised two years of cover for a household drill.",
+            "At month nine the motor failed.",
+            "Its service centre says I should have registered within seven days, but the supplied booklet has no such condition."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f1",
+            "f2"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Copy of the product booklet",
+            "Proof of purchase",
+            "Communication from the service centre regarding the registration requirement"
+          ],
+          "research_terms": [
+            "warranty terms and conditions",
+            "consumer rights for product failure",
+            "misleading warranty information"
+          ]
+        },
+        {
+          "id": "unauthorized_repair",
+          "category": "service_deficiency",
+          "title": "Unauthorized repair service",
+          "fact_quotes": [
+            "I have not authorised a paid repair."
+          ],
+          "fact_segment_ids": [
+            "f3"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Any repair estimates or invoices provided by the service centre"
+          ],
+          "research_terms": [
+            "unauthorized repair charges",
+            "consumer protection against unsolicited services"
+          ]
+        }
+      ],
+      "followups": [
+        "Who was the seller, and which platform or service provider was involved?",
+        "When did you purchase, receive and first notice the problem?",
+        "How much did you pay, and was this a personal purchase or for resale/business?",
+        "What resolution would you like, and what has the seller said so far?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "W02",
+      "language": "en",
+      "status": "FAIL",
+      "validation_run": "targeted-v3",
+      "expected_categories": [
+        "service_deficiency",
+        "warranty"
+      ],
+      "actual_categories": [
+        "service_deficiency"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": false,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "repair_delay_and_storage_fee",
+          "category": "service_deficiency",
+          "title": "Unreasonable repair delay and demand for storage fees",
+          "fact_quotes": [
+            "Fictional: An authorised Demo Home repairer retained my appliance for seven weeks under its protection plan.",
+            "It gives no job status and wants a storage payment before returning it."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f1"
+          ],
+          "unresolved_facts": [
+            "Terms regarding storage fees in the protection plan",
+            "Reason for the seven-week delay"
+          ],
+          "evidence_needed": [
+            "Intake sheet",
+            "Protection plan terms",
+            "Communication regarding storage fee demand"
+          ],
+          "research_terms": [
+            "consumer rights repair delay",
+            "unauthorized storage fees",
+            "protection plan service obligations"
+          ]
+        }
+      ],
+      "followups": [
+        "Who was the seller, and which platform or service provider was involved?",
+        "When did you purchase, receive and first notice the problem?",
+        "How much did you pay, and was this a personal purchase or for resale/business?",
+        "What resolution would you like, and what has the seller said so far?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "W03",
+      "language": "en",
+      "status": "FAIL",
+      "validation_run": "targeted-v3",
+      "expected_categories": [
+        "defective_product",
+        "warranty"
+      ],
+      "actual_categories": [
+        "warranty"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": false,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "warranty_dispute_001",
+          "category": "warranty",
+          "title": "Dispute over warranty coverage for optical parts",
+          "fact_quotes": [
+            "Fictional: My refurbished Demo Camera was sold with six months of written cover.",
+            "The lens stopped focusing after a month.",
+            "The shop says cover excludes all optical parts, but the card lists only cosmetic exclusions."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f1",
+            "f2"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Copy of the written warranty card",
+            "Purchase receipt",
+            "Correspondence with the shop regarding the denial of service"
+          ],
+          "research_terms": [
+            "warranty terms interpretation",
+            "consumer rights refurbished goods",
+            "implied warranty of merchantability"
+          ]
+        }
+      ],
+      "followups": [
+        "Who was the seller, and which platform or service provider was involved?",
+        "When did you purchase, receive and first notice the problem?",
+        "How much did you pay, and was this a personal purchase or for resale/business?",
+        "What resolution would you like, and what has the seller said so far?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "W04",
+      "language": "en",
+      "status": "PASS",
+      "validation_run": "full-v2",
+      "expected_categories": [
+        "warranty"
+      ],
+      "actual_categories": [
+        "warranty"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "warranty_denial",
+          "category": "warranty",
+          "title": "Refusal of frame-cover promise due to independent service",
+          "fact_quotes": [
+            "Fictional: Demo Cycles refused its frame-cover promise because I used an independent shop to adjust a brake.",
+            "It has not explained how that adjustment relates to a crack near the saddle."
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f1"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Copy of the original warranty terms",
+            "Written communication from Demo Cycles denying the claim",
+            "Inspection photographs of the crack",
+            "Service invoice from the independent shop"
+          ],
+          "research_terms": [
+            "warranty voiding independent repair",
+            "consumer rights warranty coverage",
+            "unfair warranty denial"
+          ]
+        }
+      ],
+      "followups": [
+        "Who was the seller, and which platform or service provider was involved?",
+        "When did you purchase, receive and first notice the problem?",
+        "How much did you pay, and was this a personal purchase or for resale/business?",
+        "What resolution would you like, and what has the seller said so far?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    },
+    {
+      "id": "W05",
+      "language": "hi",
+      "status": "PASS",
+      "validation_run": "full-v2",
+      "expected_categories": [
+        "warranty"
+      ],
+      "actual_categories": [
+        "warranty"
+      ],
+      "checks": {
+        "live_dynamic_understanding": true,
+        "consumer_scope": true,
+        "expected_issue_coverage": true,
+        "issue_fact_provenance": true,
+        "no_source_fabrication": true,
+        "factual_evidence_suggestions": true,
+        "assistant_present": true
+      },
+      "scope": "consumer",
+      "issues": [
+        {
+          "id": "warranty_claim_labor_charge",
+          "category": "warranty",
+          "title": "Dispute over labor charges for compressor repair under warranty",
+          "fact_quotes": [
+            "काल्पनिक: Demo Appliances ने फ्रिज के कंप्रेसर पर पांच साल की लिखित गारंटी दी थी।",
+            "दो साल में वह बंद हुआ।",
+            "सर्विस सेंटर पार्ट मुफ्त बता रहा है लेकिन श्रम का शुल्क मांग रहा है।",
+            "दस्तावेज़ में श्रम का विवरण स्पष्ट नहीं है।"
+          ],
+          "fact_segment_ids": [
+            "f0",
+            "f1",
+            "f2",
+            "f3"
+          ],
+          "unresolved_facts": [],
+          "evidence_needed": [
+            "Copy of the original warranty document",
+            "Service center communication regarding labor charges",
+            "Purchase invoice"
+          ],
+          "research_terms": [
+            "warranty terms and conditions",
+            "consumer rights for warranty repairs",
+            "labor charges in warranty claims"
+          ]
+        }
+      ],
+      "followups": [
+        "विक्रेता और प्लेटफॉर्म या सेवा प्रदाता कौन था?",
+        "खरीद, डिलीवरी और समस्या की तारीखें क्या थीं?",
+        "आपने कितना भुगतान किया? खरीद निजी उपयोग के लिए थी या व्यापार/पुनर्विक्रय के लिए?",
+        "आप क्या समाधान चाहते हैं और विक्रेता ने अब तक क्या कहा?"
+      ],
+      "ai_status": "Gemini live structured intake; entity and fact provenance validated",
+      "legal_validation": "NOT ASSESSED: requires authentic source corpus and independent legal review"
+    }
+  ]
+}

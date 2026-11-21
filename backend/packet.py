@@ -21,6 +21,19 @@ def packet(assessment, attachments):
                 for x in a.parties + a.amounts
             ]
         )
+    if a.issue_details:
+        body += "<h2>Issues to investigate — AI triage, not legal findings</h2>"
+        for issue in a.issue_details:
+            body += (
+                "<h3>"
+                + e(issue.title)
+                + "</h3>"
+                + listing(issue.fact_quotes)
+                + "<p>Suggested evidence (not an established filing requirement):</p>"
+                + listing(issue.evidence_needed)
+                + listing(issue.unresolved_facts)
+            )
+    body += "<p>" + e(a.legal_validation_notice) + "</p>"
     if a.legal_analysis:
         body += (
             "<h2>AI legal interpretation — conditional, not professional advice</h2><p>"

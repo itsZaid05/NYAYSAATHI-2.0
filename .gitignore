@@ -10,3 +10,4 @@ runtime/
 *.sqlite3*
 node_modules/
 test-results/
+knowledge/.ingest.lock

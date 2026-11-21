@@ -1,0 +1,69 @@
+{
+  "recorded_at": "2026-11-14T10:01:20.532800+00:00",
+  "approved_passages": 0,
+  "environment_policy_revision": "1",
+  "attempts": [
+    {
+      "url": "https://indiacode.gov.in/",
+      "result": "Proxy CONNECT 403; migrated host is outside applied allowlist",
+      "decision": "Unavailable; no content, version or reuse basis verified"
+    },
+    {
+      "url": "https://www.indiacode.nic.in/",
+      "result": "HTTP 200 migration notice to indiacode.gov.in",
+      "decision": "A migration notice is not an Act"
+    },
+    {
+      "url": "https://www.indiacode.nic.in/bitstream/123456789/15256/1/a2019-35.pdf",
+      "result": "HTTP 302 without Location; HTML response, not a PDF",
+      "response_sha256": "ad53e638b441ad5dac18df44aa4a93f6b0bc6fcc2550f9ac09a45ccba1f9acd3",
+      "decision": "Rejected; no statutory text obtained"
+    },
+    {
+      "url": "https://consumeraffairs.nic.in/acts-and-rules/consumer-protection",
+      "result": "HTTP 503",
+      "response_sha256": "2f85832e31ca57711e6107af6b142363351ae516adb71c69afc643fac26be7f6",
+      "decision": "Unavailable"
+    },
+    {
+      "url": "https://consumerhelpline.gov.in/public/knowledgebase",
+      "result": "HTTP 200; individual official links inspected",
+      "decision": "No permission for guidance reproduction established; existing actual portal disclaimer review still requires prior permission"
+    },
+    {
+      "url": "https://consumerhelpline.gov.in/public/sitemap",
+      "result": "HTTP 200",
+      "response_sha256": "1bd97bed8edb3cdccb4e43a6af6eb68e9d05a9113c7b5a7902696e1ecfcf53f6",
+      "decision": "Navigation evidence only; not statutory material"
+    },
+    {
+      "url": "https://e-jagriti.gov.in/",
+      "result": "HTTP 403",
+      "decision": "No procedural or reuse validation possible"
+    },
+    {
+      "url": "https://www.indiacode.nic.in/simple-search?query=Consumer+Protection+Act%2C+2019",
+      "result": "ReadTimeout after 15-second bounded request",
+      "decision": "No search result or legal artifact obtained"
+    },
+    {
+      "url": "https://www.indiacode.nic.in/handle/123456789/15256?view_type=browse",
+      "result": "ReadTimeout after 15-second bounded request",
+      "decision": "No record or legal artifact obtained"
+    }
+  ],
+  "offline_review": [
+    {
+      "path": "/workspace/nyay-research/cpa2019.pdf",
+      "sha256": "ad53e638b441ad5dac18df44aa4a93f6b0bc6fcc2550f9ac09a45ccba1f9acd3",
+      "pdf_header_valid": false,
+      "imported": false,
+      "reason": "Invalid HTML masquerading as a PDF; no official statute or rights/provenance attestation available. No false import attestation made."
+    }
+  ],
+  "remaining_requirements": [
+    "Permitted access to official law/rules artifacts, or an authentic independently obtained offline artifact",
+    "Documented provenance, reuse basis, commencement/amendment/version and validity review",
+    "Independent qualified review of legal applicability; no AI agreement treated as proof"
+  ]
+}

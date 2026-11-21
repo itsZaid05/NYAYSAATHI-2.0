@@ -12,8 +12,12 @@ class Settings:
         os.getenv("NYAYSAATHI_RUNTIME", str(ROOT / "runtime"))
     ).resolve()
     gemini_key: str = os.getenv("GEMINI_API_KEY", "")
-    gemini_model: str = os.getenv("GEMINI_MODEL", "")
-    embedding_model: str = os.getenv("GEMINI_EMBEDDING_MODEL", "")
+    gemini_model: str = os.getenv("GEMINI_MODEL") or "gemini-3.1-flash-lite"
+    embedding_model: str = os.getenv("GEMINI_EMBEDDING_MODEL") or "gemini-embedding-001"
+    verify_models_on_start: bool = (
+        os.getenv("GEMINI_VERIFY_ON_START", "true").lower() == "true"
+    )
+    model_configuration: dict | None = None
     terms_reviewed: bool = os.getenv("GEMINI_TERMS_REVIEWED", "false").lower() == "true"
     lawyer_password: str = os.getenv("DEMO_LAWYER_PASSWORD", "")
     secure_cookie: bool = os.getenv("COOKIE_SECURE", "false").lower() == "true"

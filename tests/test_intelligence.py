@@ -177,6 +177,18 @@ def test_offline_import_requires_authenticated_provenance(tmp_path):
         provenance_evidence="Test fixture, not an official source",
         expected_sha256=hashlib.sha256(artifact.read_bytes()).hexdigest(),
         artifact_mime="text/plain",
+        review_schema=2,
+        permitted_uses=[
+            "retention",
+            "local_search",
+            "external_embeddings",
+            "llm_context",
+            "quotation_and_export",
+        ],
+        reuse_status="reviewed_statutory_basis",
+        rights_evidence="Synthetic test evidence; not an actual rights clearance",
+        version_evidence="Synthetic version review only; not actual law",
+        reviewed_at=datetime.now(timezone.utc).isoformat(),
     )
     root = tmp_path / "checkout"
     (root / "knowledge").mkdir(parents=True)

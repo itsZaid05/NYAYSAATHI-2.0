@@ -1,0 +1,315 @@
+[
+  {
+    "id": "R01",
+    "expected_issue_categories": [
+      "refund_refusal"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Furnishings collected INR 8300 for a custom chair on 2026-10-02, then cancelled because its artisan left. Its written message says it will keep the full amount as a design charge although no design was supplied. I want the payment returned.",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "R02",
+    "expected_issue_categories": [
+      "refund_refusal",
+      "online_shopping"
+    ],
+    "language": "en",
+    "narrative": "Fictional: A parcel from Demo Ceramics never reached me. The courier confirms it was sent back unopened on 2026-10-11. The marketplace says its automated window ended and will keep my INR 2450. I have tracking and the bank entry.",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "R03",
+    "expected_issue_categories": [
+      "refund_refusal",
+      "service_deficiency"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Events cancelled a pottery class I paid INR 1900 to attend. I declined its offer of credit because I am moving cities. The receipt never said credit would be the only option. What facts matter for requesting my money back?",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "R04",
+    "expected_issue_categories": [
+      "refund_refusal"
+    ],
+    "language": "hi",
+    "narrative": "काल्पनिक: Demo Books ने 2026-10-10 को मेरी किताबों का ऑर्डर खुद रद्द किया। मैंने 1350 रुपये दिए थे। कंपनी नकद लौटाने के बजाय केवल कूपन दे रही है। मेरे पास भुगतान रसीद और रद्द करने का संदेश है।",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "R05",
+    "expected_issue_categories": [
+      "refund_refusal",
+      "misleading_advertising"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Audio promised a completely reversible home trial for INR 12400. I sent the speaker back within the trial dates on my receipt. They now cite a restocking deduction that was absent from the saved trial advertisement. I want to understand the competing conditions.",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "D01",
+    "expected_issue_categories": [
+      "defective_product"
+    ],
+    "language": "en",
+    "narrative": "Fictional: The legs of my new Demo Oak dining bench split when one adult sat down. It arrived on 2026-10-08 and cost INR 15700. The shop says wood variation is normal. I kept the pieces, delivery photos and receipt.",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "D02",
+    "expected_issue_categories": [
+      "defective_product"
+    ],
+    "language": "en",
+    "narrative": "Fictional: A newly installed Demo Solar backup battery cannot hold charge for even ten minutes, although the installer measured the household load before sale. The receipt is INR 28600. I do not know whether the battery or installation is responsible.",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "D03",
+    "expected_issue_categories": [
+      "defective_product",
+      "misleading_advertising"
+    ],
+    "language": "en",
+    "narrative": "Fictional: My Demo Dry raincoat leaks across the seams during light rain. The product page I saved calls it suitable for monsoons. I paid INR 2250 and have a short recording from the first outing. I am unsure what technical inspection would help.",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "D04",
+    "expected_issue_categories": [
+      "defective_product"
+    ],
+    "language": "hi",
+    "narrative": "काल्पनिक: Demo Kitchen से खरीदे मिक्सर का ढक्कन पहली बार उपयोग करते समय अलग हो गया। मैंने 4200 रुपये दिए थे। दुकान कहती है कि शायद मैंने ठीक से बंद नहीं किया। बिल और उपयोग के निर्देश उपलब्ध हैं। किसी को चोट नहीं लगी।",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "D05",
+    "expected_issue_categories": [
+      "defective_product",
+      "warranty"
+    ],
+    "language": "en",
+    "narrative": "Fictional: My Demo Cool air conditioner repeatedly trips its circuit after authorised installation. A technician fitted a new component twice under a two-year cover promise, but the same fault returns. I have three job sheets and want to know what further evidence to collect.",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "M01",
+    "expected_issue_categories": [
+      "misleading_advertising"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Filter advertised that its purifier removes a named contaminant and displayed a laboratory seal. The laboratory told me that seal belongs to another model. I kept both messages and the advertisement. No illness has occurred. I want to challenge the representation.",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "M02",
+    "expected_issue_categories": [
+      "misleading_advertising",
+      "subscription_billing"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Learn displayed one total price of INR 3600 for a language course, but after I enrolled it locked the speaking exercises behind a recurring INR 499 fee. The checkout screenshot did not mention that charge. I want the material that was advertised.",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "M03",
+    "expected_issue_categories": [
+      "misleading_advertising"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Cotton described its sheets as pure organic cotton. The sewn-in label says polyester blend. I have the unopened package, invoice and a saved listing. I do not know whether a product test is needed or who should answer.",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "M04",
+    "expected_issue_categories": [
+      "misleading_advertising"
+    ],
+    "language": "hi",
+    "narrative": "काल्पनिक: Demo Travel ने कमरे की तस्वीर में समुद्र का दृश्य और निजी बाथरूम दिखाया था। पहुंचने पर कमरा बिना खिड़की का था और बाथरूम साझा था। बुकिंग की तस्वीरें और वहां की तस्वीरें मेरे पास हैं। मैं तथ्यात्मक शिकायत तैयार करना चाहता हूं।",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "M05",
+    "expected_issue_categories": [
+      "misleading_advertising",
+      "online_shopping"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Games displayed a limited-time price of INR 799, then added an unavoidable activation payment only after I created an account and entered payment details. I did not complete that second payment. I saved each screen and want to know what can be documented.",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "S01",
+    "expected_issue_categories": [
+      "subscription_billing"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Fitness kept drawing INR 799 monthly after acknowledging my membership cancellation on 2026-09-30. I stopped using the facility. It says a verbal conversation with its front desk automatically extended my membership, which I deny.",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "S02",
+    "expected_issue_categories": [
+      "subscription_billing",
+      "misleading_advertising"
+    ],
+    "language": "en",
+    "narrative": "Fictional: A Demo Reader seven-day trial asked for my card solely for verification. An annual INR 2999 debit appeared on day two. The trial page I saved shows no annual commitment. I want the account history examined without revealing my card details.",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "S03",
+    "expected_issue_categories": [
+      "subscription_billing"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Cloud deducted its yearly fee twice when I switched from mobile billing to direct billing. Both receipts refer to the same account period. Each support team says the other handles cancellation. I need to organise the transactions.",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "S04",
+    "expected_issue_categories": [
+      "subscription_billing",
+      "service_deficiency"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Music charged my family plan after closing the account because its own system could not verify the region. I cannot sign in to use the service or retrieve a cancellation button. I saved the closure notice and charge receipt.",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "S05",
+    "expected_issue_categories": [
+      "subscription_billing"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Water delivered only three of eight scheduled bottles while continuing its recurring debit. The delivery log and the seller’s messages disagree about which days were missed. I want to separate the service gap from the ongoing payments.",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "W01",
+    "expected_issue_categories": [
+      "warranty"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Tools promised two years of cover for a household drill. At month nine the motor failed. Its service centre says I should have registered within seven days, but the supplied booklet has no such condition. I have not authorised a paid repair.",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "W02",
+    "expected_issue_categories": [
+      "warranty",
+      "service_deficiency"
+    ],
+    "language": "en",
+    "narrative": "Fictional: An authorised Demo Home repairer retained my appliance for seven weeks under its protection plan. It gives no job status and wants a storage payment before returning it. I have the intake sheet and plan terms.",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "W03",
+    "expected_issue_categories": [
+      "warranty",
+      "defective_product"
+    ],
+    "language": "en",
+    "narrative": "Fictional: My refurbished Demo Camera was sold with six months of written cover. The lens stopped focusing after a month. The shop says cover excludes all optical parts, but the card lists only cosmetic exclusions. I kept the original card.",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "W04",
+    "expected_issue_categories": [
+      "warranty"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Cycles refused its frame-cover promise because I used an independent shop to adjust a brake. It has not explained how that adjustment relates to a crack near the saddle. I have the inspection photographs and service invoices.",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "W05",
+    "expected_issue_categories": [
+      "warranty"
+    ],
+    "language": "hi",
+    "narrative": "काल्पनिक: Demo Appliances ने फ्रिज के कंप्रेसर पर पांच साल की लिखित गारंटी दी थी। दो साल में वह बंद हुआ। सर्विस सेंटर पार्ट मुफ्त बता रहा है लेकिन श्रम का शुल्क मांग रहा है। दस्तावेज़ में श्रम का विवरण स्पष्ट नहीं है। मुझे पहले कौन सी जानकारी पूछनी चाहिए?",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "V01",
+    "expected_issue_categories": [
+      "service_deficiency"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Moments accepted INR 18000 to photograph my graduation and deliver edited files. It sent only thumbnails and stopped responding before the agreed delivery date passed. The contract identifies the promised file format. I want a factual record, not a prediction of winning.",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "V02",
+    "expected_issue_categories": [
+      "service_deficiency"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Move packed my household ceramics but delivered several broken boxes. Its inventory notes the contents while the receipt contains a liability exclusion I did not notice. I want to identify what is disputed before choosing an approach.",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "V03",
+    "expected_issue_categories": [
+      "service_deficiency",
+      "misleading_advertising"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Tutor promised six one-to-one language sessions but assigned group video recordings instead. I paid INR 5400 for personal learning. The tutor says its general terms allow any teaching format. I saved the specific sales promise.",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "V04",
+    "expected_issue_categories": [
+      "service_deficiency"
+    ],
+    "language": "en",
+    "narrative": "Fictional: Demo Net says my home connection was active throughout October, while its own complaint tickets record repeated outages. I paid the full monthly invoice. A support agent suggested going to the police; my question is about the paid service and evidence, not criminal proceedings.",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  },
+  {
+    "id": "V05",
+    "expected_issue_categories": [
+      "service_deficiency",
+      "refund_refusal"
+    ],
+    "language": "en",
+    "narrative": "Fictional: I bought a household appliance installation service from Demo Setup as a gift for my sister. The installer never attended, but says only the person living at the address can complain. I paid INR 1700 and have the appointment confirmations.",
+    "jurisdiction": "IN",
+    "review_note": "New synthetic evaluation narrative; expected issue families are factual triage targets, not legal conclusions."
+  }
+]
