@@ -2,7 +2,7 @@
 
 **An India-first AI-assisted consumer case-preparation platform.** NyaySaathi helps a person turn an unfamiliar dispute into organised facts, evidence questions, editable documents and a consent-based handoff to a demonstration lawyer account.
 
-**Current release:** a working **fictional-data demonstration**, not a production legal-advice or filing service. Gemini intake, persistent preparation, document/PDF generation and demo handoff have been exercised. **Approved authentic legal passages: 0.** Source-grounded legal conclusions and statutory citations remain withheld until provenance, version and reuse reviews are complete. The full legal-intelligence Definition of Done is not yet met.
+
 
 ## Why we are building it
 
