@@ -1,68 +1,85 @@
 # NyaySaathi 2.0
 
-**An India-first AI-assisted consumer case-preparation platform.** NyaySaathi helps a person turn an unfamiliar dispute into organised facts, evidence questions, editable documents and a consent-based handoff to a demonstration lawyer account.
+**Organise a consumer dispute. Prepare for the next step.**
 
-**Current release:** a working **fictional-data demonstration**, not a production legal-advice or filing service. Gemini intake, persistent preparation, document/PDF generation and demo handoff have been exercised. **Approved authentic legal passages: 0.** Source-grounded legal conclusions and statutory citations remain withheld until provenance, version and reuse reviews are complete. The full legal-intelligence Definition of Done is not yet met.
+NyaySaathi is an India-first, AI-assisted case-preparation platform. It brings English/Hindi intake, facts and timelines, evidence organisation, editable documents and a downloadable case packet into one workspace.
 
-## Why we are building it
+[Try the demo](#try-the-demo) · [Run locally](#run-locally) · [Architecture](#architecture) · [Project status](#project-status) · [Documentation](#documentation)
 
-The project grew from experiences of people struggling to know where to begin: a threatening scam call, a family member relying on someone else to understand a legal process, or an online buyer unsure what to preserve after receiving an empty box. Fear, unfamiliar language and disorganised information can make asking for help harder.
+> **Prototype status:** The preparation workflow is available for fictional-data demonstrations. Verified legal analysis is gated: **no authentic legal passages have been approved yet**. Use fictional identities and documents; real confidential-data processing remains disabled.
 
-The broader vision includes accessible legal support across situations and jurisdictions. The implemented prototype starts with a narrower, testable scope: **Indian consumer disputes** involving goods, refunds, warranties, subscriptions, disputed advertising and purchased services. Bullying, domestic violence, criminal accusations and foreign-law questions are outside this initial scope; a compassionate intake does not make the system qualified to analyse every legal problem.
+## Overview
 
-## What works today
+When a purchase goes wrong, receipts, messages and delivery records are often scattered. NyaySaathi helps users explain what happened, identify missing information and prepare a record for seeking human help.
 
-| Capability | Current behaviour and boundary |
+The initial scope is **Indian consumer disputes**: defective goods, refunds, warranties, subscriptions, advertising and services. Criminal, family and foreign-law analysis are outside this prototype.
+
+## Features
+
+| Feature | What the user can do |
 |---|---|
-| Consented guest workspace | Persistent private sessions, case ownership, separate AI/sharing consent, correction, withdrawal and deletion. Guest sessions are not a claim of complete anonymity. |
-| Gemini intake | English/Hindi responses, personalised follow-up questions, structured parties/amounts and a review of multiple consumer issue families when provider access and consent are available. |
-| Facts and timeline | Narrative segment IDs preserve exact factual provenance; missing facts remain questions. Allegations and document excerpts are not treated as proven facts. |
-| Evidence assistance | Contextual suggestions, local PDF/TXT extraction, bounded PNG/JPEG OCR when Tesseract is installed, and limited discrepancy/relevance checks. Extraction does not authenticate a document. |
-| Story mode | Sixteen original bilingual fictional scenario cards. These are learning aids, not judgments, predictions or an exemption from professional obligations. |
-| Readiness | Qualitative completeness findings. Readiness is not case strength or a probability of winning; missing legal-source coverage remains visible. |
-| Documents and case packet | Six editable preparation templates, individual exports and a downloadable PDF packet. Drafts are not officially filed complaints or bail applications. |
-| Demo lawyer handoff | Explicit sharing of a packet snapshot, a separate demonstration recipient, receipt acknowledgment and revocation. No verified advocate, matching marketplace or live consultation is claimed. |
-| Legal retrieval infrastructure | Existing FTS5/embedding retrieval, source/quote checks and a separately prompted AI support check. **Authentic-law integration remains blocked by the empty approved corpus.** |
+| **Guided intake** | Describe a fictional dispute in English or Hindi and receive contextual Gemini follow-up questions when live AI is configured and consented. |
+| **Case workspace** | Save and correct the narrative, review multiple possible issues, and keep facts, dates and unresolved questions together. |
+| **Evidence organisation** | Upload supported PDF/TXT documents and images, inspect extracted information, and review case-specific evidence suggestions. Image OCR requires Tesseract. |
+| **Story mode** | Explore one of 16 original bilingual fictional scenarios, clearly distinguished from real judgments. |
+| **Preparation documents** | Review and edit six document types, including seller representations, refund requests, chronology, evidence inventory and lawyer briefs. Export text/PDF and a combined packet. |
+| **Controlled handoff** | Voluntarily share a packet snapshot with a separate demo lawyer account, receive an acknowledgment and revoke access. |
 
-The 306 legacy records remain quarantined under `synthetic_demo/`; they are never used as authentic precedent or outcome statistics. UK case-law retrieval and unapproved ingestion remain disabled. The application does not contain thousands of verified judgments, an outcome predictor, a trained bias detector, blockchain, federated learning or court integration.
+Readiness indicators describe **preparation completeness**, not a probability of winning. Extracted statements remain user allegations or document excerpts, not proven facts.
 
-## How the solution works
+## Try the demo
 
-```mermaid
-flowchart TD
-    A[Consented fictional Indian consumer narrative] --> B[FastAPI scope and privacy gates]
-    B --> C[Gemini structured multi-issue intake]
-    C --> D[Validate exact narrative references]
-    D --> E[Persist facts, timeline, gaps and evidence]
-    E --> F{Approved relevant legal sources?}
-    F -->|No: current release| G["Withhold law and citations; continue factual preparation"]
-    F -->|Yes: source review required| H[Hybrid lexical and semantic retrieval]
-    H --> I[Grounded explanation with claim/source mappings]
-    I --> J[Deterministic citation checks and separate AI support check]
-    J --> K["Qualified interpretation; professional review still needed"]
-    E --> L[Contextual evidence checklist and fictional story]
-    G --> L
-    K --> L
-    L --> M[Editable preparation documents and PDF]
-    M --> N[Optional consent-based demo handoff]
-```
+After starting the app, choose **Start a fictional case**. You can use the built-in laptop example or enter your own synthetic narrative:
 
-The application retrieves material at request time; it has **not been fine-tuned on legal judgments**. Semantic embeddings are a search representation, not proof of legal understanding. Exact quotations can establish traceability, not substantive applicability. The same Gemini service providing a separate support check is not an independent legal expert.
+> Fictional: I bought a laptop from Demo Seller on 2026-11-01 for INR 45,000. It stopped charging on 2026-11-03. The written cover promises repairs, but the shop declined my request on 2026-11-05. I have the receipt, cover card and the shop's message. What information should I organise?
 
-The implementation preserves the existing purple/cream UI and navigation: vanilla HTML/CSS/JavaScript → one FastAPI backend → Pydantic models → SQLite/FTS5, with optional Gemini embeddings and local Tesseract OCR. It does not require a React rebuild, Postgres migration, microservices or autonomous agents. [Detailed explanation and example](docs/SOLUTION_EXPLAINED.md).
+1. Review the narrative and give the relevant processing/AI consent.
+2. Answer follow-up questions and correct any misunderstood facts.
+3. Add synthetic evidence and review the timeline, issue details and missing information.
+4. Explore story mode, edit a seller representation and download the case packet.
+5. If desired, review and share the packet with the clearly labelled demo recipient.
+
+Legal references show source unavailability; the demo handoff does not engage an advocate or file a complaint. [Full rehearsal guide](docs/DEMO_SCRIPT.md).
+
+<details>
+<summary><strong>View the demo workspace</strong></summary>
+
+![NyaySaathi dashboard showing fictional subscription issues, evidence findings and the legal-source gate](docs/assets/case-workspace.png)
+
+Recorded subscription demo using fictional data. The interface explicitly shows that approved legal sources are missing.
+
+</details>
 
 ## Run locally
 
-Use the project folder containing `main.py` and `requirements.lock`. The backend does not automatically load `.env`.
+### 1. Get the project
 
-- **Windows/PyCharm:** [step-by-step PowerShell and native PDF setup](docs/WINDOWS_PYCHARM.md).
-- **macOS/Safari:** run `Run_NyaySaathi_Mac.command`; [setup, credential limits and native-test status](docs/MAC_SAFARI.md).
-- **Linux:** Python 3.11+; tested with Python 3.12. PDF export requires Pango/Harfbuzz and Unicode fonts. Debian/Ubuntu packages include `libpango-1.0-0`, `libpangoft2-1.0-0`, `libharfbuzz0b`, `fonts-dejavu-core`, `fonts-noto-core`. OCR additionally needs native Tesseract and optionally its Hindi language pack.
-
-From the project root on Linux:
+The current implementation is on `feature/generalized-consumer-analysis`:
 
 ```bash
-python -m venv .venv
+git clone --branch feature/generalized-consumer-analysis --single-branch https://github.com/itsZaid05/NYAYSAATHI-2.0.git
+cd NYAYSAATHI-2.0
+```
+
+You can also [download this branch as a ZIP](https://github.com/itsZaid05/NYAYSAATHI-2.0/archive/refs/heads/feature/generalized-consumer-analysis.zip). Open the extracted folder containing `main.py` and `requirements.lock`.
+
+### 2. Follow your platform guide
+
+| Platform | Setup |
+|---|---|
+| **Windows / PyCharm** | [PowerShell commands, Python 3.12, PDF libraries and local Gemini configuration](docs/WINDOWS_PYCHARM.md) |
+| **macOS / Safari** | Run `Run_NyaySaathi_Mac.command`; [Homebrew prerequisites and launcher instructions](docs/MAC_SAFARI.md) |
+| **Linux** | Use the quick start below with Python 3.12 and the native PDF dependencies. |
+
+<details>
+<summary><strong>Linux quick start</strong></summary>
+
+Install Pango/Harfbuzz and Unicode fonts for PDF export. Debian/Ubuntu packages: `libpango-1.0-0`, `libpangoft2-1.0-0`, `libharfbuzz0b`, `fonts-dejavu-core`, `fonts-noto-core`. Image OCR needs Tesseract; Hindi OCR needs its language pack.
+
+From the project root:
+
+```bash
+python3.12 -m venv .venv
 .venv/bin/python -m pip install --require-hashes -r requirements.lock
 mkdir -p runtime/cache
 export XDG_CACHE_HOME="$PWD/runtime/cache"
@@ -70,77 +87,117 @@ export XDG_CACHE_HOME="$PWD/runtime/cache"
 .venv/bin/python -m scripts.run_demo --port 8011
 ```
 
-Wait for `Uvicorn running on http://127.0.0.1:8011`, then visit that address **on the machine running the server**. A cloud machine's loopback address is not reachable directly from your laptop. Cloud browser/preview controls were unavailable in the recorded handoff; no public URL is promised. Keep the server terminal open. `python main.py` also starts the integrated app on port 8011, but the demo runner additionally reads the private seeded demonstration-recipient password.
+Seeding creates fictional demo material and a private recipient-password file. Repeating it creates another case.
 
-Do not serve the whole repository with a static HTTP server. The application deliberately serves only its frontend assets and access-controlled routes; `.env`, runtime files and the database are not public assets.
+</details>
 
-## Backend configuration
+### 3. Open the application
 
-See [.env.example](.env.example) for names, not secret values. Export settings in the server process or configure the IDE/service environment. Credentials configured in the cloud do not automatically transfer to a local computer.
+Wait for the server to report that it is running, then visit **http://127.0.0.1:8011** on the same computer. Keep the terminal open; **Ctrl+C** stops the server. If port 8011 is occupied, pass `--port 8012` and use that port in the browser.
 
-| Variable | Purpose |
+A cloud server's `127.0.0.1` address is local to that cloud machine. Testing it from another device requires a working preview/forwarding connection or a local installation.
+
+### 4. Configure live AI when needed
+
+Local factual preparation and document generation are available without a Gemini key. Live intake needs backend configuration and separate user consent.
+
+- Set `GEMINI_API_KEY` in the server's environment.
+- Set `GEMINI_TERMS_REVIEWED=true` only after reviewing the provider's terms, pricing and quota.
+- Use `GEMINI_MODEL` and `GEMINI_EMBEDDING_MODEL` to select models for your account. Startup performs synthetic probes and reports availability/fallback decisions at `/api/health`.
+
+[.env.example](.env.example) lists all supported settings. **The backend does not automatically load `.env`**, and cloud credentials are not included in local downloads. Keep keys out of frontend code, Git and chat. [Recorded provider checks](docs/GEMINI_LIVE_VALIDATION.md).
+
+## Architecture
+
+One FastAPI service serves the interface and coordinates AI, storage, evidence and document processing.
+
+```mermaid
+flowchart LR
+    UI[Web workspace] --> API[FastAPI orchestrator]
+    API --> AI[Gemini structured intake]
+    API --> STATE[(SQLite case state)]
+    API --> DOCS[Evidence, documents and PDF]
+    API -. Approved corpus required .-> RAG[Hybrid legal retrieval]
+    RAG --> CHECK[Source and claim checks]
+    CHECK --> DOCS
+```
+
+| Layer | Implementation |
 |---|---|
-| `GEMINI_API_KEY` | Backend-only provider credential; never put it in frontend files or chat. |
-| `GEMINI_MODEL` / `GEMINI_EMBEDDING_MODEL` | Choose models after actual account checks. Startup probes report selection and failures; a listed model alone is not proof of generation access. |
-| `GEMINI_TERMS_REVIEWED` | Operator acknowledgement of provider terms/pricing/quota; does not replace per-case AI consent or establish real-confidential-data readiness. |
-| `GEMINI_VERIFY_ON_START` | Defaults to true; uses synthetic connectivity probes and reports outcomes in `/api/health`. |
-| `DEMO_LAWYER_PASSWORD` | Private demonstration-account password. The demo runner can instead read the seeded private file. |
-| `NYAYSAATHI_RUNTIME` | Private database, evidence and local operational files; ignored by Git. |
-| `COOKIE_SECURE` | Enable behind properly configured HTTPS; the local demonstration uses loopback HTTP. |
-| `SESSION_TTL_HOURS` / `RETENTION_DAYS` | Bounded session/case retention; see deployment notes for cleanup and backups. |
+| Interface | Existing HTML, CSS and JavaScript; English/Hindi workspace |
+| Backend | Python, FastAPI and Pydantic validation |
+| Persistence | SQLite, additive migrations, private case/evidence storage and audit records |
+| AI and search | Configurable Gemini provider; SQLite FTS5 plus optional semantic embeddings |
+| Documents | Local PDF/TXT extraction, optional Tesseract OCR and WeasyPrint export |
 
-Previously exercised generation: `gemini-3.1-flash-lite`; embeddings: configured `gemini-embedding-2` and previously tested `gemini-embedding-001`. The saved `gemini-2.5-flash` rejected generation for the tested account, so startup visibly selected a successfully probed fallback without rewriting saved variables. Availability, terms and quotas must be checked for each deployment. [Recorded live results](docs/GEMINI_LIVE_VALIDATION.md).
+Extracted facts refer to the original narrative; gaps remain questions and corrections persist. RAG supplies approved context at request time, rather than training a model on judgments. [Detailed design and code map](docs/SOLUTION_EXPLAINED.md).
 
-## Data, API and privacy controls
+## Project status
 
-Additive database migrations in [backend/schema.sql](backend/schema.sql) store sessions, redacted narratives, case state, evidence BLOBs, audit records, handoff snapshots, download grants, FTS entries and optional cached vectors. Cases survive page reloads; guest access depends on the session cookie and cannot be recovered after it is lost or expires.
+### Legal-source gate
 
-Core routes include `POST /api/cases/intake`, case messages/assessment/context/consent, evidence upload, editable drafts, protected PDF export, share/revoke, deletion, source lookup and a separate demonstration-recipient inbox. `/docs` lists the full API. Mutations require same-origin checks and matching CSRF tokens; case and recipient routes enforce ownership/role access. [Security and operational boundaries](docs/DEPLOYMENT.md).
+**Approved authentic passages: 0.** Law-backed analysis remains gated until official material passes provenance, effective-version and reuse review. Citation checks and AI support checks do not replace independent legal review.
 
-The implementation has consent records, access controls, private file permissions, bounded uploads, local OCR and retention/deletion controls. **It does not provide end-to-end encryption, encrypted SQLite by default, blockchain audit logs, professional-confidentiality guarantees or certified regulatory compliance.** TLS, disk/backup encryption, provider contracts and stronger real-user authentication require deployment work. Sensitive-input screening is imperfect. Use fictional identities, narratives and documents; real-user processing remains gated.
+The [offline workflow](docs/OFFLINE_INGESTION.md) prepares sources without rebuilding RAG. The 306 legacy records remain quarantined in `synthetic_demo/`; project presentations and fictional scenarios are not legal authority.
 
-## Adding authentic legal material later
+### Privacy and scope
 
-The uploaded project presentation is a vision/reference document, **not an approved legal source**. Neither project PDFs nor invalid HTML disguised as a PDF may populate the legal corpus.
+Controls include consent, owner/role access, CSRF protection, protected downloads, private runtime permissions, retention and deletion. Guest access depends on its session cookie.
 
-The [offline workflow](docs/OFFLINE_INGESTION.md) stages a candidate privately, leaves all reviews pending, validates without indexing, and admits only explicitly approved passages after recorded provenance, effective-version and reuse review. Required permission scope covers retention, local search, external embeddings, LLM context and quoted exports. Atomic batch admission feeds the existing provider without rebuilding RAG; it does not grant rights or certify legal accuracy. No permission or authenticity is inferred from a government-looking link. [Source/rights evidence and blockers](docs/LEGAL_SOURCE_MANIFEST.md).
+Production confidentiality is not established: end-to-end encryption and encrypted SQLite are not provided by default. Real-user operation, verified-advocate services, outcome prediction and government filing remain outside this release. [Operational boundaries](docs/DEPLOYMENT.md).
 
-## Evaluation and current limitations
+## Validation
 
-Latest recorded full automated suite: **140 passed in the Linux environment**. That is not a native Windows/macOS test claim or a substantive legal-accuracy result.
+These are **recorded Linux results**, not a native Windows/macOS certification or a legal-accuracy score.
 
-| Evaluation | Strict triage checks | Exact expected label sets |
-|---|---:|---:|
-| Fresh 30-case first exposure | 26/30 | 17/30 |
-| Final replay of the same cohort | 28/30 | 22/30 |
+| Check | Recorded result |
+|---|---|
+| Automated suite | **140 passed** |
+| Browser workflow | Intake, evidence, editable documents/PDF, separate demo recipient, revocation and deletion passed |
+| Fresh 30-case triage evaluation | **26/30 strict checks; 17/30 exact label sets** |
+| Final replay of that cohort | **28/30 strict checks; 22/30 exact label sets** |
 
-The replay is not a second unseen score. Unsupported extra labels and provider timeouts remain visible. A strict pass checks expected coverage and predeclared negative controls, not correctness of every added label. No win probability or legal-correctness percentage follows from these figures. [Raw results and method](docs/LEGAL_INTELLIGENCE_CONTINUATION.md).
+The replay is not a second unseen evaluation. Extra labels and provider failures remain open issues. Synthetic source fixtures establish retrieval mechanics, not authentic-law correctness. [Test reports](docs/TEST_REPORT.md) · [Evaluation method and full results](docs/LEGAL_INTELLIGENCE_CONTINUATION.md).
+
+<details>
+<summary><strong>Linux verification commands</strong></summary>
+
+With the Python dependencies installed, add Playwright for the browser checks. They expect Chromium at `/usr/bin/chromium`; set `CHROMIUM_PATH` if yours is elsewhere. Native OCR tests need Tesseract.
 
 ```bash
+npm install --no-save --package-lock=false playwright
 .venv/bin/python -m pytest -q
 NYAY_TEST_URL=http://127.0.0.1:8011 node tests/browser.cjs
 NYAY_TEST_URL=http://127.0.0.1:8011 node tests/generalized-browser.cjs
-# Strict authentic-source gate: currently blocked with zero approved passages.
+```
+
+The authentic-source release gate is separate and currently blocked by the empty approved corpus:
+
+```bash
 NYAY_TEST_URL=http://127.0.0.1:8011 node tests/generalized-browser.cjs --require-grounded
 ```
 
-Browser checks use the project's Playwright/Chromium setup and freshly created fictional cases. Native OCR needs Tesseract. Positive source-admission/hybrid tests use explicitly synthetic fixtures in temporary roots; these are not real-law validation. [Actual test reports](docs/TEST_REPORT.md).
+</details>
 
-## Next milestones
+## Roadmap
 
-1. Obtain authentic consumer-law/rules/guidance artifacts; review provenance, commencement/amendments and reuse rights; validate grounded outputs with qualified independent legal review.
-2. Improve multi-label precision and test new disputes without benchmark-specific answers; preserve abstention, evidence provenance and honest provider-failure handling.
-3. Complete privacy/security/provider assessments before real-user operation, including robust accounts, encryption/backup controls and abuse protection.
-4. Explore actual advocate onboarding, accessible voice intake and additional jurisdictions only with verified capabilities, permissions and jurisdiction-specific evaluation.
+1. **Verified legal knowledge:** review authentic material for the Consumer Protection Act, 2019, relevant rules and official guidance; establish reuse rights and effective versions, then independently evaluate legal applicability.
+2. **Reliability and real-user readiness:** improve issue precision, assess provider failures, and complete stronger account, privacy, storage and abuse-protection controls.
+3. **Responsible expansion:** evaluate voice accessibility, actual advocate onboarding and additional jurisdictions with the necessary permissions and domain-specific tests.
 
-Court filing, outcome forecasting, trained social-bias analysis, federated learning, emotion inference, a legal digital twin and global coverage remain proposed work or research ideas. They are not completed integrations or guarantees of future performance.
+## Documentation
 
-## Presentation and references
+| Looking for… | Read |
+|---|---|
+| A detailed product and technical explanation | [Solution explained](docs/SOLUTION_EXPLAINED.md) |
+| A complete demo rehearsal | [Demo guide](docs/DEMO_SCRIPT.md) |
+| Source admission, provenance and reuse requirements | [Offline ingestion](docs/OFFLINE_INGESTION.md) · [Source manifest](docs/LEGAL_SOURCE_MANIFEST.md) |
+| Feature status and recorded verification | [Feature matrix](docs/FEATURE_MATRIX.md) · [Test report](docs/TEST_REPORT.md) |
+| Presentation material | [Speech](docs/PRESENTATION_SCRIPT.md) · [Slide corrections and Q&A](docs/PRESENTATION_NOTES.md) |
+| Development background | [Repository audit](docs/REPO_AUDIT.md) · [Implementation log](docs/IMPLEMENTATION_LOG.md) |
 
-- [Detailed solution, architecture and tradeoffs](docs/SOLUTION_EXPLAINED.md).
-- [Presentation script for 23 November 2026, India time](docs/PRESENTATION_SCRIPT.md).
-- [Slide-by-slide corrections, claim review and source notes](docs/PRESENTATION_NOTES.md).
-- [Rehearsal/demo procedure](docs/DEMO_SCRIPT.md), [feature matrix](docs/FEATURE_MATRIX.md), [repository audit](docs/REPO_AUDIT.md), [implementation log](docs/IMPLEMENTATION_LOG.md).
-- [User-supplied YouTube link](https://youtu.be/5yU9Otp08-U). The request was blocked in this environment; its title, transcript, content and demo claims have not been verified here.
+[Supplied video reference](https://youtu.be/5yU9Otp08-U)—not inspected in this environment; verification notes are in the presentation guide.
 
-The supplied ten-page `NyaaySaathi.pdf` names Kushagra Goel, Zaid Yusuf, Rohin Vashishth and Sujal Gupta as presenters. No individual implementation roles are inferred. The deck's market figures and court-backlog statistic lack dated citations in the supplied material and are not repeated as verified facts.
+## Project team
+
+Kushagra Goel · Zaid Yusuf · Rohin Vashishth · Sujal Gupta
